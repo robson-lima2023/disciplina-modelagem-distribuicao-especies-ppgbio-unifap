@@ -1,0 +1,40 @@
+cenario,variavel_limitante,variavel_legivel,n,prop
+ssp126,declividade,Declividade,3859,0.32016925246826516
+ssp126,bio8_temp_media_trimestre_umido,Bio8 temp media trimestre umido,3650,0.3028291711607069
+ssp126,bio14_precipitacao_mes_seco,Bio14 precipitacao mes seco,1857,0.15406952625902265
+ssp126,orientacao,Orientacao,1128,0.09358665892308969
+ssp126,elevacao,Elevacao,467,0.0387455405293288
+ssp126,bio19_precipitacao_trimestre_frio,Bio19 precipitacao trimestre frio,296,0.024558201277690202
+ssp126,bio18_precipitacao_trimestre_quente,Bio18 precipitacao trimestre quente,257,0.0213224923255621
+ssp126,bio3_isotermalidade,Bio3 isotermalidade,223,0.018501617854476064
+ssp126,bio5_temp_max_mes_quente,Bio5 temp max mes quente,156,0.012942835808512404
+ssp126,bio4_sazonalidade_temperatura,Bio4 sazonalidade temperatura,78,0.006471417904256202
+ssp126,bio13_precipitacao_mes_umido,Bio13 precipitacao mes umido,42,0.0034846096407533393
+ssp126,bio12_precipitacao_anual,Bio12 precipitacao anual,40,0.0033186758483365135
+ssp245,bio8_temp_media_trimestre_umido,Bio8 temp media trimestre umido,8728,0.7241350701070273
+ssp245,declividade,Declividade,948,0.07865261760557538
+ssp245,bio14_precipitacao_mes_seco,Bio14 precipitacao mes seco,907,0.07525097486103045
+ssp245,bio5_temp_max_mes_quente,Bio5 temp max mes quente,550,0.045631792914627066
+ssp245,orientacao,Orientacao,453,0.03758400398241102
+ssp245,bio19_precipitacao_trimestre_frio,Bio19 precipitacao trimestre frio,215,0.01783788268480876
+ssp245,bio3_isotermalidade,Bio3 isotermalidade,99,0.00821372272463287
+ssp245,bio12_precipitacao_anual,Bio12 precipitacao anual,48,0.003982411018003816
+ssp245,bio18_precipitacao_trimestre_quente,Bio18 precipitacao trimestre quente,45,0.003733510329378578
+ssp245,bio4_sazonalidade_temperatura,Bio4 sazonalidade temperatura,45,0.003733510329378578
+ssp245,elevacao,Elevacao,14,0.0011615365469177798
+ssp245,bio13_precipitacao_mes_umido,Bio13 precipitacao mes umido,1,8.296689620841284e-5
+ssp370,bio8_temp_media_trimestre_umido,Bio8 temp media trimestre umido,11625,0.9644901684227993
+ssp370,bio5_temp_max_mes_quente,Bio5 temp max mes quente,244,0.020243922674852734
+ssp370,bio14_precipitacao_mes_seco,Bio14 precipitacao mes seco,62,0.005143947564921596
+ssp370,declividade,Declividade,49,0.00406537791421223
+ssp370,orientacao,Orientacao,28,0.0023230730938355597
+ssp370,bio3_isotermalidade,Bio3 isotermalidade,17,0.0014104372355430183
+ssp370,elevacao,Elevacao,13,0.001078569650709367
+ssp370,bio12_precipitacao_anual,Bio12 precipitacao anual,8,6.637351696673027e-4
+ssp370,bio19_precipitacao_trimestre_frio,Bio19 precipitacao trimestre frio,5,4.148344810420642e-4
+ssp370,bio18_precipitacao_trimestre_quente,Bio18 precipitacao trimestre quente,2,1.6593379241682568e-4
+ssp585,bio8_temp_media_trimestre_umido,Bio8 temp media trimestre umido,12012,0.9965983572554551
+ssp585,declividade,Declividade,19,0.001576371027959844
+ssp585,elevacao,Elevacao,12,9.95602754500954e-4
+ssp585,bio5_temp_max_mes_quente,Bio5 temp max mes quente,6,4.97801377250477e-4
+ssp585,bio3_isotermalidade,Bio3 isotermalidade,4,3.3186758483365135e-4

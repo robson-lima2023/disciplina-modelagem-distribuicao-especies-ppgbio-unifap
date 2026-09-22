@@ -1,0 +1,13 @@
+ordem,variavel,usada_no_modelo
+1,bio3_isotermalidade,TRUE
+2,bio4_sazonalidade_temperatura,TRUE
+3,bio5_temp_max_mes_quente,TRUE
+4,bio8_temp_media_trimestre_umido,TRUE
+5,bio12_precipitacao_anual,TRUE
+6,bio13_precipitacao_mes_umido,TRUE
+7,bio14_precipitacao_mes_seco,TRUE
+8,bio18_precipitacao_trimestre_quente,TRUE
+9,bio19_precipitacao_trimestre_frio,TRUE
+10,elevacao,TRUE
+11,declividade,TRUE
+12,orientacao,TRUE

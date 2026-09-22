@@ -1,0 +1,8 @@
+variavel_1,variavel_2,correlacao
+temperatura_media,temperatura_minima,0.9741752085467358
+temperatura_maxima,temperatura_media,0.9740954869007373
+temperatura_maxima,temperatura_minima,0.9482351766578447
+areia,argila,-0.909953066608661
+precipitacao_anual,precipitacao_trimestre_umido,0.8874256451816149
+sazonalidade_termica,temperatura_maxima,0.7206631137413133
+precipitacao_anual,precipitacao_trimestre_seco,0.7031733996925381

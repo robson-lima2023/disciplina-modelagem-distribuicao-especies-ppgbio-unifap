@@ -1,0 +1,335 @@
+% ============================================================
+% Unidade 03
+% Área Acessível (M) e Delimitação da Região de Calibração
+% ============================================================
+
+\chapter{Área Acessível (M) e Delimitação da Região de Calibração}
+
+\begin{chapteropening}
+	A distribuição geográfica das espécies não pode ser compreendida apenas como uma resposta direta ao clima ou às condições ambientais atuais. Embora temperatura, precipitação, disponibilidade hídrica, solo e topografia exerçam forte influência sobre a presença das espécies, esses fatores não explicam, sozinhos, por que muitas regiões ambientalmente adequadas permanecem desocupadas. Para compreender esse padrão, é necessário incorporar uma dimensão histórica e biogeográfica ao estudo da distribuição das espécies: a acessibilidade.
+	
+	Na Modelagem de Distribuição de Espécies, essa dimensão é representada pela Área Acessível, tradicionalmente indicada pela letra \textbf{M}. O conceito de M estabelece que uma espécie só pode ocorrer em locais que, além de ambientalmente adequados e ecologicamente viáveis, tenham sido alcançáveis ao longo de sua história de dispersão. Assim, a distribuição observada de uma espécie resulta da interação entre nicho ecológico, processos históricos, barreiras geográficas, capacidade de dispersão e tempo disponível para colonização.
+	
+	Esta unidade introduz formalmente o componente M do framework BAM, proposto por \textcite{Soberon2007}, e discute sua importância para a delimitação da região de calibração em SDM. A definição adequada de M é uma etapa decisiva porque influencia a seleção de pseudo-ausências, a caracterização do ambiente disponível, a avaliação dos modelos e a interpretação das projeções espaciais. Portanto, antes de escolher algoritmos ou variáveis ambientais, o modelador precisa responder a uma pergunta fundamental: \textit{onde a espécie realmente teve oportunidade de ocorrer?}
+	
+	Ao longo desta unidade, o conceito de Área Acessível será desenvolvido como uma hipótese ecológica e biogeográfica, e não como um simples procedimento cartográfico. Essa perspectiva será aplicada ao estudo de caso de \textit{Dinizia excelsa} Ducke, espécie focal deste livro, preparando o leitor para as unidades seguintes, nas quais serão discutidas a seleção de variáveis ambientais, a geração de pseudo-ausências e a calibração dos modelos.
+\end{chapteropening}
+
+\begin{objetivos}
+	Ao final desta unidade, espera-se que o leitor seja capaz de:
+	
+	\begin{itemize}
+		\item compreender o conceito de Área Acessível, ou M, no contexto da Modelagem de Distribuição de Espécies;
+		\item explicar a relação entre o componente M e o framework BAM;
+		\item diferenciar fatores bióticos, fatores abióticos e acessibilidade geográfica;
+		\item reconhecer a importância da dispersão histórica, das barreiras geográficas e do tempo evolutivo na distribuição das espécies;
+		\item interpretar M como uma hipótese biogeográfica necessária para a calibração de modelos de distribuição;
+		\item compreender por que a delimitação inadequada de M pode comprometer a seleção de pseudo-ausências, a avaliação dos modelos e as projeções espaciais;
+		\item aplicar o conceito de M ao estudo de caso de \textit{Dinizia excelsa} na Amazônia.
+	\end{itemize}
+\end{objetivos}
+
+% ============================================================
+\section{O que é a Área Acessível (M)?}
+% ============================================================
+
+Um dos avanços conceituais mais importantes na Modelagem de Distribuição de Espécies ocorreu com o reconhecimento de que a distribuição geográfica observada de uma espécie não depende exclusivamente das condições ambientais adequadas à sua sobrevivência. Embora fatores climáticos, edáficos e topográficos sejam frequentemente utilizados para explicar padrões de ocorrência, a simples existência de ambientes favoráveis não garante que uma espécie esteja presente em todos os locais potencialmente adequados. A distribuição observada resulta de uma combinação entre condições ambientais, interações ecológicas e limitações históricas de dispersão, sendo este último componente representado pela Área Acessível, ou \textbf{M} \parencite{Soberon2007,Peterson2011}.
+
+A formalização do conceito de M está associada ao framework BAM, proposto por \textcite{Soberon2007}, no qual a presença de uma espécie em determinado local depende da interseção entre três componentes fundamentais: condições abióticas adequadas, interações bióticas favoráveis e acessibilidade geográfica. Nesse modelo, mesmo que uma região apresente clima adequado e recursos suficientes para sustentar populações viáveis, ela poderá permanecer desocupada caso a espécie não tenha conseguido alcançá-la ao longo de sua história biogeográfica.
+
+O conceito de Área Acessível representa uma mudança importante na forma como ecólogos e modeladores interpretam a distribuição das espécies. Durante muito tempo, muitos estudos assumiram implicitamente que uma espécie possuía acesso a toda a área analisada, hipótese raramente verdadeira em sistemas naturais. Como destacam \textcite{Peterson2011}, as espécies ocupam apenas uma fração do espaço geográfico potencialmente disponível, pois sua distribuição é limitada por eventos históricos, barreiras físicas, capacidade de dispersão e tempo evolutivo.
+
+Na prática, M corresponde à região geográfica que uma espécie teve oportunidade realista de colonizar ao longo de um período temporal ecologicamente relevante. Essa definição evidencia que M não é apenas uma área desenhada em um mapa, mas uma hipótese biogeográfica sobre a história de dispersão da espécie. Conforme argumentam \textcite{Barve2011}, a delimitação adequada de M constitui uma das etapas mais críticas da modelagem, pois influencia diretamente os dados utilizados para calibrar os modelos e definir as condições ambientais disponíveis para comparação.
+
+A importância de M torna-se particularmente evidente no processo estatístico de calibração dos modelos. Em SDM, os algoritmos procuram identificar diferenças entre os locais onde a espécie ocorre e os ambientes disponíveis dentro da região considerada acessível. Assim, o modelo não aprende apenas quais condições estão associadas às ocorrências, mas também quais condições estavam potencialmente disponíveis para a espécie e não foram ocupadas. Como consequência, diferentes delimitações de M podem produzir interpretações ecológicas distintas, mesmo quando são utilizados os mesmos registros de ocorrência e as mesmas variáveis ambientais.
+
+Esse aspecto possui implicações profundas para a construção de modelos ecologicamente realistas. Conforme discutido por \textcite{Elith2009} e \textcite{Guisan2017}, a definição da região de calibração influencia a seleção de pseudo-ausências, a caracterização do espaço ambiental disponível, a avaliação do desempenho dos modelos e sua capacidade de transferência para novas regiões ou cenários climáticos futuros. Portanto, antes mesmo de selecionar variáveis ambientais ou escolher algoritmos de modelagem, é necessário definir onde a espécie efetivamente teve oportunidade de ocorrer.
+
+A compreensão do conceito de Área Acessível estabelece uma ponte direta entre Ecologia, Biogeografia e Modelagem de Distribuição de Espécies. Enquanto as unidades anteriores discutiram o nicho ecológico e a qualidade dos registros biológicos, esta unidade introduz uma nova dimensão da distribuição das espécies: a dimensão histórica e espacial da acessibilidade. Essa perspectiva será fundamental para compreender, nas próximas unidades, a geração de pseudo-ausências, a construção dos conjuntos de calibração e a interpretação ecológica dos modelos preditivos.
+
+\begin{importantbox}
+	A Área Acessível (M) não deve ser interpretada como toda a região onde a espécie poderia sobreviver climaticamente. M representa a região que a espécie teve oportunidade realista de alcançar ao longo de sua história de dispersão. Portanto, M é uma hipótese biogeográfica, não apenas uma delimitação cartográfica.
+\end{importantbox}
+
+% ============================================================
+\section{O Framework BAM}
+% ============================================================
+
+O framework BAM representa uma das bases conceituais mais influentes da biogeografia ecológica e da Modelagem de Distribuição de Espécies. Proposto por \textcite{Soberon2007}, esse modelo sintetiza os principais fatores que determinam onde uma espécie pode ou não ocorrer, integrando processos ecológicos contemporâneos e restrições históricas de dispersão em uma estrutura conceitual simples, porém extremamente poderosa.
+
+A lógica do framework BAM deriva diretamente da evolução histórica do conceito de nicho ecológico. As contribuições de \textcite{Grinnell1917} enfatizaram a importância do ambiente físico na determinação da distribuição das espécies, enquanto \textcite{Elton1927} destacou o papel das interações ecológicas e das funções desempenhadas pelas espécies nas comunidades biológicas. Posteriormente, \textcite{Hutchinson1957} formalizou o nicho como um hipervolume multidimensional definido pelas condições e recursos necessários para a persistência populacional. O framework BAM pode ser interpretado como uma extensão espacial dessas ideias, traduzindo o nicho ecológico em componentes geográficos observáveis.
+
+No modelo BAM, o componente \textbf{A} representa o conjunto de áreas que apresentam condições abióticas adequadas para a sobrevivência e reprodução da espécie. Esse componente inclui fatores como temperatura, precipitação, disponibilidade hídrica, sazonalidade climática, características edáficas e atributos topográficos. Em SDM, grande parte das variáveis utilizadas nos modelos busca justamente caracterizar esse componente ambiental. Assim, os mapas de adequabilidade climática frequentemente produzidos pelos algoritmos correspondem a aproximações espaciais do componente A \parencite{Elith2009,Guisan2017}.
+
+O componente \textbf{B} corresponde às interações bióticas que podem favorecer ou restringir a ocorrência das espécies. Predação, competição, mutualismos, polinização, dispersão de sementes e relações hospedeiro-parasita são exemplos de processos incluídos nessa dimensão. Embora sua importância ecológica seja amplamente reconhecida, a incorporação explícita de fatores bióticos em modelos de distribuição ainda representa um desafio metodológico, especialmente em escalas regionais e continentais. Conforme discutem \textcite{Araújo2012} e \textcite{Wiens2011}, a influência das interações bióticas tende a ser mais evidente em escalas locais, enquanto fatores climáticos frequentemente predominam em escalas mais amplas.
+
+O terceiro componente, representado pela letra \textbf{M}, refere-se à acessibilidade geográfica da espécie. Trata-se da região que pôde ser alcançada por processos de dispersão ao longo de sua história evolutiva recente. Esse componente introduz explicitamente a dimensão temporal e biogeográfica da distribuição das espécies, reconhecendo que nem todos os ambientes adequados são necessariamente acessíveis. Em muitos casos, barreiras naturais, eventos históricos e limitações de dispersão impedem que espécies ocupem áreas climaticamente favoráveis \parencite{Soberon2007,Peterson2011}.
+
+A grande contribuição do framework BAM está em demonstrar que a distribuição observada das espécies corresponde apenas à porção do espaço onde esses três componentes se sobrepõem simultaneamente. Em termos conceituais, a ocorrência de uma espécie depende da existência de condições ambientais adequadas, interações ecológicas compatíveis e acesso geográfico à região. A ausência de qualquer um desses elementos pode impedir a ocupação do ambiente, mesmo quando os demais fatores são favoráveis.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.82\textwidth]{figuras/unidade03/unidade03_framework_BAM.png}
+	\caption{Framework BAM e os determinantes da distribuição das espécies. O componente B representa as interações bióticas, A representa as condições abióticas e M representa a área acessível. A distribuição observada corresponde à região de interseção entre esses componentes.}
+	\label{fig:unidade03_framework_bam}
+\end{figure}
+
+Para a Modelagem de Distribuição de Espécies, o framework BAM possui implicações metodológicas profundas. Ele fornece uma justificativa ecológica para a delimitação da área de calibração, orienta a seleção de pseudo-ausências e auxilia na interpretação dos resultados produzidos pelos algoritmos. Mais do que uma representação teórica, BAM constitui um guia prático para a construção de modelos ecologicamente consistentes, tornando-se uma referência indispensável para estudos de conservação, biogeografia e mudanças climáticas \parencite{Franklin2010,Peterson2011}.
+
+\begin{conceptbox}
+	No framework BAM, a distribuição observada de uma espécie não representa necessariamente todo o seu nicho potencial. Ela corresponde ao subconjunto do espaço geográfico onde condições abióticas adequadas, interações bióticas compatíveis e acessibilidade histórica se encontram.
+\end{conceptbox}
+
+% ============================================================
+\section{O Significado Ecológico de M}
+% ============================================================
+
+Embora frequentemente representada como um simples polígono em mapas de modelagem, a Área Acessível possui um significado ecológico muito mais profundo. Esse componente representa a dimensão histórica da distribuição das espécies e incorpora processos que atuam ao longo de décadas, séculos ou até milhões de anos. Compreender M exige reconhecer que as distribuições atuais são produtos não apenas das condições ambientais contemporâneas, mas também da trajetória evolutiva e biogeográfica das espécies \parencite{Soberon2007,Peterson2011}.
+
+A dispersão constitui o mecanismo central por trás do conceito de M. Toda espécie apresenta limitações intrínsecas relacionadas à capacidade de mover indivíduos, propágulos ou descendentes através da paisagem. Em plantas, a dispersão depende de vetores como vento, água ou animais; em animais, fatores comportamentais, fisiológicos e populacionais influenciam a capacidade de deslocamento. Como resultado, mesmo ambientes altamente adequados podem permanecer desocupados simplesmente porque nunca foram alcançados pela espécie \parencite{MacArthur1967,Peterson2011}.
+
+Além da capacidade de dispersão, a acessibilidade geográfica é fortemente influenciada por barreiras naturais. Cadeias montanhosas, grandes rios, desertos, oceanos, áreas abertas e gradientes climáticos extremos podem restringir movimentos populacionais e limitar processos de colonização. Tais barreiras desempenham papel central na formação dos padrões biogeográficos observados em diferentes regiões do planeta. A identificação dessas restrições é essencial para formular hipóteses realistas sobre a área acessível às espécies \parencite{Peterson2011,Barve2011}.
+
+Outro aspecto fundamental é que M incorpora a dimensão temporal da distribuição. A acessibilidade de uma região depende não apenas da distância geográfica, mas também do tempo disponível para dispersão e colonização. Uma área climaticamente adequada pode permanecer vazia durante séculos se a velocidade de expansão populacional for baixa ou se a espécie apresentar limitações severas de dispersão. Essa perspectiva torna-se particularmente relevante em cenários de mudanças climáticas, nos quais a velocidade das alterações ambientais pode superar a capacidade de migração das espécies \parencite{Thuiller2005,Zurell2020}.
+
+O conceito de M também está intimamente relacionado à história biogeográfica das linhagens. Eventos como glaciações, mudanças no nível do mar, reorganizações da vegetação, formação de barreiras geográficas e mudanças paleoclimáticas deixaram marcas profundas na distribuição contemporânea das espécies. Conforme discutido por \textcite{Wiens2005}, muitos padrões atuais refletem processos históricos que ocorreram muito antes das condições climáticas observadas atualmente. Assim, compreender a distribuição de uma espécie exige considerar não apenas onde ela poderia viver hoje, mas também quais regiões ela teve oportunidade de alcançar ao longo de sua história evolutiva.
+
+No caso de espécies amazônicas, como \textit{Dinizia excelsa} Ducke, o conceito de M adquire importância particular. A distribuição da espécie reflete não apenas sua tolerância climática, mas também a conectividade histórica entre formações florestais, a dinâmica dos grandes rios amazônicos, a dispersão de sementes e os processos de expansão populacional ocorridos ao longo do Quaternário. Dessa forma, a delimitação da área acessível constitui uma hipótese biogeográfica explícita sobre a história de ocupação da espécie na Amazônia.
+
+Compreender o significado ecológico de M é essencial para interpretar corretamente os modelos de distribuição. Antes de selecionar variáveis ambientais ou gerar pseudo-ausências, o modelador deve responder a uma pergunta fundamental: \textit{quais regiões a espécie realmente teve oportunidade de colonizar?} Essa questão orientará toda a construção dos modelos nas unidades seguintes e servirá como base para a definição da região de calibração utilizada ao longo do restante do livro.
+
+\begin{applicationbox}
+	Para \textit{Dinizia excelsa}, a Área Acessível deve ser pensada como uma hipótese sobre a porção da Amazônia que a espécie teve oportunidade de alcançar historicamente. Essa hipótese pode considerar o bioma Amazônia, os registros limpos da Unidade 02, a conectividade florestal, barreiras hidrográficas e informações ecológicas sobre dispersão e ocorrência da espécie.
+\end{applicationbox}
+
+
+% ============================================================
+\section{Escalas Espaciais em Modelagem de Distribuição}
+% ============================================================
+
+A distribuição das espécies é um fenômeno inerentemente dependente da escala espacial. Os processos ecológicos que explicam a ocorrência de uma espécie em uma parcela florestal podem ser muito diferentes daqueles que determinam sua distribuição em uma bacia hidrográfica, em um continente ou em escala global. Consequentemente, a definição da Área Acessível (M) não pode ser realizada de forma independente da escala espacial adotada no estudo. Conforme destacam \textcite{Levin1992} e \textcite{Wiens1989}, diferentes padrões ecológicos emergem em diferentes escalas, exigindo abordagens distintas para sua interpretação.
+
+Em escalas locais, a distribuição das espécies é frequentemente influenciada por fatores ecológicos de curta distância, incluindo competição, disponibilidade de recursos, heterogeneidade microambiental, dispersão de sementes e dinâmica populacional. Nessa escala, as interações bióticas representadas pelo componente B do framework BAM tendem a exercer forte influência sobre os padrões observados. Estudos conduzidos em parcelas permanentes, gradientes topográficos ou paisagens fragmentadas frequentemente operam nessa dimensão espacial \parencite{Wiens1989,Guisan2017}.
+
+À medida que a escala de análise aumenta para o nível regional, fatores climáticos e limitações de dispersão passam a desempenhar papel mais importante. Nesse contexto, a distribuição das espécies começa a refletir processos relacionados à conectividade da paisagem, à história de colonização e às barreiras geográficas. Em muitos estudos de SDM, a escala regional corresponde à extensão espacial utilizada para calibrar os modelos e delimitar a Área Acessível \parencite{Franklin2010,Peterson2011}.
+
+Em escalas continentais, os efeitos da história biogeográfica tornam-se ainda mais evidentes. Grandes cadeias montanhosas, sistemas hidrográficos, zonas climáticas e eventos paleoclimáticos contribuem para moldar padrões amplos de distribuição. Nessa dimensão, a delimitação de M geralmente requer o uso de informações biogeográficas, ecorregionais ou filogenéticas, uma vez que a simples utilização de buffers ao redor das ocorrências frequentemente se torna insuficiente para representar adequadamente a história de dispersão da espécie \parencite{Barve2011,Guisan2017}.
+
+Em escala global, os padrões observados refletem processos evolutivos de longa duração, incluindo especiação, dispersão intercontinental, vicariância e mudanças ambientais ocorridas ao longo de milhões de anos. Nessa escala, a delimitação de M torna-se particularmente desafiadora, exigindo integração entre biogeografia histórica, paleoclimatologia e ecologia evolutiva \parencite{Wiens2005,Peterson2011}.
+
+A dependência de M em relação à escala espacial decorre do fato de que a acessibilidade não é uma propriedade fixa das espécies, mas uma característica que emerge da interação entre capacidade de dispersão, tempo disponível para colonização e extensão geográfica analisada. Uma área considerada acessível em um estudo regional pode representar apenas uma pequena fração da distribuição potencial quando observada em escala continental. Da mesma forma, uma delimitação apropriada para estudos locais pode ser inadequada para projeções em cenários climáticos futuros.
+
+Essa relação entre escala e acessibilidade possui implicações metodológicas profundas. A escolha da escala espacial determina quais ambientes serão considerados disponíveis para a espécie, influenciando diretamente a seleção de pseudo-ausências, a caracterização do espaço ambiental, a avaliação do desempenho dos modelos e a interpretação dos resultados. Portanto, a definição de M deve ser sempre compatível com a pergunta ecológica e biogeográfica que orienta o estudo.
+
+\begin{conceptbox}
+	Não existe uma única Área Acessível correta para uma espécie. A delimitação de M depende da escala espacial do estudo, da pergunta ecológica formulada e da hipótese biogeográfica adotada pelo pesquisador.
+\end{conceptbox}
+
+% ============================================================
+\section{Métodos para Delimitar M}
+% ============================================================
+
+A delimitação da Área Acessível constitui uma das etapas mais importantes da Modelagem de Distribuição de Espécies. Entretanto, diferentemente de variáveis ambientais ou registros de ocorrência, M não é uma entidade diretamente observável. Trata-se de uma hipótese biogeográfica que deve ser construída a partir do conhecimento disponível sobre a história natural, a ecologia e a distribuição da espécie. Como consequência, diversos métodos têm sido propostos para representar operacionalmente esse componente em estudos de SDM \parencite{Barve2011,Peterson2011}.
+
+\subsection{Buffers ao Redor das Ocorrências}
+
+A utilização de buffers é uma das estratégias mais simples e amplamente empregadas para delimitar M. Nesse método, uma distância fixa é aplicada ao redor dos registros de ocorrência, gerando uma área considerada potencialmente acessível à espécie. A principal vantagem dessa abordagem reside em sua simplicidade operacional e reprodutibilidade. Além disso, buffers podem ser úteis quando há pouca informação disponível sobre a ecologia ou a história biogeográfica da espécie.
+
+Apesar de sua popularidade, a abordagem baseada em buffers apresenta limitações importantes. A escolha da distância utilizada é frequentemente arbitrária e pode não refletir a capacidade real de dispersão da espécie. Além disso, o método ignora barreiras geográficas, heterogeneidade ambiental e eventos históricos que influenciam a distribuição das populações. Como resultado, buffers excessivamente grandes ou pequenos podem introduzir vieses significativos nos modelos \parencite{Barve2011}.
+
+\subsection{Ecorregiões}
+
+As ecorregiões representam unidades geográficas caracterizadas por relativa homogeneidade ecológica, climática e biogeográfica. A utilização dessas unidades permite incorporar informações sobre processos ecológicos e históricos que moldaram a distribuição das espécies. Em muitos casos, espécies tendem a ocupar subconjuntos específicos de ecorregiões, tornando essa abordagem mais realista do que a utilização de distâncias arbitrárias \parencite{Olson2001,Guisan2017}.
+
+\subsection{Biomas}
+
+Os biomas constituem uma das formas mais utilizadas para delimitar M em estudos de larga escala. Como representam grandes unidades ecológicas associadas a padrões climáticos relativamente consistentes, os biomas frequentemente correspondem a limites plausíveis para a dispersão histórica de muitas espécies. No caso de \textit{Dinizia excelsa}, por exemplo, a utilização do Bioma Amazônia fornece uma primeira aproximação biologicamente defensável da região potencialmente acessível.
+
+Entretanto, o uso de biomas também possui limitações. Muitas espécies ocupam apenas uma pequena fração das condições ambientais existentes dentro de um bioma, de modo que a utilização de toda a extensão da unidade pode superestimar significativamente a área acessível.
+
+\subsection{Bacias Hidrográficas}
+
+Para organismos associados a ambientes aquáticos ou cuja dispersão depende fortemente de sistemas fluviais, as bacias hidrográficas podem representar unidades particularmente adequadas para delimitação de M. Rios podem atuar simultaneamente como corredores de dispersão e barreiras geográficas, dependendo da ecologia da espécie considerada. Em regiões tropicais, especialmente na Amazônia, a estrutura hidrográfica exerce forte influência sobre padrões de distribuição biológica.
+
+\subsection{Regiões Biogeográficas}
+
+As regiões biogeográficas constituem uma das abordagens mais robustas para delimitação de M em escalas amplas. Essas unidades refletem processos evolutivos, históricos e ecológicos responsáveis pela formação das biotas regionais. Quando informações adequadas estão disponíveis, a utilização de regiões biogeográficas tende a produzir hipóteses de acessibilidade mais consistentes com a história evolutiva das espécies \parencite{Morrone2015,Peterson2011}.
+
+\subsection{Conhecimento de Especialistas}
+
+Em muitos casos, a estratégia mais apropriada consiste na integração entre dados empíricos e conhecimento especializado. Informações sobre dispersão, ecologia, distribuição histórica, barreiras geográficas e padrões biogeográficos podem ser utilizadas para construir hipóteses mais realistas de acessibilidade. Conforme argumentam \textcite{Barve2011}, a combinação entre diferentes fontes de informação frequentemente produz delimitações mais robustas do que a aplicação isolada de métodos automatizados.
+
+\begin{applicationbox}
+	Para \textit{Dinizia excelsa}, uma estratégia biologicamente consistente pode combinar registros de ocorrência, limites do Bioma Amazônia, conhecimento sobre a ecologia da espécie e informações sobre conectividade florestal, resultando em uma hipótese de M mais realista do que aquela obtida exclusivamente por buffers.
+\end{applicationbox}
+
+% ============================================================
+\section{Consequências de Delimitar M Incorretamente}
+% ============================================================
+
+A delimitação da Área Acessível influencia praticamente todas as etapas da Modelagem de Distribuição de Espécies. Como os modelos são calibrados utilizando os ambientes disponíveis dentro de M, erros nessa definição podem comprometer tanto a interpretação ecológica quanto a capacidade preditiva dos algoritmos \parencite{Barve2011,Peterson2011}.
+
+Quando M é delimitada de forma excessivamente pequena, o modelo passa a comparar as ocorrências da espécie com um conjunto restrito de condições ambientais. Como consequência, o espaço ambiental disponível torna-se artificialmente reduzido, dificultando a identificação das reais preferências ecológicas da espécie. Nessa situação, métricas como AUC e TSS podem apresentar valores artificialmente elevados, produzindo uma falsa impressão de desempenho excepcional \parencite{Lobo2008,Barve2011}.
+
+Além disso, modelos calibrados em áreas excessivamente restritas tendem a apresentar baixa capacidade de transferência espacial. Quando projetados para outras regiões ou cenários climáticos futuros, esses modelos frequentemente produzem extrapolações pouco confiáveis, pois foram treinados em uma fração limitada da variabilidade ambiental potencialmente relevante.
+
+Por outro lado, delimitações excessivamente amplas também podem gerar problemas significativos. Quando M inclui grandes extensões que a espécie nunca teve oportunidade de colonizar, o modelo passa a considerar como disponíveis ambientes que, do ponto de vista biogeográfico, não deveriam fazer parte da calibração. Isso pode reduzir artificialmente a capacidade discriminatória dos algoritmos e gerar respostas ecológicas distorcidas \parencite{Peterson2011,Guisan2017}.
+
+A definição inadequada de M afeta diretamente métricas amplamente utilizadas em SDM, incluindo AUC, TSS, sensibilidade, especificidade e índices de calibração. Além disso, influencia a seleção de pseudo-ausências, a interpretação das curvas de resposta e a avaliação da importância das variáveis ambientais. Dessa forma, muitos problemas atribuídos aos algoritmos podem, na realidade, resultar de uma delimitação inadequada da área acessível.
+
+Talvez o impacto mais importante ocorra em projeções climáticas futuras. Modelos calibrados em regiões ecologicamente inconsistentes tendem a apresentar menor capacidade de generalização, aumentando a incerteza associada às projeções espaciais. Consequentemente, a definição adequada de M constitui uma etapa essencial para estudos que buscam prever os efeitos das mudanças climáticas sobre a distribuição das espécies.
+
+\begin{importantbox}
+	Um modelo estatisticamente excelente pode ser ecologicamente incorreto. A delimitação inadequada de M é uma das principais causas de interpretações equivocadas em Modelagem de Distribuição de Espécies.
+\end{importantbox}
+
+% ============================================================
+\section{Área de Calibração versus Área de Projeção}
+% ============================================================
+
+Um dos conceitos mais importantes — e frequentemente mal compreendidos — em Modelagem de Distribuição de Espécies é a distinção entre área de calibração e área de projeção. Embora ambos os conceitos estejam relacionados à construção dos modelos, eles desempenham funções distintas e complementares dentro do processo de modelagem.
+
+A área de calibração corresponde à região onde o modelo é treinado. É nessa região que os algoritmos aprendem as relações entre ocorrências da espécie, condições ambientais disponíveis e pseudo-ausências. Em termos conceituais, a área de calibração representa a operacionalização espacial da hipótese de Área Acessível (M). Portanto, a qualidade da calibração depende diretamente da qualidade da delimitação de M \parencite{Barve2011,Peterson2011}.
+
+A área de projeção, por sua vez, corresponde à região onde o modelo será aplicado após o treinamento. Essa região pode coincidir com a área de calibração, mas também pode abranger áreas geográficas distintas, períodos climáticos futuros, reconstruções paleoclimáticas ou mesmo outros continentes. Nesse caso, o modelo utiliza as relações aprendidas durante a calibração para estimar a adequabilidade ambiental em novas condições espaciais ou temporais \parencite{Elith2010,Zurell2020}.
+
+A distinção entre esses conceitos é fundamental porque a confiabilidade das projeções depende da similaridade entre as condições ambientais encontradas nas áreas de calibração e projeção. Quando o modelo é aplicado em ambientes muito diferentes daqueles utilizados durante o treinamento, aumenta o risco de extrapolação ambiental, reduzindo a confiabilidade das previsões.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\textwidth]{figuras/unidade03/unidade03_calibracao_vs_projecao.png}
+	\caption{Diferença conceitual entre área de calibração e área de projeção em Modelagem de Distribuição de Espécies. A área de calibração corresponde à região utilizada para treinar o modelo, enquanto a área de projeção representa a região onde as previsões serão realizadas.}
+	\label{fig:calibracao_projecao}
+\end{figure}
+
+Em estudos de mudanças climáticas, essa distinção torna-se ainda mais importante. O modelo é calibrado utilizando condições climáticas atuais, mas posteriormente projetado para cenários futuros. Dessa forma, a robustez das inferências depende não apenas do algoritmo utilizado, mas também da consistência ecológica da região de calibração.
+
+\begin{conceptbox}
+	A área de calibração é onde o modelo aprende. A área de projeção é onde o modelo aplica aquilo que aprendeu. Confundir esses conceitos é uma das principais fontes de erro em estudos de Modelagem de Distribuição de Espécies.
+\end{conceptbox}
+
+% ============================================================
+\section{Construção da Área Acessível para \textit{Dinizia excelsa}}
+% ============================================================
+
+Após compreender os fundamentos ecológicos e biogeográficos da Área Acessível (M), torna-se necessário transformar esses conceitos em uma hipótese operacional que possa ser utilizada na calibração dos modelos. Nesta seção, será desenvolvido um estudo de caso utilizando \textit{Dinizia excelsa} Ducke, espécie focal deste livro, demonstrando como diferentes fontes de informação podem ser integradas para construir uma delimitação ecologicamente plausível da região acessível.
+
+Conforme discutido nas seções anteriores, M não é uma entidade diretamente observável na natureza. Trata-se de uma hipótese sobre a região que uma espécie teve oportunidade de colonizar ao longo de sua história de dispersão. Consequentemente, sua delimitação deve ser fundamentada em evidências biológicas, ecológicas e biogeográficas, e não apenas em critérios geométricos ou cartográficos \parencite{Soberon2007,Barve2011}.
+
+O primeiro passo para a construção de M consistiu na utilização dos registros de ocorrência previamente validados e depurados na Unidade 02. Após os procedimentos de limpeza taxonômica, correção geográfica e rarefação espacial, os registros remanescentes passaram a representar uma amostra mais confiável da distribuição conhecida da espécie. Esses registros constituem a base empírica sobre a qual a hipótese de acessibilidade será construída.
+
+Entretanto, a distribuição observada não deve ser confundida com a área acessível. Os pontos de ocorrência representam apenas locais onde a espécie foi registrada, enquanto M procura representar toda a região que a espécie teve oportunidade de alcançar ao longo de sua história biogeográfica. Assim, a delimitação de M exige a incorporação de informações adicionais relacionadas à ecologia, dispersão e contexto geográfico da espécie \parencite{Peterson2011,Guisan2017}.
+
+\textit{Dinizia excelsa} é uma espécie arbórea emergente de grande porte associada predominantemente às florestas de terra firme da Amazônia. Sua distribuição conhecida concentra-se em diferentes setores do bioma amazônico, abrangendo áreas do Brasil, Guiana, Suriname, Guiana Francesa e porções adjacentes da Amazônia oriental. Embora a espécie apresente ampla distribuição regional, sua ocorrência não se estende naturalmente para formações savânicas, ambientes montanos ou biomas adjacentes como Cerrado, Caatinga ou Mata Atlântica.
+
+Sob a perspectiva biogeográfica, o Bioma Amazônia constitui um limite inicial plausível para a construção da Área Acessível. Essa escolha baseia-se na forte associação ecológica da espécie com formações florestais amazônicas e no fato de que o bioma representa uma unidade relativamente contínua em termos de conectividade florestal ao longo de escalas evolutivas relevantes. Dessa forma, o bioma funciona como uma aproximação da região historicamente disponível para dispersão e colonização \parencite{Olson2001,Peterson2011}.
+
+Além dos limites do bioma, foram consideradas informações sobre barreiras geográficas e padrões de conectividade da paisagem. Embora grandes rios amazônicos possam influenciar a estrutura genética e a distribuição de diversas espécies, não existem evidências consistentes de que atuem como barreiras absolutas para \textit{Dinizia excelsa}. Por essa razão, optou-se por não subdividir a área acessível com base exclusivamente na rede hidrográfica, mantendo uma hipótese de conectividade compatível com a ampla distribuição observada da espécie.
+
+Outro elemento incorporado ao processo foi o conhecimento ecológico disponível sobre a dispersão e a história natural da espécie. Embora informações detalhadas sobre taxas históricas de dispersão sejam limitadas, a ampla distribuição geográfica atualmente conhecida sugere que a espécie teve capacidade de expandir suas populações ao longo de extensas áreas da Amazônia durante períodos ecológicos relevantes. Essa interpretação é consistente com a utilização de uma região acessível abrangendo a maior parte das florestas amazônicas contínuas.
+
+A combinação dessas evidências resultou na delimitação da Área Acessível utilizada ao longo deste livro. Essa região representa uma hipótese biogeográfica explicitamente formulada para a calibração dos modelos de distribuição de \textit{Dinizia excelsa}. É importante ressaltar que outras delimitações poderiam ser propostas com base em hipóteses alternativas. O objetivo não é identificar uma única delimitação correta, mas construir uma representação ecologicamente defensável da acessibilidade da espécie.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.90\textwidth]{figuras/unidade03/unidade03_area_M_dinizia.png}
+	\caption{Hipótese de Área Acessível (M) utilizada para \textit{Dinizia excelsa}. A delimitação foi construída a partir dos registros de ocorrência depurados na Unidade 02, do limite do Bioma Amazônia, do conhecimento ecológico disponível para a espécie e de considerações biogeográficas sobre dispersão e conectividade da paisagem.}
+	\label{fig:area_M_dinizia}
+\end{figure}
+
+A região representada na Figura \ref{fig:area_M_dinizia} será utilizada como área de calibração nas unidades seguintes, servindo de base para a seleção de pseudo-ausências, extração de variáveis ambientais, treinamento dos algoritmos e projeções espaciais futuras.
+
+\begin{applicationbox}
+	Neste livro, a Área Acessível de \textit{Dinizia excelsa} não é tratada como uma verdade absoluta, mas como uma hipótese biogeográfica explícita. Essa abordagem está alinhada às recomendações atuais da literatura de Modelagem de Distribuição de Espécies e favorece interpretações ecologicamente mais robustas dos resultados.
+\end{applicationbox}
+
+% ============================================================
+\section{Fluxograma de Construção da Área M}
+% ============================================================
+
+A construção de uma Área Acessível ecologicamente consistente envolve a integração de múltiplas fontes de informação. Diferentemente de procedimentos puramente automatizados, a delimitação de M exige um processo de tomada de decisão fundamentado em conhecimento ecológico, histórico e biogeográfico. Dessa forma, a construção da área acessível deve ser compreendida como uma sequência lógica de etapas interdependentes.
+
+O processo inicia-se com a obtenção dos registros de ocorrência da espécie. Esses registros fornecem a base empírica para a formulação da hipótese de acessibilidade, mas precisam ser previamente submetidos aos procedimentos de validação e limpeza discutidos na Unidade 02. A utilização de dados geográficos inconsistentes pode comprometer todas as etapas subsequentes da modelagem.
+
+A partir dos registros validados, incorpora-se o conhecimento ecológico disponível sobre a espécie. Informações relacionadas à dispersão, habitat preferencial, história natural, conectividade populacional e distribuição conhecida auxiliam na definição dos limites plausíveis de acessibilidade. Esse conhecimento é particularmente importante quando existem poucas ocorrências disponíveis ou quando a distribuição observada representa apenas uma fração da distribuição potencial.
+
+Em seguida, são consideradas as barreiras geográficas e biogeográficas relevantes. Cadeias montanhosas, grandes rios, oceanos, mudanças abruptas de vegetação e outras restrições espaciais podem influenciar a capacidade de dispersão e colonização das espécies. A identificação dessas barreiras permite refinar a hipótese inicial de acessibilidade e reduzir a inclusão de áreas biologicamente improváveis.
+
+A integração dessas informações conduz à delimitação preliminar da Área Acessível. Contudo, essa delimitação ainda deve ser submetida a uma etapa de validação ecológica e biogeográfica. Nessa fase, o pesquisador avalia se a área proposta é compatível com o conhecimento disponível sobre a espécie, evitando tanto delimitações excessivamente restritivas quanto excessivamente amplas.
+
+O resultado final desse processo corresponde à hipótese operacional de M utilizada para calibrar os modelos de distribuição. Essa hipótese constitui a representação espacial da região que a espécie teve oportunidade de explorar ao longo de sua história de dispersão.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\textwidth]{figuras/unidade03/unidade03_fluxograma_area_M.png}
+	\caption{Fluxograma conceitual para construção da Área Acessível (M) em Modelagem de Distribuição de Espécies. O processo integra registros de ocorrência, conhecimento ecológico, identificação de barreiras geográficas, delimitação preliminar e validação biogeográfica para obtenção da hipótese final de acessibilidade.}
+	\label{fig:fluxograma_area_M}
+\end{figure}
+
+\begin{conceptbox}
+	A delimitação de M não deve ser encarada como uma etapa cartográfica. Trata-se da construção de uma hipótese ecológica e biogeográfica que influenciará diretamente todas as etapas subsequentes da modelagem.
+\end{conceptbox}
+
+% ============================================================
+\section{Boas Práticas para Definição de M}
+% ============================================================
+
+A definição da Área Acessível envolve inevitavelmente um componente de julgamento científico. Entretanto, algumas práticas amplamente recomendadas na literatura podem reduzir incertezas e aumentar a consistência ecológica dos modelos. O objetivo não é eliminar a subjetividade inerente ao processo, mas torná-la explícita, justificável e biologicamente plausível.
+
+Conforme discutido por \textcite{Barve2011}, \textcite{Peterson2011} e \textcite{Guisan2017}, a delimitação de M deve sempre ser fundamentada em hipóteses ecológicas claramente definidas. Além disso, os critérios utilizados devem ser descritos de forma transparente para permitir reprodutibilidade e avaliação crítica dos resultados.
+
+\begin{table}[H]
+	\centering
+	\caption{Boas práticas para definição da Área Acessível (M) em Modelagem de Distribuição de Espécies.}
+	\label{tab:boas_praticas_M}
+	\begin{tabular}{p{4cm} p{5cm} p{6cm}}
+		\toprule
+		\textbf{Situação} &
+		\textbf{Problema} &
+		\textbf{Recomendação} \\
+		\midrule
+		
+		Utilizar apenas registros de ocorrência &
+		Subestimação da acessibilidade histórica &
+		Incorporar informações ecológicas e biogeográficas adicionais. \\
+		
+		Aplicar buffers arbitrários &
+		Representação inadequada da dispersão real &
+		Justificar biologicamente a distância utilizada ou combinar métodos. \\
+		
+		Ignorar barreiras geográficas &
+		Inclusão de áreas biologicamente improváveis &
+		Considerar rios, montanhas, oceanos e mudanças de vegetação relevantes. \\
+		
+		Utilizar toda a área de estudo disponível &
+		Superestimação do ambiente acessível &
+		Restringir a calibração à região plausivelmente alcançável pela espécie. \\
+		
+		Definir M excessivamente pequena &
+		Sobreajuste e métricas infladas &
+		Avaliar se toda a variabilidade ambiental relevante está representada. \\
+		
+		Definir M excessivamente grande &
+		Redução da capacidade discriminatória do modelo &
+		Remover áreas sem plausibilidade biogeográfica. \\
+		
+		Não documentar critérios utilizados &
+		Baixa reprodutibilidade científica &
+		Descrever explicitamente todas as decisões adotadas. \\
+		
+		Ignorar conhecimento especializado &
+		Hipóteses ecologicamente frágeis &
+		Consultar literatura e especialistas sobre a espécie estudada. \\
+		
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+As boas práticas apresentadas nesta seção não eliminam completamente as incertezas associadas à delimitação de M, mas contribuem para a construção de hipóteses mais robustas e ecologicamente defensáveis. Nas unidades seguintes, essa área acessível servirá como fundamento para a geração de pseudo-ausências, seleção de variáveis ambientais e calibração dos modelos de distribuição.
+
+
+
+
+
+
+

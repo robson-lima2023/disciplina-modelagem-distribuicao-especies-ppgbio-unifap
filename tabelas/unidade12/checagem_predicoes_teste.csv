@@ -1,0 +1,8 @@
+modelo,possui_presenca,possui_background,predicao_constante,n_predicoes_na
+GLM,TRUE,TRUE,FALSE,0
+GAM,TRUE,TRUE,FALSE,0
+RF,TRUE,TRUE,FALSE,0
+BRT,TRUE,TRUE,FALSE,0
+MaxEnt,TRUE,TRUE,FALSE,0
+Ensemble_media,TRUE,TRUE,FALSE,0
+Ensemble_ponderado,TRUE,TRUE,FALSE,0

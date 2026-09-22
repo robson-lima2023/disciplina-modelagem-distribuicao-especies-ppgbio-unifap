@@ -1,0 +1,6 @@
+criterio,valor
+Número de variáveis ambientais antes do VIF,12
+Número de variáveis ambientais mantidas após VIF,12
+Número de variáveis ambientais removidas pelo VIF,0
+Limiar de VIF adotado,10
+Número de pixels/background amostrados para VIF,10000

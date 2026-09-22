@@ -1,0 +1,2 @@
+metodo,quantil,limiar_mop,n_calibracao_total,n_calibracao_amostra,n_variaveis,variaveis
+Distância ao vizinho mais próximo no espaço ambiental padronizado,0.95,1.778110529542044,1240,1240,12,"bio3_isotermalidade, bio4_sazonalidade_temperatura, bio5_temp_max_mes_quente, bio8_temp_media_trimestre_umido, bio12_precipitacao_anual, bio13_precipitacao_mes_umido, bio14_precipitacao_mes_seco, bio18_precipitacao_trimestre_quente, bio19_precipitacao_trimestre_frio, elevacao, declividade, orientacao"

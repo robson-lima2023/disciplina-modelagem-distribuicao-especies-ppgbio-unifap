@@ -1,0 +1,5 @@
+classe,criterio
+Baixa,< q50 = 0.2096
+Moderada,q50-q75 = 0.2096-0.2618
+Alta,q75-q90 = 0.2618-0.3318
+Muito alta,>= q90 = 0.3318

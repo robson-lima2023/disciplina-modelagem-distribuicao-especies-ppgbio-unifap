@@ -1,0 +1,13 @@
+term,edf,ref.df,statistic,p.value,variavel_z,variavel_original,significancia
+s(bio4_sazonalidade_temperatura_z),2.2523985869815517,4,23.049554043054787,1.1672016133612573e-6,bio4_sazonalidade_temperatura_z,bio4_sazonalidade_temperatura,***
+s(elevacao_z),2.089248795693495,4,20.283394214199628,5.195193292339972e-6,elevacao_z,elevacao,***
+s(bio12_precipitacao_anual_z),1.8811357540015685,4,18.102579475328838,1.2498244872372055e-5,bio12_precipitacao_anual_z,bio12_precipitacao_anual,***
+s(bio18_precipitacao_trimestre_quente_z),2.372479759660113,4,9.455330616366869,0.004359401566088272,bio18_precipitacao_trimestre_quente_z,bio18_precipitacao_trimestre_quente,**
+s(bio3_isotermalidade_z),2.2019877379253114,4,8.103207051847795,0.007822597242408413,bio3_isotermalidade_z,bio3_isotermalidade,**
+s(bio14_precipitacao_mes_seco_z),1.8195289727014392,4,6.868191585278237,0.009232308537402645,bio14_precipitacao_mes_seco_z,bio14_precipitacao_mes_seco,**
+s(bio5_temp_max_mes_quente_z),1.6840500802443688,4,6.182562732717705,0.013671535454313544,bio5_temp_max_mes_quente_z,bio5_temp_max_mes_quente,*
+s(bio19_precipitacao_trimestre_frio_z),0.8152006282615786,4,3.9606905521477356,0.01972468090548052,bio19_precipitacao_trimestre_frio_z,bio19_precipitacao_trimestre_frio,*
+s(declividade_z),0.9305574176402006,4,2.510881462269013,0.06548906702112445,declividade_z,declividade,.
+s(orientacao_z),1.2066091746136248e-4,4,8.405559359945473e-5,0.43042107652720485,orientacao_z,orientacao,ns
+s(bio13_precipitacao_mes_umido_z),3.7271282735085604e-5,4,1.1737153283437336e-5,0.6763304771988509,bio13_precipitacao_mes_umido_z,bio13_precipitacao_mes_umido,ns
+s(bio8_temp_media_trimestre_umido_z),5.7095555716736525e-5,4,8.320434245512851e-6,0.8491401991884757,bio8_temp_media_trimestre_umido_z,bio8_temp_media_trimestre_umido,ns

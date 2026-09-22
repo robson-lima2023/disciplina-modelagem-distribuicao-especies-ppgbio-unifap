@@ -1,0 +1,5 @@
+par,var1,var2,correlacao,correlacao_abs
+bio12_precipitacao_anual x bio14_precipitacao_mes_seco,bio12_precipitacao_anual,bio14_precipitacao_mes_seco,0.7845374088354606,0.7845374088354606
+bio14_precipitacao_mes_seco x bio3_isotermalidade,bio3_isotermalidade,bio14_precipitacao_mes_seco,0.7798665318679614,0.7798665318679614
+bio8_temp_media_trimestre_umido x elevacao,bio8_temp_media_trimestre_umido,elevacao,-0.7748578465693453,0.7748578465693453
+bio3_isotermalidade x bio5_temp_max_mes_quente,bio3_isotermalidade,bio5_temp_max_mes_quente,-0.7434660109695901,0.7434660109695901

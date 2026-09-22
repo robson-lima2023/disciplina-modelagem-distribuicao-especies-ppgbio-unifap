@@ -1,0 +1,292 @@
+\chapter[Best practices in SDM]{Best Practices, Common Failure Modes, and Reproducibility in Species Distribution Modeling}
+
+\markboth{Best practices in SDM}{Best practices in SDM}
+
+\begin{objetivos}
+By the end of this chapter, readers should be able to diagnose common methodological failures in SDM; connect model quality to ecological design rather than algorithm choice alone; prevent information leakage; document data provenance and analytical decisions; preserve software environments and random processes; apply FAIR principles responsibly; and prepare a transparent, auditable, and computationally reproducible SDM research package.
+\end{objetivos}
+
+\section{Introduction}
+
+Species distribution modeling has become a central tool in ecology, biogeography, biodiversity conservation, environmental planning, and climate-change impact assessment. Its rapid expansion has been driven by new algorithms, increasingly accessible environmental data, and large occurrence repositories. These advances have also increased the need for methodological rigor, analytical transparency, and reproducibility.
+
+SDM studies are not judged solely by algorithmic sophistication. Their credibility depends on data fitness, ecological framing, calibration design, independent evaluation, transferability, interpretation, and the availability of sufficiently documented code and data. Many failures arise not from the algorithm itself but from decisions about environmental predictors, the accessible area \(M\), sampling bias, background or pseudoabsence selection, extrapolation, and performance metrics \parencite{guisan2000predictive,elith2006novel,barve2011crucial,guisan2017habitat,zurell2020standard}.
+
+Open science and the FAIR principles further require research objects to be identifiable, documented, accessible under clear conditions, and reusable. Openness does not mean that every sensitive coordinate or restricted dataset must be disclosed publicly; it means that access restrictions, transformations, provenance, and reproducible alternatives are documented transparently.
+
+\section{Why do models fail?}
+
+A common misconception is that SDMs fail primarily because the wrong algorithm was selected. Algorithms differ, but comparative work shows that data quality, ecological scope, and workflow decisions can equal or exceed algorithm choice in their effects \parencite{elith2006novel,araujo2007ensemble,guisan2017habitat}.
+
+A model can obtain high AUC or TSS and still support an ecologically invalid interpretation. Conversely, a simple model can yield defensible inference when it is built from fit-for-purpose data, explicit hypotheses, and transparent procedures. Failure can occur at several levels:
+
+\begin{itemize}
+\item \textbf{conceptual failure}: the fitted target does not match the stated ecological question;
+\item \textbf{data failure}: records or predictors are biased, erroneous, mismatched, or incomplete;
+\item \textbf{design failure}: calibration, background, folds, or evaluation data do not represent deployment;
+\item \textbf{statistical failure}: the model overfits, is miscalibrated, or uses an unsuitable response interpretation;
+\item \textbf{transfer failure}: the model is projected beyond environmental or ecological support;
+\item \textbf{communication failure}: maps and metrics are reported with stronger claims than the analysis supports.
+\end{itemize}
+
+\section{Failure mode 1: using every WorldClim variable without prior selection}
+
+Automatically including all 19 WorldClim bioclimatic variables is rarely a neutral choice. Several variables encode overlapping temperature or precipitation summaries and may be strongly correlated. Indiscriminate inclusion can increase multicollinearity, obscure coefficient interpretation, enable overfitting, and reduce spatial or temporal transferability \parencite{dormann2013collinearity,guisan2017habitat}.
+
+\begin{sdmwarningbox}
+Large predictor sets can produce multicollinearity, unstable response functions, overfitting, low transferability, and ecologically inconsistent interpretations. More predictors do not necessarily provide more ecological information.
+\end{sdmwarningbox}
+
+Good practice combines an a priori ecological hypothesis with examination of predictor definitions, correlation, variance inflation factors, and sample-size constraints. PCA can be useful when the inferential target concerns climatic space rather than individual predictors, but it changes interpretation and must be fitted without leaking evaluation data. Predictor selection itself belongs inside each training resample when its estimates depend on the data.
+
+\section{Failure mode 2: ignoring the accessible area \texorpdfstring{\(M\)}{M}}
+
+The accessible area \(M\) is a central SDM design choice. In the BAM framework, observed distribution reflects the intersection of suitable abiotic conditions, biotic context, and areas historically accessible through dispersal \parencite{soberon2005interpretation,soberon2009niches,barve2011crucial}.
+
+Sampling background or pseudoabsences from environments the species could not plausibly have encountered can confuse dispersal limitation with environmental unsuitability. The calibration extent also changes environmental availability, prevalence, discrimination metrics, fitted contrasts, and the meaning of a presence--background output.
+
+\begin{sdmwarningbox}
+An unjustified \(M\) can generate unrealistic pseudoabsences, inappropriate background, biased performance estimates, misleading response functions, and distorted projections. A larger calibration region is not automatically more conservative.
+\end{sdmwarningbox}
+
+Define \(M\) from species-specific biogeography, dispersal history, geographic barriers, hydrographic basins, ecoregions, biomes, and the temporal scale of the question. Report the rationale, source data, geometry, date, and sensitivity of results to plausible alternative delimitations.
+
+\section{Failure mode 3: choosing a model by AUC alone}
+
+AUC measures ranking discrimination over a specified evaluation sample. It does not establish calibration, ecological plausibility, transferability, or usefulness at a decision threshold. Its value also depends on the geographic and environmental extent from which absences or background were sampled \parencite{lobo2008auc,allouche2006assessing}.
+
+\begin{sdmwarningbox}
+Selecting the largest AUC can create false confidence, magnify negligible numerical differences, and favor a model whose response curves, calibration, or transferred predictions are ecologically implausible.
+\end{sdmwarningbox}
+
+Evaluation should match the intended use and combine spatially independent discrimination, calibration diagnostics, sensitivity and specificity when a threshold is justified, continuous-score error measures, response curves, residual or error maps, and biogeographic plausibility. Boyce-type indices may be useful in presence-only contexts but, like every metric, require a stated interpretation and appropriate data.
+
+\section{Failure mode 4: projecting without diagnosing extrapolation}
+
+Temporal or spatial transfer assumes that the fitted occurrence--environment relationship remains informative in the projection domain. Novel predictor values or combinations can make predictions depend primarily on the algorithm's extrapolation behavior, feature constraints, or clamping settings \parencite{elith2010functional,owens2013constraints,zurell2020standard}.
+
+\begin{sdmwarningbox}
+Transferred maps can look smooth and precise even where they are unsupported by calibration data. Without novelty diagnostics, apparent losses or gains may be artifacts of extrapolation.
+\end{sdmwarningbox}
+
+Good practice includes MESS, MOP or comparable novelty diagnostics, explicit reporting of clamping, inspection of response functions at predictor boundaries, and separate communication of projected suitability and environmental support. Novelty is not prediction error, but it identifies where stronger assumptions are operating.
+
+\section{Failure mode 5: confusing suitability with occurrence probability}
+
+Many SDMs produce relative suitability, relative occurrence rates, scores, or rankings. These quantities are not automatically probabilities of presence. The interpretation depends on response data, sampling design, link function, prevalence, background process, output transformation, and calibration \parencite{soberon2007grinnellian,franklin2010mapping,peterson2011ecological}.
+
+Actual occupancy also depends on dispersal, biotic interactions, demography, disturbance, land use, detectability, and history.
+
+\begin{sdmwarningbox}
+Labeling an arbitrary suitability score as occurrence probability can overstate occupancy, misrepresent uncertainty, and turn a continuous model output into an unjustified presence--absence claim.
+\end{sdmwarningbox}
+
+Name the output according to the model and sampling design. Treat continuous maps as conditional environmental scores unless probability calibration is justified with appropriate detection, prevalence, and evaluation data. Thresholded maps must report their rule, purpose, and sensitivity.
+
+\section{Failure mode 6: ignoring sampling bias}
+
+Occurrence databases are rarely random samples. Records often cluster near roads, navigable rivers, cities, research institutions, protected areas, or historically surveyed regions. An untreated model may learn the geography of recording effort rather than the species' ecological association \parencite{phillips2009sample,kramer2013importance,fourcade2014mapping}.
+
+\begin{sdmwarningbox}
+Sampling bias shared by presence records and evaluation data can inflate apparent performance while leaving poorly sampled regions unsupported.
+\end{sdmwarningbox}
+
+Possible responses include coordinate validation, spatial thinning, target-group or effort-informed background, bias surfaces, occupancy or point-process approaches when their assumptions are met, and explicit mapping of data density. No correction is universally best: the treatment should reflect how records were generated and should be tested through sensitivity analysis.
+
+\section{Failure mode 7: allowing information leakage}
+
+Information leakage occurs when evaluation data influence model fitting or any upstream decision. Examples include selecting predictors from the complete dataset, thinning before assigning spatial folds in a way that couples folds, tuning hyperparameters on the final test data, standardizing predictors with all observations, selecting an ensemble by test performance, or repeatedly inspecting test results until the model appears satisfactory.
+
+\begin{sdmwarningbox}
+An evaluation set is no longer independent once it has guided predictor selection, preprocessing, tuning, threshold choice, algorithm inclusion, or model revision.
+\end{sdmwarningbox}
+
+All learned preprocessing and model selection should occur within training data. Nested resampling separates tuning from performance estimation. A genuinely independent dataset should be reserved for a final, pre-specified assessment whenever feasible. Spatial separation alone does not prevent leakage if duplicated records, overlapping buffers, shared raster cells, or temporally mismatched predictors connect training and test samples.
+
+\section{From methodological quality to reproducible science}
+
+Avoiding common errors is only part of reliable research. An ecologically defensible model can remain unverifiable when its inputs, transformations, software, and analytical decisions are undocumented. Reproducibility should therefore be designed from project inception.
+
+\section{Reproducibility in species distribution modeling}
+
+\subsection{Terminology and scope}
+
+\textbf{Repeatability} concerns obtaining the same result under the same conditions. \textbf{Computational reproducibility} concerns regenerating results from the same data and code in a documented environment. \textbf{Replication} concerns testing the finding with new data, implementations, or studies. A successful rerun demonstrates computational traceability; it does not prove that the ecological inference is correct.
+
+SDM workflows contain many linked stages: acquisition, cleaning, taxonomic decisions, spatial filtering, predictor processing, definition of \(M\), background generation, model fitting, validation, climate transfer, uncertainty analysis, and visualization. Small changes in software versions, defaults, random seeds, grids, or source datasets can alter outputs. International journals and open-science initiatives therefore recommend transparent computational documentation \parencite{wilkinson2016fair,peng2011reproducible,sandve2013ten,zurell2020standard}.
+
+\subsection{A project as a dependency graph}
+
+A reproducible workflow should be executable from immutable raw inputs to final tables and figures. Scripts should declare inputs and outputs, avoid hidden manual steps, use project-relative paths, and fail clearly when prerequisites are absent. Workflow tools can track dependencies and rerun only outdated products, but even a numbered script pipeline is useful when ordering and contracts are explicit.
+
+Raw data should be read-only. Cleaning and harmonization must create derived files, accompanied by machine-readable logs or tables recording exclusions, coordinate changes, taxonomic reconciliation, duplicate rules, units, and spatial transformations. Large intermediates need not all be archived if they can be regenerated reliably.
+
+\subsection{Controlling the computational environment}
+
+Record the operating system, R version, locale, relevant system libraries, package versions, and external software. In R, basic session metadata can be captured with:
+
+\begin{rcode}
+sessionInfo()
+\end{rcode}
+
+For fuller provenance, save this output automatically at the end of a successful pipeline and record the version or commit of the analysis code. Random seeds should be set and documented for stochastic operations, while parallel random-number generation requires a reproducible stream rather than a single informal seed.
+
+\begin{sdmpracticebox}
+Archive session metadata, random-seed policy, configuration files, and a machine-readable manifest with the analysis outputs. A manuscript statement alone is not sufficient to reconstruct the environment.
+\end{sdmpracticebox}
+
+\subsection{Managing dependencies}
+
+Package updates can change functions, defaults, dependencies, and numerical behavior. The R package \texttt{renv} records project dependencies in a lockfile:
+
+\begin{rcode}
+renv::snapshot()
+\end{rcode}
+
+Another researcher can request the recorded package set with:
+
+\begin{rcode}
+renv::restore()
+\end{rcode}
+
+A lockfile improves reproducibility but does not guarantee it indefinitely: packages may require system libraries, archived binaries may disappear, and external web services can change. Containers or archived computational environments can add protection for long-lived projects. Always test restoration in a clean environment before publication.
+
+\subsection{Version control with Git}
+
+Version control records changes to code, documentation, and small configuration files. A repository can be initialized with:
+
+\begin{shellcode}
+git init
+git add .
+git commit -m "Initial reproducible workflow"
+\end{shellcode}
+
+Useful practices include small meaningful commits, reviewed branches, tagged releases, issue tracking, and a changelog for published versions. Generated outputs, secrets, credentials, personal information, and very large binary files should not be committed indiscriminately. A public repository is a collaboration platform; an archived release with a persistent identifier is the citable research object.
+
+\subsection{Sharing data, code, and metadata}
+
+Data and code should be shared whenever legally, ethically, and scientifically appropriate. Sensitive species coordinates may need generalization, controlled access, or an embargo. Third-party licenses can prevent redistribution even when analysis code is open. In those cases, provide accession identifiers, acquisition instructions, checksums where permitted, schemas, and a synthetic or reduced dataset that exercises the workflow.
+
+\begin{table}[H]
+\centering
+\caption{Common platforms used to develop, archive, and share scientific research objects.}
+\label{tab:repositorios_ciencia_aberta}
+\begin{tabular}{p{0.20\textwidth}p{0.70\textwidth}}
+\toprule
+\textbf{Platform} & \textbf{Principal role} \\
+\midrule
+GitHub & Version control, documentation, issue tracking, and collaborative code development. \\
+Zenodo & Preservation of versioned research objects and assignment of persistent DOIs. \\
+Dryad & Curated publication and preservation of research datasets. \\
+Figshare & Publication of datasets, figures, tables, and supplementary materials. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A common workflow develops the project in a version-control platform and archives a tagged release in a preservation repository. Cite the archived version and record the repository URL, release tag, commit identifier, license, and DOI in the manuscript.
+
+\subsection{FAIR principles}
+
+The FAIR principles provide guidance for making digital research objects Findable, Accessible, Interoperable, and Reusable \parencite{wilkinson2016fair}.
+
+\begin{table}[H]
+\centering
+\caption{FAIR principles for scientific data and research objects.}
+\label{tab:fair_principles}
+\begin{tabular}{p{0.15\textwidth}p{0.75\textwidth}}
+\toprule
+\textbf{Principle} & \textbf{Practical interpretation} \\
+\midrule
+Findable & Assign persistent identifiers and rich, searchable metadata. \\
+Accessible & Use standardized retrieval protocols and clearly state authentication or restriction conditions. \\
+Interoperable & Use documented formats, vocabularies, units, coordinate systems, and machine-readable schemas. \\
+Reusable & Provide provenance, licenses, variable definitions, quality information, and sufficient contextual documentation. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+FAIR is not synonymous with unrestricted openness. A protected dataset can remain FAIR when its metadata are findable and its access conditions are explicit. Conversely, placing undocumented files online does not make them reusable.
+
+\subsection{Minimum reporting for an SDM study}
+
+A publication-ready report should identify:
+
+\begin{itemize}
+\item the ecological question, response interpretation, target population, spatial domain, period, and intended deployment;
+\item occurrence sources, download dates, licenses, taxonomic treatment, cleaning rules, duplicate handling, temporal filters, and sample sizes at every stage;
+\item the definition and rationale for \(M\), background or pseudoabsence design, bias treatment, and sensitivity analyses;
+\item predictor sources, versions, units, temporal baselines, resolution, resampling, selection procedure, and ecological rationale;
+\item algorithms, packages, versions, hyperparameter search spaces, tuning criteria, seeds, fitted settings, and convergence or diagnostic checks;
+\item validation design, fold construction, buffers, independence safeguards, metrics, thresholds, calibration assessment, and uncertainty intervals;
+\item projection GCMs, SSPs, periods, downscaling products, clamping settings, dispersal assumptions, and novelty diagnostics;
+\item ensemble inclusion and weighting rules, uncertainty components, aggregation formulas, and decision thresholds;
+\item code and data availability, persistent identifiers, licenses, access restrictions, environment lockfile, and instructions for end-to-end execution.
+\end{itemize}
+
+Tables of exclusions and workflow manifests are often more auditable than prose alone. Report deviations from a pre-specified protocol and distinguish exploratory analyses from confirmatory evaluation.
+
+\subsection{Reproducibility checklist}
+
+Before submission, verify that:
+
+\begin{itemize}
+\item scripts regenerate every reported table, figure, and numerical result from documented inputs;
+\item raw data are immutable and every transformation is traceable;
+\item software and package versions, seeds, locale, and system dependencies are recorded;
+\item a clean restoration of the environment and pipeline has been tested;
+\item data and code have licenses, metadata, checksums or persistent identifiers where appropriate;
+\item sensitive or licensed data have explicit access conditions and a reproducible substitute when feasible;
+\item training, tuning, and evaluation information are separated without leakage;
+\item all manual GIS or editorial operations are scripted or documented precisely;
+\item figures carry units, coordinate information, legends, scenario identifiers, and uncertainty or novelty context;
+\item FAIR principles and long-term preservation have been considered.
+\end{itemize}
+
+\begin{sdmkeybox}
+Computational reproducibility is achieved when a documented research package can regenerate the reported results in a reconstructed environment. Scientific credibility additionally requires valid data, defensible assumptions, appropriate evaluation, and independent scrutiny.
+\end{sdmkeybox}
+
+\section{Summary of common failures and recommended practices}
+
+\begin{table}[H]
+\centering
+\caption{Common SDM failure modes, consequences, and recommended practices.}
+\label{tab:erros_comuns_sdm}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{0.24\textwidth}p{0.33\textwidth}p{0.34\textwidth}}
+\toprule
+\textbf{Failure mode} & \textbf{Potential consequence} & \textbf{Recommended practice} \\
+\midrule
+Use every available climate predictor & Collinearity, overfitting, unstable transfer, and weak interpretation & Define ecological hypotheses; examine redundancy; select within training resamples \\
+Ignore accessible area \(M\) & Inappropriate background, biased contrasts, and misleading performance & Justify \(M\) biogeographically and assess sensitivity to alternatives \\
+Select a model by AUC alone & False confidence and poor calibration or ecological plausibility & Match metrics to use; assess calibration, spatial transfer, response curves, and errors \\
+Transfer without novelty diagnostics & Unsupported predictions and artificial gains or losses & Report MESS, MOP or comparable diagnostics and clamping behavior \\
+Call suitability an occurrence probability & Overstated occupancy and unjustified binary maps & Name outputs according to model and sampling design; calibrate only when justified \\
+Ignore sampling bias & Model collection effort rather than species--environment association & Diagnose effort; use justified thinning, bias-aware background, or observation models \\
+Leak evaluation information & Optimistically biased performance and model-selection results & Nest preprocessing and tuning within training data; reserve independent evaluation \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Chapter synthesis}
+
+SDM quality depends on the complete chain of evidence, not only on the fitted algorithm. Ecological scope, occurrence provenance, accessible area, predictors, sampling process, validation, extrapolation, output interpretation, and uncertainty all affect the conclusion. Reproducibility adds the infrastructure required to inspect and regenerate that chain: versioned code, documented data, controlled dependencies, persistent archives, metadata, and executable workflows.
+
+Modern distribution modeling should produce more than attractive suitability maps. It should create transparent, verifiable, reusable evidence whose limitations are visible and whose claims remain aligned with the data and deployment context.
+
+\begin{sdmkeybox}
+A simple, ecologically grounded, independently evaluated, and fully documented model can be more trustworthy than a complex model built with redundant predictors, an unjustified calibration domain, untreated bias, leaked evaluation data, and performance claims based on a single metric.
+\end{sdmkeybox}
+
+\section{Review exercises}
+
+\begin{enumerate}
+\item Explain why algorithm choice is only one component of SDM quality.
+\item Design a leakage-free workflow for predictor selection, tuning, ensemble construction, and final evaluation.
+\item Distinguish computational reproducibility from independent replication.
+\item What information is required to make a restricted occurrence dataset FAIR without publishing sensitive coordinates?
+\item Why does an \texttt{renv.lock} file improve, but not guarantee, long-term reproducibility?
+\item Construct a minimum reporting checklist for a future climate projection.
+\item Audit one chapter workflow in this book and identify every input, transformation, random process, and output that should be recorded in a provenance manifest.
+\end{enumerate}

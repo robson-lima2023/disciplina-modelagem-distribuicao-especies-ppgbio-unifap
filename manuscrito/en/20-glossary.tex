@@ -1,0 +1,78 @@
+\chapter{Glossary}
+
+\section*{How to use this glossary}
+
+This glossary provides concise definitions of recurring terms from ecology, biogeography, climatology, statistics, spatial data science, and reproducible computing. Definitions describe how the terms are used in this book; readers should consult the cited specialist literature for formal treatments and implementation-specific meanings.
+
+\begin{longtable}{p{0.20\textwidth}p{0.70\textwidth}}
+\caption{Glossary of principal terms used in species distribution modeling.}
+\label{tab:glossario_sdm}\\
+\toprule
+\textbf{Term} & \textbf{Definition} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Term} & \textbf{Definition} \\
+\midrule
+\endhead
+Accessible area (\(M\)) & Geographic region hypothesized to have been reachable by the species over the relevant historical and dispersal period; it defines the environmental availability used for calibration. \\
+Algorithmic disagreement & Variation among predictions from different fitted algorithms under otherwise comparable data and design; it is descriptive and is not automatically a confidence interval. \\
+AUC & Area under the receiver operating characteristic curve; a threshold-independent measure of ranking discrimination for a specified evaluation sample. \\
+Background & Sample representing environmental availability in the calibration domain for presence--background methods; background points are not observed absences. \\
+BAM framework & Conceptual framework relating distribution to biotic conditions (B), abiotic conditions (A), and movement or accessibility (M). \\
+Boyce index & Presence-only evaluation index comparing the frequency of observed presences with the availability of prediction classes; interpretation depends on implementation and sampling design. \\
+Brier score & Mean squared difference between a binary outcome and a probabilistic prediction; meaningful as a calibration-sensitive score only when predictions have a probability interpretation. \\
+BRT & Boosted Regression Trees; an ensemble of sequentially fitted trees in which later trees improve residual predictive structure. \\
+Calibration & Agreement between predicted probabilities and observed event frequencies, or, more broadly in SDM usage, the process of fitting a model. The intended meaning should be stated. \\
+CHELSA & High-resolution climatology product using statistical downscaling informed by atmospheric and topographic processes. \\
+Clamping & Constraining predictor values or model responses during transfer to reduce behavior beyond the calibration range; settings and affected areas should be reported. \\
+CMIP6 & Coupled Model Intercomparison Project Phase 6, which coordinates simulations from multiple global climate models. \\
+Computational reproducibility & Ability to regenerate reported results from the same data, code, and a documented computational environment. \\
+Cross-validation & Resampling procedure that repeatedly partitions data into training and assessment sets; spatial or environmental partitions may better represent geographic transfer than random folds. \\
+DOI & Digital Object Identifier; a persistent identifier commonly assigned to publications, datasets, software releases, and other research objects. \\
+Ecological niche & Multidimensional set of conditions and resources associated with population persistence, interpreted within a specified conceptual framework and scale. \\
+ENM & Ecological niche model; a model intended to characterize aspects of a species' niche, often projected geographically. The term should not be treated as interchangeable with every SDM without qualification. \\
+Ensemble & Combination or synthesis of predictions from multiple fitted models. It represents between-model consensus or spread but does not remove shared bias. \\
+Environmental novelty & Degree to which a projection environment differs from the environmental domain represented during calibration. \\
+Environmental suitability & Model-derived compatibility between environmental conditions and the estimated occurrence--environment association; not automatically probability of presence or habitat quality. \\
+Extrapolation & Application of a model to predictor values or multivariate combinations outside those represented during calibration. \\
+FAIR & Principles according to which digital research objects should be Findable, Accessible, Interoperable, and Reusable. FAIR does not require unrestricted public access. \\
+Fundamental niche & Conditions under which a species could maintain populations in the absence of constraining biotic interactions, subject to physiological, resource, demographic, and scale assumptions. \\
+GAM & Generalized Additive Model; an extension of generalized linear modeling that estimates penalized smooth predictor effects. \\
+GCM & Global Climate Model or General Circulation Model; a numerical representation of the climate system used to simulate past, present, and future conditions. \\
+Git & Distributed version-control system used to record and manage changes to code and text. \\
+GitHub & Online platform providing Git repository hosting and collaboration services; it is not, by itself, a permanent scientific archive. \\
+GLM & Generalized Linear Model; a model relating a response distribution to a linear predictor through a link function. \\
+HSM & Habitat Suitability Model; a model intended to estimate habitat suitability, which may include climate, resources, structure, and other habitat attributes. \\
+Kappa & Chance-corrected agreement statistic sometimes applied to thresholded predictions; it is sensitive to prevalence and marginal frequencies. \\
+Last Glacial Maximum (LGM) & Climatic interval around 21 thousand years before present commonly used in paleoclimate projection studies. \\
+Last Interglacial (LIG) & Warm interval commonly represented by climate products around 120--130 thousand years before present. \\
+Maxent & Maximum-entropy or equivalent presence--background modeling approach used to estimate relative occurrence or suitability from features and regularization. Its common logistic output is not automatically absolute occurrence probability. \\
+MESS & Multivariate Environmental Similarity Surface; diagnostic that identifies univariate range departures and summarizes similarity relative to a calibration reference. \\
+Mid-Holocene & Paleoclimatic time slice approximately 6 thousand years before present. \\
+MOP & Mobility-Oriented Parity; environmental-space diagnostic designed to identify strict extrapolation and similarity between calibration and projection domains. Scale direction depends on implementation. \\
+Nested resampling & Evaluation design in which an inner resampling loop performs tuning or selection and an outer loop estimates generalization performance. \\
+PCA & Principal Component Analysis; linear transformation that represents correlated variables using orthogonal components ordered by explained variance. \\
+Presence--absence data & Observations with surveyed presences and nondetections or absences whose interpretation depends on survey and detection design. \\
+Presence--background data & Observed presence records contrasted with a sample of available environments; the background does not establish absence. \\
+Pseudoabsence & Location treated as an absence for fitting or evaluation despite the absence of confirmed nondetection evidence; generation rules affect the fitted target. \\
+Random Forest (RF) & Ensemble of randomized decision trees whose predictions are aggregated across trees. \\
+Realized niche & Portion of niche-related conditions expressed under biotic interactions, accessibility, demography, disturbance, and the observed environmental domain; it is not simply the geographic occupied area. \\
+ROC curve & Receiver operating characteristic curve plotting sensitivity against the false-positive rate across thresholds. \\
+SDM & Species Distribution Model; a model relating species observations to environmental or spatial predictors to estimate distribution-related quantities in a defined domain. \\
+Spatial sorting bias & Inflation of evaluation performance when test sites are environmentally or geographically closer to training presences than to training absences or background. \\
+SSP & Shared Socioeconomic Pathway; a socioeconomic development narrative that, when combined with climate-policy and forcing assumptions, supports conditional climate projections. \\
+SSP1--2.6 & Sustainability-oriented pathway associated with an approximate forcing level of 2.6 W\,m\(^{-2}\) by 2100. \\
+SSP5--8.5 & Fossil-fuel-intensive pathway associated with an approximate forcing level of 8.5 W\,m\(^{-2}\) by 2100. \\
+Transferability & Ability of a fitted model to provide useful predictions in a new region, period, population, or environmental domain relevant to deployment. \\
+TSS & True Skill Statistic, calculated as sensitivity plus specificity minus one for a specified threshold and evaluation sample. \\
+Uncertainty & Incomplete knowledge about an estimate, process, or outcome; distinct from systematic bias, environmental novelty, and deliberate variation among scenarios. \\
+VIF & Variance Inflation Factor; measure of how much variance of a regression coefficient is inflated by linear dependence among predictors. \\
+WorldClim & Global gridded climate dataset widely used for baseline and projected bioclimatic variables. \\
+Zenodo & General-purpose research repository that archives releases and can assign DOIs. \\
+\bottomrule
+\end{longtable}
+
+\begin{conceito}[title={\faBook\quad Terminology evolves}]
+SDM terminology continues to evolve, and the same term can carry different meanings across ecological, statistical, and software communities. Authors should define the modeled response, sampling design, output scale, and deployment domain rather than rely on labels alone.
+\end{conceito}

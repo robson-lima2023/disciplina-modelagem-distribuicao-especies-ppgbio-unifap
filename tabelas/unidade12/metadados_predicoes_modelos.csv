@@ -1,0 +1,6 @@
+modelo,arquivo,coluna_pred,arquivo_existe
+GLM,dados/unidade06/processados/teste_predicoes_glm_dinizia.csv,pred_glm,TRUE
+GAM,dados/unidade07/processados/teste_predicoes_gam_dinizia.csv,pred_gam,TRUE
+RF,dados/unidade08/processados/teste_predicoes_rf_dinizia.csv,pred_rf,TRUE
+BRT,dados/unidade09/processados/teste_predicoes_brt_dinizia.csv,pred_brt,TRUE
+MaxEnt,dados/unidade10/processados/teste_predicoes_maxent_dinizia.csv,pred_maxent,TRUE

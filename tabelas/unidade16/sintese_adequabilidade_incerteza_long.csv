@@ -1,0 +1,17 @@
+classe_nome,metrica,valor
+Baixa adequabilidade / baixa incerteza,area_km2,1810114.3941536006
+Baixa adequabilidade / baixa incerteza,prop_area,0.48459356354516075
+Baixa adequabilidade / baixa incerteza,adequabilidade_media,0.054380946164921784
+Baixa adequabilidade / baixa incerteza,incerteza_media,0.3486990856236564
+Baixa adequabilidade / alta incerteza,area_km2,1210604.6825483416
+Baixa adequabilidade / alta incerteza,prop_area,0.3240962223466953
+Baixa adequabilidade / alta incerteza,adequabilidade_media,0.11094766125682069
+Baixa adequabilidade / alta incerteza,incerteza_media,0.5019122314041597
+Alta adequabilidade / alta incerteza,area_km2,639149.6243738645
+Alta adequabilidade / alta incerteza,prop_area,0.17110951391484236
+Alta adequabilidade / alta incerteza,adequabilidade_media,0.30467261586757055
+Alta adequabilidade / alta incerteza,incerteza_media,0.5256883476602313
+Alta adequabilidade / baixa incerteza,area_km2,75456.17800693099
+Alta adequabilidade / baixa incerteza,prop_area,0.020200700193301616
+Alta adequabilidade / baixa incerteza,adequabilidade_media,0.40921022200206825
+Alta adequabilidade / baixa incerteza,incerteza_media,0.40660211106770716

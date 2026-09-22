@@ -1,0 +1,2 @@
+produto,modelos_incluidos,n_modelos,n_pixels,minimo,primeiro_quartil,mediana,media,terceiro_quartil,maximo,desvio_padrao
+Ensemble por média simples,"GLM, GAM, RF, BRT, MaxEnt",5,12053,0.003660572332196921,0.04319903263822198,0.08610142879188061,0.12666186258016446,0.1762288123369217,0.797342574596405,0.11788341801999001

@@ -1,0 +1,2 @@
+modelo,dominio_calibracao,AUC,interpretacao_AUC,limiar_TSS,TSS,interpretacao_TSS,Kappa,acuracia,sensibilidade,especificidade,TP,TN,FP,FN,n_teste,n_presencas_teste,n_background_teste
+GAM,Bioma Amazônia,0.8246927198235109,Muito boa,0.13,0.552946738102742,Boa,0.30249999999999994,0.7661290322580645,0.7894736842105263,0.7634730538922155,30,255,79,8,372,38,334

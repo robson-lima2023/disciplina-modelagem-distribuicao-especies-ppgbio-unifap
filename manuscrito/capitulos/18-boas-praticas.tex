@@ -1,0 +1,593 @@
+\chapter{Boas práticas, erros comuns e diretrizes internacionais para SDM}
+%================================================
+
+\markboth{Boas práticas em SDM}{Boas práticas em SDM}
+
+\section{Introdução}
+
+A Modelagem de Distribuição de Espécies (Species Distribution Modeling -- SDM)
+evoluiu rapidamente nas últimas duas décadas, tornando-se uma das principais
+ferramentas utilizadas em ecologia, biogeografia, conservação da biodiversidade,
+planejamento ambiental e avaliação dos impactos das mudanças climáticas.
+
+Paralelamente ao desenvolvimento de novos algoritmos e ao crescimento da
+disponibilidade de dados ambientais e registros de ocorrência, surgiu uma
+demanda crescente por maior rigor metodológico, transparência analítica e
+reprodutibilidade científica. Atualmente, estudos de SDM não são avaliados
+apenas pela sofisticação dos modelos utilizados, mas também pela qualidade dos
+dados, clareza metodológica, robustez das inferências e disponibilidade dos
+códigos e dados utilizados.
+
+Diversos trabalhos demonstram que muitos dos erros observados em SDM não estão
+relacionados aos algoritmos em si, mas às decisões tomadas durante a seleção de
+variáveis ambientais, definição da área acessível ($M$), tratamento do viés
+amostral, avaliação da extrapolação e interpretação inadequada das métricas de
+desempenho \citep{guisan2000predictive, elith2006novel,
+	barve2011crucial, guisan2017habitat, zurell2020standard}.
+
+Ao mesmo tempo, periódicos científicos de alto impacto e organizações
+internacionais vêm enfatizando a importância da ciência aberta, da
+reprodutibilidade computacional e da adoção dos princípios FAIR para garantir
+que os resultados produzidos possam ser verificados, reutilizados e integrados
+em futuras sínteses ecológicas.
+
+Esta unidade apresenta um conjunto de recomendações práticas destinadas a
+auxiliar pesquisadores e estudantes na construção de modelos mais robustos,
+transparentes e ecologicamente consistentes. O objetivo não é apenas evitar
+erros comuns, mas promover uma visão crítica da modelagem ecológica como um
+processo científico integrado que combina teoria ecológica, conhecimento
+naturalístico, estatística, ciência de dados e tomada de decisão para a
+conservação da biodiversidade.
+
+\section{Por que modelos falham?}
+
+Uma percepção equivocada frequentemente observada entre iniciantes em SDM é a
+ideia de que modelos falham principalmente devido à escolha inadequada do
+algoritmo. Embora diferentes algoritmos possuam características distintas,
+estudos comparativos demonstram que fatores relacionados à qualidade dos dados,
+à definição do problema ecológico e às decisões metodológicas exercem impacto
+igual ou superior ao da escolha do algoritmo propriamente dito
+\citep{elith2006novel, araujo2007ensemble, guisan2017habitat}.
+
+Modelos podem apresentar elevados valores de AUC e TSS e, ainda assim,
+produzir interpretações ecologicamente incorretas. Da mesma forma, modelos
+estatisticamente simples podem fornecer inferências robustas quando baseados em
+dados adequados, hipóteses bem definidas e procedimentos transparentes.
+
+Nas seções seguintes são apresentados alguns dos erros mais frequentes
+identificados na literatura especializada.
+
+%------------------------------------------------
+\section{Erro 1 - Utilizar todas as variáveis do WorldClim sem seleção prévia}
+
+Um erro muito comum consiste em utilizar automaticamente todas as variáveis
+bioclimáticas disponíveis, especialmente as 19 variáveis do WorldClim, sem
+avaliar redundância estatística ou relevância ecológica. Embora essas variáveis
+representem diferentes componentes do clima, muitas delas são fortemente
+correlacionadas entre si.
+
+A inclusão indiscriminada de variáveis ambientais pode aumentar a
+multicolinearidade, dificultar a interpretação ecológica dos coeficientes,
+favorecer o sobreajuste e reduzir a capacidade de transferência espacial e
+temporal dos modelos \citep{dormann2013collinearity, guisan2017habitat}.
+
+\begin{sdmwarningbox}
+	Utilizar muitas variáveis ambientais sem seleção prévia pode gerar
+	multicolinearidade, sobreajuste, instabilidade nas projeções futuras,
+	baixa transferibilidade e interpretações ecológicas inconsistentes.
+\end{sdmwarningbox}
+
+Boas práticas incluem a avaliação da correlação entre variáveis, o cálculo do
+Fator de Inflação da Variância (VIF), o uso criterioso de PCA quando
+apropriado e, principalmente, a seleção de preditores com base em hipóteses
+ecológicas relacionadas à espécie e à escala do estudo.
+
+%------------------------------------------------
+\section{Erro 2 - Ignorar a área acessível \texorpdfstring{($M$)}{M}}
+
+A definição da área acessível ($M$) é uma das decisões mais importantes em
+SDM. No contexto do \textit{BAM framework}, a distribuição observada de uma
+espécie resulta da interação entre condições abióticas adequadas, interações
+bióticas e áreas historicamente acessíveis por dispersão
+\citep{soberon2005interpretation, soberon2009niches, barve2011crucial}.
+
+Ignorar a área $M$ pode levar à seleção de background ou pseudo-ausências em
+regiões que a espécie nunca poderia ter alcançado, confundindo ausência de
+dispersão com inadequação ambiental.
+
+\begin{sdmwarningbox}
+	\textbf{Consequências principais.}
+	
+	A ausência de uma área $M$ ecologicamente justificada pode gerar
+	pseudo-ausências irreais, background inadequado, viés na calibração do modelo
+	e superestimação da distribuição potencial.
+\end{sdmwarningbox}
+
+A área $M$ deve ser definida com base no conhecimento biogeográfico da espécie,
+barreiras geográficas, história de dispersão, limites de biomas, bacias
+hidrográficas, ecorregiões ou outras unidades espacialmente coerentes.
+
+%------------------------------------------------
+\section{Erro 3 - Escolher o melhor modelo apenas pelo AUC}
+
+O AUC é uma das métricas mais utilizadas em SDM por medir a capacidade
+discriminatória do modelo. No entanto, seu uso isolado pode ser problemático,
+pois altos valores de AUC não garantem que o modelo seja ecologicamente
+plausível ou adequado para projeções espaciais e temporais
+\citep{lobo2008auc, allouche2006assessing}.
+
+Modelos com elevado AUC podem apresentar curvas de resposta biologicamente
+incoerentes, forte dependência de viés amostral ou extrapolações inadequadas.
+Assim, a avaliação do modelo deve combinar métricas estatísticas e interpretação
+ecológica.
+
+\begin{center}
+	\fbox{
+		\begin{minipage}{0.90\textwidth}
+			
+			\textbf{Consequências principais.}
+			
+			Escolher modelos apenas pelo maior AUC pode gerar falsa sensação de desempenho,
+			supervalorização de pequenas diferenças estatísticas e interpretações
+			ecológicas equivocadas.
+			
+		\end{minipage}
+	}
+\end{center}
+
+Boas práticas incluem avaliar simultaneamente AUC, TSS, Índice de Boyce,
+matrizes de confusão, curvas de resposta, mapas de adequabilidade e coerência
+biogeográfica das predições.
+
+%------------------------------------------------
+\section{Erro 4 - Projetar para o futuro sem avaliar extrapolação}
+
+Projeções futuras assumem que a relação estimada entre ocorrência e ambiente
+no presente permanece válida sob novas condições climáticas. Entretanto,
+cenários futuros podem conter combinações ambientais inexistentes no período de
+calibração, resultando em extrapolação ambiental.
+
+Quando a extrapolação não é avaliada, o modelo pode produzir previsões
+aparentemente precisas, mas biologicamente frágeis, especialmente em regiões
+com climas futuros muito diferentes dos climas atuais
+\citep{elith2010functional, owens2013constraints, zurell2020standard}.
+
+\begin{center}
+	\fbox{
+		\begin{minipage}{0.90\textwidth}
+			
+			\textbf{Consequências principais.}
+			
+			Projetar modelos para o futuro sem avaliar extrapolação pode gerar previsões
+			biologicamente absurdas, mapas instáveis e interpretações equivocadas de perda
+			ou ganho de áreas adequadas.
+			
+		\end{minipage}
+	}
+\end{center}
+
+Boas práticas incluem calcular MESS, MOP, mapas de novidade ambiental e
+identificar explicitamente áreas onde as projeções estão fora do domínio
+ambiental observado durante a calibração.
+
+%------------------------------------------------
+\section{Erro 5 - Confundir adequabilidade ambiental com probabilidade de ocorrência}
+
+Modelos de distribuição geralmente produzem índices de adequabilidade
+ambiental, isto é, valores que expressam o grau de compatibilidade entre as
+condições ambientais de um local e os registros utilizados na calibração do
+modelo. Esses valores não devem ser interpretados automaticamente como
+probabilidade real de ocorrência da espécie.
+
+A ocorrência efetiva depende também de dispersão, interações bióticas,
+história biogeográfica, dinâmica populacional, uso da paisagem e limitações de
+amostragem \citep{soberon2007grinnellian, franklin2010mapping,
+	peterson2011ecological}.
+
+\begin{sdmwarningbox}
+	\textbf{Consequência principal.}
+	
+	Confundir adequabilidade ambiental com probabilidade real de ocorrência pode
+	levar à superestimação da distribuição da espécie e à interpretação incorreta
+	de mapas de adequabilidade como mapas absolutos de presença e ausência.
+\end{sdmwarningbox}
+
+A interpretação recomendada é tratar os mapas contínuos como gradientes de
+suporte ambiental ao modelo, evitando inferências absolutas sem validação
+independente ou conhecimento ecológico adicional.
+
+%------------------------------------------------
+\section{Erro 6 - Ignorar o viés amostral}
+
+Registros de ocorrência raramente representam amostras aleatórias da
+distribuição das espécies. Em muitos casos, estão concentrados próximos a
+estradas, rios navegáveis, cidades, centros de pesquisa, unidades de
+conservação ou regiões historicamente mais inventariadas.
+
+Quando esse viés não é tratado, o modelo pode aprender o padrão espacial do
+esforço de coleta em vez da distribuição ecológica da espécie
+\citep{phillips2009sample, kramer2013importance, fourcade2014mapping}.
+
+\begin{center}
+	\fbox{
+		\begin{minipage}{0.90\textwidth}
+			
+			\textbf{Consequência principal.}
+			
+			Ignorar o viés amostral pode fazer com que o modelo reflita onde os
+			pesquisadores coletaram mais dados, e não onde a espécie realmente encontra
+			condições ambientais adequadas.
+			
+		\end{minipage}
+	}
+\end{center}
+
+Boas práticas incluem rarefação espacial, filtros por distância mínima,
+avaliação do esforço amostral, uso de background enviesado quando apropriado e
+interpretação cautelosa de regiões subamostradas.
+
+\section{Da qualidade metodológica à reprodutibilidade científica}
+
+Evitar erros metodológicos representa apenas uma parte do processo de produção
+de conhecimento científico confiável. Mesmo modelos ecologicamente robustos
+podem tornar-se difíceis de verificar ou reutilizar quando os procedimentos
+analíticos não são adequadamente documentados.
+
+Por esse motivo, a comunidade científica internacional vem enfatizando a
+necessidade de incorporar princípios de reprodutibilidade e ciência aberta ao
+fluxo de trabalho em SDM. Essa abordagem busca garantir que os resultados
+obtidos possam ser reproduzidos, auditados e reutilizados por outros
+pesquisadores, fortalecendo a transparência e a credibilidade da pesquisa
+ecológica.
+
+%------------------------------------------------
+\section{Reprodutibilidade científica em Modelagem de Distribuição de Espécies}
+%------------------------------------------------
+
+\subsection{Por que a reprodutibilidade é importante?}
+
+A reprodutibilidade científica constitui um dos pilares fundamentais do método
+científico moderno. Um estudo é considerado reprodutível quando outros
+pesquisadores conseguem reproduzir os mesmos resultados utilizando os mesmos
+dados, métodos analíticos e procedimentos computacionais descritos pelos autores.
+
+Em Modelagem de Distribuição de Espécies (SDM), a reprodutibilidade possui
+importância ainda maior devido à grande quantidade de etapas envolvidas no fluxo
+de trabalho, incluindo aquisição de dados, filtragem espacial, seleção de
+variáveis ambientais, definição da área acessível ($M$), ajuste de modelos,
+avaliação estatística, projeções climáticas e análise de incertezas.
+
+Pequenas diferenças nas versões dos softwares, bibliotecas ou algoritmos podem
+produzir resultados distintos, dificultando a comparação entre estudos e a
+verificação independente das conclusões. Por esse motivo, periódicos
+internacionais e iniciativas de ciência aberta recomendam que todos os
+procedimentos computacionais sejam documentados e disponibilizados de forma
+transparente \citep{wilkinson2016fair, peng2011reproducible,
+	sandve2013ten, zurell2020standard}.
+
+%------------------------------------------------
+\subsection{Controle do ambiente computacional}
+%------------------------------------------------
+
+Uma etapa fundamental para garantir reprodutibilidade consiste em registrar as
+versões do software e dos pacotes utilizados durante a análise.
+
+No ambiente R, a função \texttt{sessionInfo()} fornece informações detalhadas
+sobre o sistema operacional, versão do R e bibliotecas carregadas durante a
+sessão.
+
+\begin{rcode}
+	sessionInfo()
+\end{rcode}
+
+A saída dessa função deve ser arquivada juntamente com os scripts analíticos,
+permitindo que outros pesquisadores reconstruam o ambiente computacional
+original.
+
+\begin{sdmpracticebox}
+	Inclua sempre a saída de \texttt{sessionInfo()} nos materiais suplementares,
+	repositórios GitHub ou documentos de reprodutibilidade do projeto.
+\end{sdmpracticebox}
+
+%------------------------------------------------
+\subsection{Gerenciamento de dependências}
+%------------------------------------------------
+
+Ao longo do desenvolvimento de um projeto, versões de pacotes podem ser
+atualizadas, modificadas ou removidas. Isso pode dificultar a reprodução futura
+das análises.
+
+O pacote \texttt{renv} permite criar ambientes isolados contendo exatamente as
+versões utilizadas durante o desenvolvimento do estudo.
+
+Após instalar os pacotes necessários, recomenda-se criar um snapshot do
+ambiente:
+
+\begin{rcode}
+	renv::snapshot()
+\end{rcode}
+
+Esse comando gera um arquivo denominado \texttt{renv.lock}, que registra todas
+as dependências do projeto.
+
+Posteriormente, outro pesquisador poderá reconstruir exatamente o mesmo
+ambiente utilizando:
+
+\begin{rcode}
+	renv::restore()
+\end{rcode}
+
+Essa abordagem reduz significativamente problemas associados à atualização de
+bibliotecas e aumenta a confiabilidade da reprodução dos resultados.
+
+%------------------------------------------------
+\subsection{Controle de versão com Git}
+%------------------------------------------------
+
+O controle de versão permite registrar todas as modificações realizadas em um
+projeto ao longo do tempo.
+
+O sistema Git tornou-se o padrão internacional para gerenciamento de código
+científico, oferecendo rastreabilidade, documentação histórica e colaboração
+entre pesquisadores.
+
+A criação de um repositório local pode ser iniciada com os seguintes comandos:
+
+\begin{shellcode}
+	git init
+	git add .
+	git commit -m "Primeira versão"
+\end{shellcode}
+
+Cada nova modificação relevante pode ser registrada por meio de novos
+\textit{commits}, criando um histórico completo do desenvolvimento do projeto.
+
+As principais vantagens incluem:
+
+\begin{itemize}
+	\item rastreamento de alterações;
+	\item recuperação de versões anteriores;
+	\item colaboração entre pesquisadores;
+	\item documentação automática do fluxo de trabalho;
+	\item integração com plataformas de ciência aberta.
+\end{itemize}
+
+%------------------------------------------------
+\subsection{Disponibilização pública dos dados e scripts}
+%------------------------------------------------
+
+A transparência científica exige que dados, scripts e resultados sejam
+disponibilizados sempre que possível.
+
+Atualmente existem diversas plataformas especializadas para armazenamento,
+compartilhamento e preservação de dados científicos.
+
+\begin{table}[H]
+	\centering
+	\caption{Principais plataformas utilizadas para compartilhamento de dados e códigos científicos.}
+	\label{tab:repositorios_ciencia_aberta}
+	
+	\begin{tabular}{
+			p{0.20\textwidth}
+			p{0.70\textwidth}
+		}
+		
+		\toprule
+		
+		\textbf{Plataforma} &
+		\textbf{Finalidade principal}
+		
+		\\
+		\midrule
+		
+		GitHub &
+		Versionamento de código, documentação e desenvolvimento colaborativo.
+		
+		\\
+		
+		Zenodo &
+		Arquivamento permanente de dados e geração automática de DOI.
+		
+		\\
+		
+		Dryad &
+		Repositório especializado para conjuntos de dados científicos.
+		
+		\\
+		
+		Figshare &
+		Compartilhamento de dados, figuras, tabelas e materiais suplementares.
+		
+		\\
+		
+		\bottomrule
+		
+	\end{tabular}
+	
+\end{table}
+
+Uma prática amplamente recomendada consiste em desenvolver o projeto em um
+repositório GitHub e, posteriormente, arquivar uma versão estável no Zenodo,
+obtendo um DOI permanente para citação.
+
+%------------------------------------------------
+\subsection{Princípios FAIR}
+%------------------------------------------------
+
+Em 2016 foi proposto um conjunto de diretrizes conhecido como FAIR Principles,
+que se tornou referência internacional para gestão e compartilhamento de dados
+científicos \citep{wilkinson2016fair}.
+
+FAIR representa os seguintes princípios:
+
+\begin{table}[H]
+	\centering
+	\caption{Princípios FAIR para gestão de dados científicos.}
+	\label{tab:fair_principles}
+	
+	\begin{tabular}{
+			p{0.15\textwidth}
+			p{0.75\textwidth}
+		}
+		
+		\toprule
+		
+		\textbf{Princípio} &
+		\textbf{Descrição}
+		
+		\\
+		\midrule
+		
+		Findable &
+		Dados devem ser facilmente encontrados por humanos e sistemas computacionais.
+		
+		\\
+		
+		Accessible &
+		Dados devem estar acessíveis por protocolos padronizados.
+		
+		\\
+		
+		Interoperable &
+		Dados devem utilizar formatos compatíveis e padronizados.
+		
+		\\
+		
+		Reusable &
+		Dados devem conter documentação suficiente para reutilização futura.
+		
+		\\
+		
+		\bottomrule
+		
+	\end{tabular}
+	
+\end{table}
+
+A adoção dos princípios FAIR aumenta a transparência, a reutilização dos dados
+e o impacto científico dos estudos.
+
+%------------------------------------------------
+\subsection{Checklist de reprodutibilidade}
+%------------------------------------------------
+
+Antes da publicação de um estudo de SDM, recomenda-se verificar os seguintes
+itens:
+
+\begin{itemize}
+	\item Os scripts foram disponibilizados?
+	\item As versões dos pacotes foram registradas?
+	\item O ambiente computacional foi documentado?
+	\item Os dados estão disponíveis em repositório público?
+	\item O projeto possui DOI?
+	\item Os procedimentos metodológicos podem ser reproduzidos integralmente?
+	\item Os arquivos possuem metadados adequados?
+	\item Os princípios FAIR foram considerados?
+\end{itemize}
+
+%------------------------------------------------
+\subsection{Mensagem final}
+%------------------------------------------------
+
+A reprodutibilidade não deve ser vista como uma etapa adicional do projeto,
+mas como parte integrante do processo científico. Em estudos de Modelagem de
+Distribuição de Espécies, a documentação adequada dos dados, códigos,
+dependências computacionais e decisões metodológicas aumenta a transparência,
+fortalece a credibilidade dos resultados e permite que o conhecimento produzido
+seja efetivamente reutilizado pela comunidade científica.
+
+\begin{sdmkeybox}
+	Um modelo de distribuição somente pode ser considerado plenamente
+	científico quando seus resultados podem ser reproduzidos de forma
+	independente por outros pesquisadores utilizando os mesmos dados,
+	métodos e procedimentos descritos no estudo.
+\end{sdmkeybox}
+
+%------------------------------------------------
+\section{Síntese dos principais erros e boas práticas}
+
+\begin{table}[H]
+	\centering
+	\caption{Principais erros em SDM, consequências e boas práticas recomendadas.}
+	\label{tab:erros_comuns_sdm}
+	
+	\scriptsize
+	
+	\begin{tabular}{
+			p{0.24\textwidth}
+			p{0.34\textwidth}
+			p{0.34\textwidth}
+		}
+		
+		\toprule
+		\textbf{Erro comum} &
+		\textbf{Consequências} &
+		\textbf{Boas práticas} \\
+		\midrule
+		
+		Usar todas as variáveis do WorldClim &
+		Multicolinearidade, sobreajuste, projeções instáveis e baixa transferibilidade &
+		Correlação, VIF, PCA e seleção ecológica de variáveis \\
+		
+		Ignorar a área acessível ($M$) &
+		Pseudo-ausências irreais, background inadequado e viés de calibração &
+		Delimitar $M$ com base em biogeografia, dispersão e barreiras históricas \\
+		
+		Escolher modelo apenas pelo AUC &
+		Falsa sensação de desempenho e interpretações equivocadas &
+		Combinar AUC, TSS, Boyce, curvas de resposta e plausibilidade ecológica \\
+		
+		Projetar para o futuro sem avaliar extrapolação &
+		Previsões biologicamente frágeis e extrapolação climática não detectada &
+		Usar MESS, MOP e mapas de novidade ambiental \\
+		
+		Confundir adequabilidade com probabilidade de ocorrência &
+		Superestimação da ocupação real e interpretações incorretas &
+		Interpretar mapas como gradientes de adequabilidade ambiental \\
+		
+		Ignorar viés amostral &
+		Modelos refletem esforço de coleta, e não distribuição real &
+		Rarefação espacial, filtros por distância e background adequado \\
+		
+		\bottomrule
+	\end{tabular}
+	
+\end{table}
+
+\section{Síntese da unidade}
+
+Ao longo desta unidade foram discutidos alguns dos principais desafios
+metodológicos enfrentados em estudos de Modelagem de Distribuição de Espécies.
+Foi demonstrado que a qualidade de um modelo depende não apenas do algoritmo
+utilizado, mas também da definição adequada da área acessível, da seleção de
+variáveis ambientais, do controle do viés amostral, da avaliação da
+extrapolação e da interpretação crítica das métricas de desempenho.
+
+Também foram apresentados os fundamentos da reprodutibilidade científica,
+controle de ambiente computacional, gerenciamento de dependências, controle de
+versão, ciência aberta e princípios FAIR. Esses elementos constituem a base das
+boas práticas atualmente recomendadas por periódicos internacionais,
+organizações científicas e iniciativas globais de compartilhamento de dados.
+
+Mais do que produzir mapas de adequabilidade ambiental, a modelagem moderna
+busca gerar conhecimento transparente, verificável e reutilizável, capaz de
+contribuir efetivamente para a compreensão da biodiversidade e para a tomada de
+decisões em conservação sob cenários de rápidas mudanças ambientais.
+
+%------------------------------------------------
+\section{Mensagem final}
+
+A maioria dos erros em SDM não está relacionada ao algoritmo utilizado, mas às
+decisões tomadas antes e depois do ajuste do modelo. A preparação dos dados, a
+definição da área acessível, a seleção de variáveis, o controle do viés
+amostral, a avaliação da extrapolação e a interpretação ecológica dos
+resultados são etapas tão importantes quanto o ajuste estatístico.
+
+\begin{sdmkeybox}
+	Um modelo simples, ecologicamente bem fundamentado e cuidadosamente avaliado
+	pode ser mais confiável do que um modelo complexo ajustado com muitos
+	preditores, área de calibração inadequada, viés amostral não tratado e
+	interpretação exclusivamente baseada em métricas estatísticas.
+\end{sdmkeybox}
+
+%================================================

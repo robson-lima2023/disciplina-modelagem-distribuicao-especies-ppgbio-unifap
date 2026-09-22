@@ -1,0 +1,8 @@
+cenario,classe,n_pixels,proporcao
+ssp126,Com extrapolação,5099,0.4230482037666971
+ssp126,Sem extrapolação,6954,0.576951796233303
+ssp245,Com extrapolação,11661,0.9674769766863022
+ssp245,Sem extrapolação,392,0.03252302331369784
+ssp370,Com extrapolação,12049,0.9996681324151664
+ssp370,Sem extrapolação,4,3.3186758483365135e-4
+ssp585,Com extrapolação,12053,1

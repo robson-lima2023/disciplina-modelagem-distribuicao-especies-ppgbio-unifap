@@ -1,0 +1,129 @@
+\documentclass{ueap-sdm}
+
+%------------------------------------------------
+% PACOTES EXTRAS DO DOCUMENTO
+%------------------------------------------------
+\usepackage{float}
+\usepackage{csquotes}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+
+%------------------------------------------------
+% REFERÊNCIAS BIBLIOGRÁFICAS
+%------------------------------------------------
+\usepackage[
+backend=biber,
+style=authoryear,
+natbib=true,
+doi=true,
+url=true,
+isbn=false,
+eprint=true,
+hyperref=true,
+maxcitenames=2,
+maxbibnames=99
+]{biblatex}
+
+\DeclareFieldFormat{doi}{
+	\href{https://doi.org/#1}
+	{\textcolor{UEAPBlue}{doi:#1}}
+}
+
+\DeclareFieldFormat{url}{
+	\href{#1}
+	{\textcolor{UEAPBlue}{#1}}
+}
+
+\addbibresource{bibliografia/referencias_sdm.bib}
+
+%------------------------------------------------
+% LINKS E CORES
+%------------------------------------------------
+\hypersetup{
+	colorlinks=true,
+	linkcolor=UEAPDarkBlue,
+	citecolor=UEAPDarkBlue,
+	urlcolor=UEAPBlue
+}
+
+%------------------------------------------------
+% METADADOS DO DOCUMENTO
+%------------------------------------------------
+\title{Modelagem de Distribuição de Espécies em R}
+\subtitulo{Fundamentos Ecológicos, Aplicações em Conservação e Mudanças Climáticas}
+
+\instituicao{Universidade do Estado do Amapá}
+\curso{Colegiado de Engenharia Florestal}
+\programa{Programa de Pós-graduação em Recursos Naturais Amazônicos -- RENAmazon}
+\disciplina{Modelagem de Distribuição de Espécies em R}
+
+\autor{Robson Borges de Lima}
+\emailautor{robson.lima.ef@gmail.com}
+\githubautor{https://github.com/robson-lima2023}
+\orcidautor{0000-0001-5915-4045}
+
+\logoueap{Brasao_UEAP.png}
+\localano{Macapá, Amapá -- 2026}
+\versao{Versão preliminar 1.0}
+
+%------------------------------------------------
+% INÍCIO DO DOCUMENTO
+%------------------------------------------------
+\begin{document}
+	
+	\begin{titlepage}
+		\thispagestyle{empty}
+		\newgeometry{margin=0cm}
+		\noindent
+		\includegraphics[
+		width=\paperwidth,
+		height=\paperheight,
+		keepaspectratio=false
+		]{figuras/capa/capa_frente_sdm.png}
+		\restoregeometry
+	\end{titlepage}
+	
+	\clearpage
+	
+	\folhaderosto
+	\copyrightpage
+	\sobreautor
+	\paginainstitucional
+	\prefacio
+	
+	\frontmatter
+	\tableofcontents
+	
+	\cleardoublepage
+	\input{capitulos/fluxograma_mestre}
+	
+	\mainmatter
+
+%================================================
+% Capítulos modularizados mecanicamente na Fase 1.
+\input{manuscrito/capitulos/01-fundamentos-nicho}
+\input{manuscrito/capitulos/02-dados-ocorrencia}
+\input{manuscrito/capitulos/03-variaveis-ambientais}
+\input{manuscrito/capitulos/04-multicolinearidade}
+\input{manuscrito/capitulos/05-area-m-background}
+\input{manuscrito/capitulos/06-glm}
+\input{manuscrito/capitulos/07-gam}
+\input{manuscrito/capitulos/08-random-forest}
+\input{manuscrito/capitulos/09-brt}
+\input{manuscrito/capitulos/10-maxent}
+\input{manuscrito/capitulos/11-ensemble}
+\input{manuscrito/capitulos/12-avaliacao-modelos}
+\input{manuscrito/capitulos/13-projecoes-futuras}
+\input{manuscrito/capitulos/14-transferencia-extrapolacao}
+\input{manuscrito/capitulos/15-paleoclima}
+\input{manuscrito/capitulos/16-incertezas}
+\input{manuscrito/capitulos/17-conservacao}
+\input{manuscrito/capitulos/18-boas-praticas}
+\input{manuscrito/capitulos/19-consideracoes-finais}
+\input{manuscrito/capitulos/20-glossario}
+\input{manuscrito/capitulos/21-leituras-essenciais}
+\backmatter
+\printbibliography[title={Referências}]
+
+\end{document}

@@ -1,0 +1,228 @@
+\chapter*{Glossário}
+\addcontentsline{toc}{chapter}{Glossário}
+%================================================
+
+\section*{Como utilizar este glossário}
+
+Ao longo desta apostila foram apresentados conceitos provenientes de diversas
+áreas do conhecimento, incluindo ecologia, biogeografia, climatologia,
+estatística, ciência de dados espaciais e modelagem computacional.
+
+Este glossário reúne os principais termos, siglas e conceitos utilizados em
+Modelagem de Distribuição de Espécies (SDM), funcionando como uma referência
+rápida para consulta durante a leitura, desenvolvimento de projetos e
+interpretação dos resultados.
+
+\begin{longtable}{
+		p{0.18\textwidth}
+		p{0.72\textwidth}
+	}
+	
+	\caption{Glossário dos principais termos utilizados em Modelagem de Distribuição de Espécies.}
+	\label{tab:glossario_sdm}
+	\\
+	
+	\toprule
+	\textbf{Termo} &
+	\textbf{Definição}
+	\\
+	\midrule
+	\endfirsthead
+	
+	\toprule
+	\textbf{Termo} &
+	\textbf{Definição}
+	\\
+	\midrule
+	\endhead
+	
+	SDM &
+	Species Distribution Model. Modelo utilizado para estimar a distribuição espacial de uma espécie em função de variáveis ambientais.
+	\\
+	
+	ENM &
+	Ecological Niche Model. Abordagem voltada à modelagem do nicho ecológico da espécie.
+	\\
+	
+	HSM &
+	Habitat Suitability Model. Modelo de adequabilidade de habitat.
+	\\
+	
+	AUC &
+	Area Under the Curve. Métrica baseada na curva ROC utilizada para avaliar a capacidade discriminatória do modelo.
+	\\
+	
+	ROC &
+	Receiver Operating Characteristic. Curva utilizada para avaliar o desempenho classificatório dos modelos.
+	\\
+	
+	TSS &
+	True Skill Statistic. Métrica que combina sensibilidade e especificidade.
+	\\
+	
+	Kappa &
+	Coeficiente de concordância utilizado para avaliar desempenho preditivo.
+	\\
+	
+	Boyce Index &
+	Métrica que avalia a concordância entre adequabilidade prevista e registros observados.
+	\\
+	
+	VIF &
+	Variance Inflation Factor. Indicador utilizado para detectar multicolinearidade entre variáveis preditoras.
+	\\
+	
+	PCA &
+	Principal Component Analysis. Técnica de redução de dimensionalidade baseada em componentes principais.
+	\\
+	
+	GLM &
+	Generalized Linear Model. Modelo linear generalizado amplamente utilizado em SDM.
+	\\
+	
+	GAM &
+	Generalized Additive Model. Extensão não linear dos modelos lineares generalizados.
+	\\
+	
+	RF &
+	Random Forest. Algoritmo baseado em múltiplas árvores de decisão.
+	\\
+	
+	BRT &
+	Boosted Regression Trees. Método baseado em árvores de regressão combinadas por boosting.
+	\\
+	
+	Maxent &
+	Maximum Entropy Modeling. Algoritmo amplamente utilizado para dados de presença apenas.
+	\\
+	
+	Ensemble &
+	Combinação de múltiplos modelos para produzir uma predição consensual.
+	\\
+	
+	Background &
+	Conjunto de condições ambientais utilizadas para representar a disponibilidade ambiental na área de calibração.
+	\\
+	
+	Pseudo-ausência &
+	Local sem registro da espécie utilizado para representar ausências em determinados algoritmos.
+	\\
+	
+	Área M &
+	Região acessível à espécie ao longo de sua história biogeográfica segundo o framework BAM.
+	\\
+	
+	BAM &
+	Framework conceitual que integra componentes Bióticos, Abióticos e de Movimento (dispersão).
+	\\
+	
+	Nicho Fundamental &
+	Conjunto de condições ambientais sob as quais a espécie pode sobreviver na ausência de restrições bióticas.
+	\\
+	
+	Nicho Realizado &
+	Porção do nicho fundamental efetivamente ocupada pela espécie.
+	\\
+	
+	Adequabilidade Ambiental &
+	Grau de compatibilidade entre as condições ambientais de um local e o nicho estimado da espécie.
+	\\
+	
+	Transferibilidade &
+	Capacidade do modelo manter desempenho quando aplicado a novas regiões ou períodos temporais.
+	\\
+	
+	Extrapolação &
+	Predição realizada sob condições ambientais não observadas durante a calibração.
+	\\
+	
+	MESS &
+	Multivariate Environmental Similarity Surface. Ferramenta para detectar extrapolação ambiental.
+	\\
+	
+	MOP &
+	Mobility-Oriented Parity. Método para identificar novidade ambiental em projeções espaciais ou temporais.
+	\\
+	
+	CMIP6 &
+	Coupled Model Intercomparison Project Phase 6. Conjunto internacional de modelos climáticos globais.
+	\\
+	
+	GCM &
+	Global Climate Model. Modelo climático global utilizado em projeções futuras.
+	\\
+	
+	SSP &
+	Shared Socioeconomic Pathway. Cenários socioeconômicos utilizados nas projeções climáticas.
+	\\
+	
+	SSP126 &
+	Cenário de baixas emissões e forte mitigação climática.
+	\\
+	
+	SSP585 &
+	Cenário de altas emissões e forte aquecimento global.
+	\\
+	
+	LIG &
+	Last Interglacial. Último Interglacial, aproximadamente 130 mil anos antes do presente.
+	\\
+	
+	LGM &
+	Last Glacial Maximum. Último Máximo Glacial, aproximadamente 21 mil anos antes do presente.
+	\\
+	
+	Mid-Holocene &
+	Holoceno Médio, aproximadamente 6 mil anos antes do presente.
+	\\
+	
+	WorldClim &
+	Base global de variáveis climáticas amplamente utilizada em SDM.
+	\\
+	
+	CHELSA &
+	Conjunto de variáveis climáticas de alta resolução derivadas de modelos atmosféricos.
+	\\
+	
+	FAIR &
+	Findable, Accessible, Interoperable and Reusable. Princípios internacionais para gestão de dados científicos.
+	\\
+	
+	DOI &
+	Digital Object Identifier. Identificador digital permanente para publicações e conjuntos de dados.
+	\\
+	
+	Git &
+	Sistema de controle de versão amplamente utilizado em ciência computacional.
+	\\
+	
+	GitHub &
+	Plataforma de hospedagem de código e colaboração científica baseada em Git.
+	\\
+	
+	Zenodo &
+	Repositório científico que permite arquivamento permanente e geração de DOI.
+	\\
+	
+	Dryad &
+	Repositório internacional para armazenamento e compartilhamento de dados científicos.
+	\\
+	
+	Figshare &
+	Plataforma de compartilhamento de dados, figuras e materiais suplementares.
+	\\
+	
+	\bottomrule
+	
+\end{longtable}
+
+\begin{conceito}
+	\textbf{Observação.}
+	
+	A terminologia utilizada em SDM evolui continuamente à medida que novos
+	algoritmos, bases de dados e abordagens metodológicas são desenvolvidos.
+	Por esse motivo, recomenda-se que estudantes e pesquisadores consultem
+	regularmente a literatura especializada.
+\end{conceito}
+
+%================================================

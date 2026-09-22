@@ -1,0 +1,2 @@
+modelo,dominio_calibracao,num_trees,mtry,min_node_size,sample_fraction,n_treino,n_presencas,n_background,n_variaveis,oob_prediction_error
+Random Forest,Bioma Amazônia,1000,3,10,0.7,868,81,787,12,0.0633508345774474

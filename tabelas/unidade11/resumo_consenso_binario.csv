@@ -1,0 +1,3 @@
+produto,n_modelos,n_pixels,minimo,media,mediana,maximo
+Consenso binário médio,5,12053,0,0.20710196631544014,0,1
+Consenso forte >= 0.70,5,12053,0,0.14751514145855804,0,1

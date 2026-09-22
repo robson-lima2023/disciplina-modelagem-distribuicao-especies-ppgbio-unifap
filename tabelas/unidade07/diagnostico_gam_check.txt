@@ -1,0 +1,40 @@
+
+Method: REML   Optimizer: outer newton
+full convergence after 14 iterations.
+Gradient range [-1.904166e-05,1.166888e-05]
+(score 226.3446 & scale 1).
+Hessian positive definite, eigenvalue range [1.832851e-07,0.8207876].
+Model rank =  49 / 49 
+
+Basis dimension (k) checking results. Low p-value (k-index<1) may
+indicate that k is too low, especially if edf is close to k'.
+
+                                               k'      edf k-index p-value
+s(bio3_isotermalidade_z)                 4.00e+00 2.20e+00    0.96   0.510
+s(bio4_sazonalidade_temperatura_z)       4.00e+00 2.25e+00    0.93   0.180
+s(bio5_temp_max_mes_quente_z)            4.00e+00 1.68e+00    0.99   0.885
+s(bio8_temp_media_trimestre_umido_z)     4.00e+00 5.71e-05    0.90   0.055
+s(bio12_precipitacao_anual_z)            4.00e+00 1.88e+00    0.89   0.015
+s(bio13_precipitacao_mes_umido_z)        4.00e+00 3.73e-05    0.84  <2e-16
+s(bio14_precipitacao_mes_seco_z)         4.00e+00 1.82e+00    0.76  <2e-16
+s(bio18_precipitacao_trimestre_quente_z) 4.00e+00 2.37e+00    0.91   0.075
+s(bio19_precipitacao_trimestre_frio_z)   4.00e+00 8.15e-01    0.91   0.090
+s(elevacao_z)                            4.00e+00 2.09e+00    0.93   0.185
+s(declividade_z)                         4.00e+00 9.31e-01    1.00   0.935
+s(orientacao_z)                          4.00e+00 1.21e-04    0.95   0.440
+                                            
+s(bio3_isotermalidade_z)                    
+s(bio4_sazonalidade_temperatura_z)          
+s(bio5_temp_max_mes_quente_z)               
+s(bio8_temp_media_trimestre_umido_z)     .  
+s(bio12_precipitacao_anual_z)            *  
+s(bio13_precipitacao_mes_umido_z)        ***
+s(bio14_precipitacao_mes_seco_z)         ***
+s(bio18_precipitacao_trimestre_quente_z) .  
+s(bio19_precipitacao_trimestre_frio_z)   .  
+s(elevacao_z)                               
+s(declividade_z)                            
+s(orientacao_z)                             
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+NULL

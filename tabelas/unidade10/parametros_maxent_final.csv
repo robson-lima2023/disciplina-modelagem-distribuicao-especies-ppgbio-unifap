@@ -1,0 +1,10 @@
+parametro,valor
+feature_classes,lqh
+regularization_multiplier,2
+n_coeficientes_total,22
+n_coeficientes_nao_zero,22
+auc_treino,0.843278899399187
+n_treino,868
+n_presencas,81
+n_background,787
+n_variaveis,12

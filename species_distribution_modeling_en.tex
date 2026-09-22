@@ -1,0 +1,110 @@
+\documentclass{ueap-sdm}
+
+\usepackage{float}
+\usepackage{csquotes}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+
+\usepackage[
+backend=biber,
+style=authoryear,
+natbib=true,
+doi=true,
+url=true,
+isbn=false,
+eprint=true,
+hyperref=true,
+maxcitenames=2,
+maxbibnames=99,
+sortlocale=en_US
+]{biblatex}
+\addbibresource{bibliografia/referencias_sdm.bib}
+
+\selectlanguage{english}
+\title{Species Distribution Modeling in R}
+\subtitulo{Ecological Foundations, Conservation Applications, and Climate Change}
+\instituicao{Amapá State University}
+\curso{Undergraduate Program in Forest Engineering}
+\programa{Graduate Program in Amazonian Natural Resources -- RENAmazon}
+\disciplina{Species Distribution Modeling in R}
+\autor{Robson Borges de Lima}
+\emailautor{robson.lima.ef@gmail.com}
+\githubautor{https://github.com/robson-lima2023}
+\orcidautor{0000-0001-5915-4045}
+\localano{Macapá, Amapá, Brazil -- 2026}
+\versao{First English edition -- reviewed version 1.0}
+
+\hypersetup{
+  pdftitle={Species Distribution Modeling in R: Ecological Foundations, Conservation Applications, and Climate Change},
+  pdfauthor={Robson Borges de Lima},
+  pdfsubject={Species distribution modeling, ecological niche modeling, climate change, and conservation},
+  pdfkeywords={species distribution modeling, ecological niche, R, Maxent, ensemble modeling, climate change, conservation, reproducibility},
+  pdfcreator={XeLaTeX with the UEAP-SDM book class}
+}
+
+\renewcommand{\contentsname}{Contents}
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries\color{UEAPDarkGreen}}
+  {\Large CHAPTER \thechapter}{0.3cm}
+  {\fontsize{24}{28}\selectfont}[\vspace{0.15cm}\titlerule]
+\fancyhead[L]{\small\textcolor{UEAPDarkGreen}{Species Distribution Modeling in R}}
+\fancyfoot[R]{\small\textcolor{UEAPGray}{Page \thepage\ of \pageref{LastPage}}}
+
+\begin{document}
+\selectlanguage{english}
+\renewcommand{\contentsname}{Contents}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[UEAPDarkGreen] (current page.south west) rectangle (current page.north east);
+  \fill[UEAPGold] (current page.south west) rectangle ([yshift=1.1cm]current page.south east);
+  \node[align=center,text width=.82\paperwidth,text=white] at ([yshift=2.4cm]current page.center) {
+    {\fontsize{31}{36}\selectfont\bfseries Species Distribution Modeling in R}\par\vspace{1.0cm}
+    {\Large Ecological Foundations, Conservation Applications, and Climate Change}
+  };
+  \node[text=white] at ([yshift=-4.6cm]current page.center) {\Large Robson Borges de Lima};
+  \node[text=UEAPDarkGreen] at ([yshift=.52cm]current page.south) {\bfseries English edition -- 2026};
+\end{tikzpicture}
+\end{titlepage}
+
+\frontmatter
+\chapter*{About this English edition}
+This independent English edition preserves the reproducible R workflows and the
+Amazonian case study of the Portuguese edition while adopting consistent
+scientific terminology, explicit transferability safeguards, and
+English-language pedagogical conventions. The volume is intended for advanced
+undergraduate students, graduate students, researchers, and conservation
+practitioners seeking an integrated and reproducible introduction to species
+distribution modeling.
+
+\tableofcontents
+\mainmatter
+
+% English chapter files are intentionally independent of the Portuguese source.
+\input{manuscrito/en/01-ecological-niche-foundations}
+\input{manuscrito/en/02-occurrence-data}
+\input{manuscrito/en/03-environmental-variables}
+\input{manuscrito/en/04-multicollinearity}
+\input{manuscrito/en/05-accessible-area-background}
+\input{manuscrito/en/06-glm}
+\input{manuscrito/en/07-gam}
+\input{manuscrito/en/08-random-forest}
+\input{manuscrito/en/09-brt}
+\input{manuscrito/en/10-maxent}
+\input{manuscrito/en/11-ensemble}
+\input{manuscrito/en/12-model-evaluation}
+\input{manuscrito/en/13-future-projections}
+\input{manuscrito/en/14-transferability-extrapolation}
+\input{manuscrito/en/15-paleoclimate}
+\input{manuscrito/en/16-uncertainty}
+\input{manuscrito/en/17-conservation}
+\input{manuscrito/en/18-best-practices}
+\input{manuscrito/en/19-final-considerations}
+\input{manuscrito/en/20-glossary}
+\input{manuscrito/en/21-essential-reading}
+
+\backmatter
+\printbibliography[title={References}]
+\end{document}

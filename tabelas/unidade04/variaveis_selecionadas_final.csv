@@ -1,0 +1,13 @@
+ordem,variavel,grupo_ecologico,justificativa
+1,bio3_isotermalidade,Temperatura,Representa gradientes térmicos relacionados ao desempenho fisiológico e à distribuição geográfica da espécie.
+2,bio4_sazonalidade_temperatura,Temperatura,Representa gradientes térmicos relacionados ao desempenho fisiológico e à distribuição geográfica da espécie.
+3,bio5_temp_max_mes_quente,Temperatura,Representa gradientes térmicos relacionados ao desempenho fisiológico e à distribuição geográfica da espécie.
+4,bio8_temp_media_trimestre_umido,Temperatura,Representa gradientes térmicos relacionados ao desempenho fisiológico e à distribuição geográfica da espécie.
+5,bio12_precipitacao_anual,Temperatura,Representa gradientes térmicos relacionados ao desempenho fisiológico e à distribuição geográfica da espécie.
+6,bio13_precipitacao_mes_umido,Temperatura,Representa gradientes térmicos relacionados ao desempenho fisiológico e à distribuição geográfica da espécie.
+7,bio14_precipitacao_mes_seco,Temperatura,Representa gradientes térmicos relacionados ao desempenho fisiológico e à distribuição geográfica da espécie.
+8,bio18_precipitacao_trimestre_quente,Temperatura,Representa gradientes térmicos relacionados ao desempenho fisiológico e à distribuição geográfica da espécie.
+9,bio19_precipitacao_trimestre_frio,Temperatura,Representa gradientes térmicos relacionados ao desempenho fisiológico e à distribuição geográfica da espécie.
+10,elevacao,Elevação,"Representa gradientes topográficos associados a clima, drenagem e heterogeneidade ambiental."
+11,declividade,Declividade,Representa características geomorfológicas que influenciam drenagem e estabilidade do solo.
+12,orientacao,Orientação,Representa diferenças microclimáticas relacionadas à exposição do relevo.

@@ -1,0 +1,110 @@
+\chapter{Essential Reading}
+
+\section*{How to use this guide}
+
+The literature on species distribution modeling has expanded across ecological theory, statistics, spatial data science, climate impacts, and conservation. The works below provide entry points rather than an exhaustive bibliography. Readers should use the complete reference list for full bibliographic details and should follow citation networks to newer evaluations and domain-specific applications.
+
+\section{Foundational books}
+
+\begin{table}[H]
+\centering
+\caption{Recommended books and extended resources for deeper study of SDM.}
+\label{tab:livros_sdm}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{0.30\textwidth}p{0.24\textwidth}p{0.36\textwidth}}
+\toprule
+\textbf{Work} & \textbf{Author(s)} & \textbf{Principal contribution} \\
+\midrule
+\textit{Mapping Species Distributions} & Franklin (2010) & Ecological, statistical, and spatial foundations of species distribution modeling. \\
+\textit{Habitat Suitability and Distribution Models} & Guisan, Thuiller, and Zimmermann (2017) & Comprehensive treatment of theory, workflow design, algorithms, evaluation, and applications. \\
+\textit{Ecological Niches and Geographic Distributions} & Peterson et al. (2011) & Conceptual foundations connecting ecological niches, geography, and model interpretation. \\
+\textit{Species Distribution Modeling with R} & Hijmans and Elith & Practical instructional material for implementing distribution-model workflows in R; readers should verify the version and accompanying software. \\
+\textit{Biogeography} & Lomolino et al. & Broad biogeographic foundations needed to interpret spatial ecological patterns. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Foundational articles}
+
+\begin{table}[H]
+\centering
+\caption{Selected articles illustrating major conceptual and methodological developments in SDM.}
+\label{tab:artigos_classicos_sdm}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{0.29\textwidth}p{0.14\textwidth}p{0.43\textwidth}}
+\toprule
+\textbf{Reference} & \textbf{Year} & \textbf{Principal contribution} \\
+\midrule
+Guisan and Zimmermann & 2000 & Early synthesis of predictive habitat and species-distribution modeling. \\
+Soberón and Peterson & 2005 & Conceptual linkage among ecological niche, accessibility, and geographic distribution. \\
+Phillips, Anderson, and Schapire & 2006 & Formal introduction of maximum-entropy modeling for species geographic distributions. \\
+Elith et al. & 2006 & Broad comparison of contemporary distribution-modeling methods. \\
+Araújo and New & 2007 & Foundations and rationale for ensemble forecasting. \\
+Elith, Kearney, and Phillips & 2010 & Examination of model behavior under environmental extrapolation. \\
+Barve et al. & 2011 & Importance of the accessible area in model calibration and evaluation. \\
+Zurell et al. & 2020 & Standardized reporting protocol for species distribution models. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Evaluation, transferability, and uncertainty}
+
+\begin{itemize}
+\item Fielding and Bell (1997)---assessment strategies for presence--absence prediction models.
+\item Allouche, Tsoar, and Kadmon (2006)---evaluation of prevalence-sensitive and threshold-dependent measures.
+\item Lobo, Jiménez-Valverde, and Real (2008)---limitations of AUC as a general measure of model performance.
+\item Roberts et al. (2017)---cross-validation strategies for spatially structured data.
+\item Owens et al. (2013)---environmental novelty and constraints on model transfer.
+\item Yates et al. (2018)---concepts and determinants of model transferability.
+\end{itemize}
+
+\section{Climate change and biodiversity}
+
+\begin{itemize}
+\item Thuiller et al. (2005)---climate-change threats to plant diversity in Europe.
+\item Araújo et al.---standards and cautions for distribution models in climate-change research.
+\item IPCC (2021)---\textit{Climate Change 2021: The Physical Science Basis}.
+\item IPBES (2019)---\textit{Global Assessment Report on Biodiversity and Ecosystem Services}.
+\item Pecl et al. (2017)---biodiversity redistribution under climate change.
+\end{itemize}
+
+These readings should be combined with documentation for the exact CMIP6, GCM, downscaling, land-use, and biodiversity datasets used in an analysis.
+
+\section{Paleoclimate and climatic stability}
+
+\begin{itemize}
+\item Carnaval and Moritz (2008)---climatic stability and historical refugia hypotheses.
+\item Nogués-Bravo (2009)---use and limitations of paleoclimate niche modeling.
+\item Graham et al. (2010)---historical climate, range dynamics, and biogeographic inference.
+\item Svenning et al. (2011)---paleoclimate and disequilibrium in species distributions.
+\item Peterson et al. (2011)---conceptual interpretation of niche and geographic projections.
+\end{itemize}
+
+Paleoclimate projections should be read alongside phylogeographic, paleoecological, fossil, and demographic evidence rather than as stand-alone demonstrations of past occurrence.
+
+\section{Reproducibility and reporting}
+
+\begin{itemize}
+\item Peng (2011)---reproducible research in computational science.
+\item Sandve et al. (2013)---ten practical rules for reproducible computational research.
+\item Wilkinson et al. (2016)---FAIR guiding principles for digital research objects.
+\item Zurell et al. (2020)---standardized reporting of species distribution models.
+\end{itemize}
+
+\section{A recommended study sequence}
+
+\begin{enumerate}
+\item Begin with ecological niche and biogeographic foundations in Peterson et al. (2011).
+\item Read Guisan and Zimmermann (2000) and Franklin (2010) for the development of the modeling framework.
+\item Compare algorithms and evaluation designs through Elith et al. (2006), Fielding and Bell (1997), and Roberts et al. (2017).
+\item Study accessible-area design through Soberón and Peterson (2005) and Barve et al. (2011).
+\item Use Guisan, Thuiller, and Zimmermann (2017) as an integrated methodological reference.
+\item Examine extrapolation and transfer through Elith, Kearney, and Phillips (2010), Owens et al. (2013), and Yates et al. (2018).
+\item Conclude with Zurell et al. (2020) and the reproducibility literature to design a reportable workflow.
+\end{enumerate}
+
+\begin{dica}[title={\faLightbulb\quad A continuing reading practice}]
+Species distribution modeling evolves rapidly. No single book or course exhausts its concepts, algorithms, data products, and applications. Progress depends on critical reading, work with real data, reproducible comparison of methods, and continued integration of ecological theory, quantitative analysis, and conservation practice.
+\end{dica}

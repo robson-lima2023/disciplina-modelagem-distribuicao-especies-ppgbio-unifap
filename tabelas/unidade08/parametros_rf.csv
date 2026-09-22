@@ -1,0 +1,14 @@
+parametro,valor
+num.trees,1000
+mtry,3
+min.node.size,10
+sample.fraction,0.7
+replace,TRUE
+importance,permutation
+probability,TRUE
+classification,TRUE
+n_treino,868
+n_presencas,81
+n_background,787
+n_variaveis,12
+oob_prediction_error,0.0633508345774474

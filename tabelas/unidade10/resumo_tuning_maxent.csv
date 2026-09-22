@@ -1,0 +1,2 @@
+modelo,dominio_calibracao,n_modelos_testados,n_modelos_validos,melhor_fc,melhor_regmult,melhor_auc_treino,melhor_auc_teste,melhor_delta_auc,melhor_n_coef,melhor_score,n_variaveis,n_treino,n_teste,n_presencas_treino,n_background_treino,n_presencas_teste,n_background_teste
+MaxEnt,Bioma Amazônia,24,24,lqh,2,0.8432788993991874,0.8395052001260637,0.003773699273123765,22,0.8300321435929501,12,868,372,81,787,38,334

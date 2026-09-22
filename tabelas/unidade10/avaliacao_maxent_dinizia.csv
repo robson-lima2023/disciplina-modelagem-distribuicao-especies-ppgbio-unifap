@@ -1,0 +1,2 @@
+modelo,dominio_calibracao,AUC_treino,AUC_teste_random_split,diferenca_treino_teste,diagnostico_sobreajuste,interpretacao_AUC_teste,limiar_TSS,TSS,Kappa,Brier_teste,sensibilidade,especificidade,acuracia,TP,TN,FP,FN,n_teste,n_presencas_teste,n_background_teste,n_variaveis
+MaxEnt_maxnet,Bioma Amazônia,0.8432788993991874,0.8396627797037504,0.00361611969543707,Baixo,Muito boa,0.52,0.5505830444374409,0.3195536857508687,0.1589888601012332,0.7631578947368421,0.7874251497005988,0.7849462365591398,29,263,71,9,372,38,334,12

@@ -1,0 +1,13 @@
+variavel,variavel_legenda,importancia,importancia_relativa
+bio3_isotermalidade,Bio3 isotermalidade,0,0
+bio4_sazonalidade_temperatura,Bio4 sazonalidade temperatura,0.7821029509521664,0
+bio5_temp_max_mes_quente,Bio5 temp max mes quente,0.4209766594877997,0
+bio8_temp_media_trimestre_umido,Bio8 temp media trimestre umido,0.0027658227254834244,0
+bio12_precipitacao_anual,Bio12 precipitacao anual,0.8657716063925098,0
+bio13_precipitacao_mes_umido,Bio13 precipitacao mes umido,0.1260259226844338,0
+bio14_precipitacao_mes_seco,Bio14 precipitacao mes seco,0.6862199157320563,0
+bio18_precipitacao_trimestre_quente,Bio18 precipitacao trimestre quente,0.7181616212331475,0
+bio19_precipitacao_trimestre_frio,Bio19 precipitacao trimestre frio,0.39946178211797767,0
+elevacao,Elevacao,0.7881570081676333,0
+declividade,Declividade,0.329308710261486,0
+orientacao,Orientacao,0.11535860087414007,0

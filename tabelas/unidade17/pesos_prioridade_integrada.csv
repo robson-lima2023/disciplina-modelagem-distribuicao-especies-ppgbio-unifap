@@ -1,0 +1,5 @@
+componente,peso,interpretacao
+prioridade_atual,0.35,Adequabilidade atual alta e baixa incerteza
+estabilidade_futura,0.25,Manutenção da adequabilidade sob cenários futuros
+refugios_historicos,0.25,Estabilidade histórica/paleoclimática
+baixa_incerteza,0.15,Confiabilidade espacial das projeções

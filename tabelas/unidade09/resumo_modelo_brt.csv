@@ -1,0 +1,2 @@
+modelo,dominio_calibracao,n_trees_max,best_trees,interaction_depth,shrinkage,bag_fraction,n_minobsinnode,cv_folds,n_treino,n_presencas,n_background,n_variaveis
+Boosted Regression Trees,Bioma Amazônia,5000,2067,2,0.005,0.65,10,5,868,81,787,12

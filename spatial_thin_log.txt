@@ -1,0 +1,70 @@
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Sat Jun 13 00:30:03 2026
+There appear to be more than one species name in this *.csv file.
+Only using species name: Bradypus variegatus Schinz, 1825
+
+Thinning Parameter Used (in km): 25
+Number of replicates of thinning script: 100
+
+Elapsed time for thinning completion
+179.21 31.17 211.55 NA NA
+
+Number of data.frames per locations retained
+loc.cnt df.freq
+520	521	522	523	524	525	526
+7	15	31	22	16	8	1
+Maximum number of records after thinning: 526
+Number of data.frames with max records: 1
+No files written for this run.
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Sun Jun 14 18:29:47 2026
+
+Thinning Parameter Used (in km): 10
+Number of replicates of thinning script: 1
+
+Elapsed time for thinning completion
+0 0 0 NA NA
+
+Number of data.frames per locations retained
+loc.cnt df.freq
+120
+1
+Maximum number of records after thinning: 120
+Number of data.frames with max records: 1
+No files written for this run.
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Sun Jun 14 18:32:06 2026
+
+Thinning Parameter Used (in km): 10
+Number of replicates of thinning script: 1
+
+Elapsed time for thinning completion
+0 0 0 NA NA
+
+Number of data.frames per locations retained
+loc.cnt df.freq
+120
+1
+Maximum number of records after thinning: 120
+Number of data.frames with max records: 1
+No files written for this run.
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Sun Jun 14 18:34:18 2026
+
+Thinning Parameter Used (in km): 10
+Number of replicates of thinning script: 1
+
+Elapsed time for thinning completion
+0 0 0 NA NA
+
+Number of data.frames per locations retained
+loc.cnt df.freq
+120
+1
+Maximum number of records after thinning: 120
+Number of data.frames with max records: 1
+No files written for this run.

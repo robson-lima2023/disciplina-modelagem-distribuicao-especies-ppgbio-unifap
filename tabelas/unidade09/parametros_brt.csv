@@ -1,0 +1,12 @@
+parametro,valor
+n.trees.max,5000
+best.trees,2067
+interaction.depth,2
+shrinkage,0.005
+bag.fraction,0.65
+n.minobsinnode,10
+cv.folds,5
+n_treino,868
+n_presencas,81
+n_background,787
+n_variaveis,12

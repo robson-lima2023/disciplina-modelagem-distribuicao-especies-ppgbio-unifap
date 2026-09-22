@@ -1,0 +1,112 @@
+\chapter[Final considerations]{Final Considerations}
+
+\begin{objetivos}
+By the end of this chapter, readers should be able to view species distribution modeling as an integrative field spanning ecology, biogeography, statistics, spatial data science, climate change, and conservation; synthesize the principal methodological decisions developed throughout the book; evaluate the capabilities and limitations of SDMs; and formulate responsible ecological interpretations from spatial models.
+\end{objetivos}
+
+\section{Synthesis of the book}
+
+This book presents species distribution modeling in R as a complete, critical, and reproducible scientific workflow. It begins with ecological-niche theory and progresses through occurrence data, environmental predictors, multicollinearity, accessible-area and background design, statistical and machine-learning algorithms, presence--background modeling, ensembles, evaluation, future projections, paleoclimate, extrapolation, uncertainty, conservation, and reproducible research.
+
+The case study of \textit{Dinizia excelsa} demonstrates that an SDM is not simply a technique for producing an environmental-suitability map. It is a chain of inference linking ecological hypotheses, spatial data, niche theory, sampling processes, methodological choices, statistical evaluation, geographic transfer, and biogeographic interpretation.
+
+\begin{conceito}[title={\faBook\quad Central message}]
+A strong SDM is not defined by an attractive map or a single performance metric. It depends on alignment among the ecological question, data-generating process, accessible area, predictors, model complexity, independent evaluation, transferability, uncertainty, and the intended interpretation or decision.
+\end{conceito}
+
+\section{From ecological niche to geographic space}
+
+Species distributions are not determined by climate alone. Occurrence reflects abiotic conditions, biotic interactions, historical accessibility, dispersal, demographic processes, disturbance, and evolutionary history. The BAM framework emphasizes that observed distribution is only one outcome of these interacting constraints and that \(M\) influences the contrasts learned during calibration.
+
+The distinction between environmental and geographic space is fundamental. Models learn associations from samples embedded in environmental space and then map those associations geographically. Spatial patterns may reflect ecological mechanisms, environmental availability, autocorrelation, sampling effort, or the geometry of the study region. Interpretation must therefore return to the original question and the deployment domain.
+
+\section{Occurrence data and analytical responsibility}
+
+Occurrence records from inventories, herbaria, public databases, and platforms such as GBIF are scientifically valuable but imperfect. Taxonomic errors, imprecise coordinates, duplicates, temporal mismatch, raster-cell duplication, and spatial sampling bias can affect every subsequent result.
+
+Data cleaning is consequently part of inference, not clerical preparation. Taxonomic verification, coordinate diagnostics, transparent exclusions, spatial thinning where justified, effort assessment, and a complete attrition record improve credibility. Cleaning rules must not be optimized against the final evaluation outcome.
+
+\begin{atencao}[title={\faExclamationTriangle\quad Data quality precedes model complexity}]
+No algorithm compensates for unsuitable data, an unjustified accessible area, or incoherent predictors. In SDM, inferential quality is determined before as well as during model fitting.
+\end{atencao}
+
+\section{Environmental predictors and ecological interpretation}
+
+Predictors connect species ecology to model structure, but a statistically important variable is not automatically a causal mechanism. It may represent a relevant environmental gradient, act as a proxy for an unmeasured driver, share information with correlated predictors, or encode the geography of sampling.
+
+Predictor choice should combine ecological hypotheses, scale, data support, redundancy, and transfer requirements. Correlation, VIF, and PCA answer different questions. Parsimony is valuable when it improves interpretability and transferability, but arbitrary removal can omit important dimensions. Any data-dependent selection must be nested within training resamples.
+
+\section{Algorithms as operational hypotheses}
+
+GLM, GAM, Random Forest, BRT, and Maxent represent different ways to estimate occurrence--environment relationships. GLMs emphasize a specified response form; GAMs estimate penalized smooth responses; Random Forest and BRT capture nonlinearities and interactions through tree ensembles; and Maxent-type methods estimate relative occurrence or suitability from presence and background data.
+
+No algorithm is universally superior. Complexity can improve flexibility while increasing sensitivity to tuning, sample size, and extrapolation. Comparison should therefore include discrimination, calibration where meaningful, response behavior, spatial error, stability, novelty, and transfer performance.
+
+\begin{conceito}[title={\faBook\quad Algorithms as operational hypotheses}]
+Each algorithm encodes assumptions about how the observed response relates to the environment. Comparing algorithms evaluates the robustness of conclusions to model structure; it should not become an automatic search for the largest AUC.
+\end{conceito}
+
+\section{Evaluation, thresholds, and binary maps}
+
+No single metric provides a complete evaluation. AUC measures ranking discrimination; TSS and confusion-matrix measures depend on a threshold and evaluation design; the Brier score concerns squared probabilistic error when predictions have a probability interpretation; calibration addresses agreement between predicted and observed frequencies; and presence-only measures have their own sampling assumptions.
+
+Continuous predictions may be thresholded to summarize potential area, stability, loss, gain, or representation. These categories inherit the threshold's assumptions and uncertainty. Binary maps are analytical and decision tools, not definitive maps of species presence and absence. Spatially structured or genuinely independent evaluation is normally more relevant to geographic transfer than random partitions.
+
+\section{Future projections and climate change}
+
+Future SDM projections explore conditional changes under specified GCMs, SSPs, periods, and model assumptions. SSP-based pathways are not deterministic forecasts. A future map should be read as an if--then statement: if the fitted association remains informative, if the stated climate trajectory and GCM are realized, and if omitted ecological processes do not overturn the response, then environmental suitability may change in the mapped direction.
+
+Uncertainty arises from present data, algorithms, calibration, GCMs, downscaling, pathways, periods, land-use assumptions, dispersal, and extrapolation. Reporting only an ensemble mean conceals this hierarchy.
+
+\section{Paleoclimate and biogeographic history}
+
+Paleoclimate transfer connects contemporary climatic associations with reconstructed conditions during the mid-Holocene, Last Glacial Maximum, or Last Interglacial. It can identify candidates for climatic stability and generate hypotheses about historical connectivity or persistence.
+
+Paleoclimate projections do not demonstrate past occurrence or refugia. Such claims require independent evidence from paleoecology, fossils, phylogeography, population genetics, or demography. Variation among different time periods is an ecological temporal signal; uncertainty within a time slice should be assessed across plausible reconstructions and modeling choices.
+
+\section{Transfer, extrapolation, and evidential support}
+
+Spatial and temporal transfer can encounter environmental values or multivariate combinations absent from calibration. MESS, MOP, and related methods diagnose environmental novelty; they do not directly estimate prediction error. High agreement among algorithms is not strong evidence when every algorithm is extrapolating in the same unsupported region.
+
+\begin{atencao}[title={\faExclamationTriangle\quad High suitability is not high confidence}]
+A cell may receive a high suitability score while exhibiting strong environmental novelty, scenario disagreement, or sensitivity to model structure. Suitability and evidential support must be communicated separately.
+\end{atencao}
+
+Uncertainty components should retain their distinct meanings. Algorithmic disagreement, scenario sensitivity, climate-model spread, sampling variation, and novelty cannot be added as if they were automatically commensurable variances. An integrated caution index is useful only when its transformations, weights, dependencies, and sensitivity are explicit.
+
+\section{Conservation applications}
+
+In conservation, SDMs are evidence layers rather than final answers. Spatial planning may combine modeled suitability, future persistence, candidate historical stability, habitat condition, connectivity, threats, protected-area representation, costs, feasibility, uncertainty, and field knowledge.
+
+For an Amazonian tree such as \textit{Dinizia excelsa}, these products can guide surveys, monitoring, restoration assessment, seed-source planning, protection-gap analysis, and systematic conservation planning. Decisions additionally require legal and social analysis, stakeholder participation, and respect for the rights and knowledge of Indigenous Peoples and local communities.
+
+\section{Principles for defensible SDM studies}
+
+\begin{enumerate}
+\item Define the ecological question, target response, domain, period, and intended deployment before modeling.
+\item Audit taxonomy, coordinates, sampling effort, temporal compatibility, and record provenance.
+\item Define and justify the accessible area \(M\).
+\item Select predictors using ecological rationale, scale, support, and transfer objectives.
+\item Address redundancy and multicollinearity without leaking evaluation information.
+\item Compare model structures and complexity using pre-specified tuning rules.
+\item Separate training, tuning, and independent evaluation spatially and analytically.
+\item Interpret metrics together with calibration, maps, response curves, and spatial errors.
+\item Diagnose novelty and disclose clamping in every spatial or temporal transfer.
+\item Preserve distinct sources of uncertainty and evaluate sensitivity to analytical choices.
+\item Make code, provenance, dependencies, metadata, and decisions reproducible under appropriate access conditions.
+\item Align claims with the model output and communicate limitations plainly.
+\end{enumerate}
+
+\section{Limitations and future directions}
+
+SDMs remain simplifications of ecological reality. Dispersal, demography, biotic interactions, human disturbance, land-use change, phenotypic plasticity, local adaptation, and evolutionary change are often absent or represented indirectly.
+
+Promising directions include integration with demographic and dynamic range models, genomics, traits, LiDAR and other remote sensing, permanent forest inventories, joint species models, connectivity, deforestation scenarios, causal designs, and systematic conservation planning. For Amazonia, these integrations are urgent under interacting climate change, fragmentation, fire, extraction, and biodiversity loss. Methodological novelty should remain subordinate to a clear ecological question and verifiable evidence.
+
+\section{Final message}
+
+Species distribution modeling transforms dispersed occurrence and environmental observations into spatial hypotheses for research, teaching, and conservation. Its strength lies not in an algorithm alone but in the coherence and transparency of the full scientific process.
+
+\begin{conceito}[title={\faLeaf\quad Final reflection}]
+Modeling a species distribution is an attempt to understand how life occupies space under environmental, historical, and dispersal constraints. In a changing world, carefully designed SDMs can reveal risk, identify testable conservation opportunities, and support more responsible decisions---provided that uncertainty and limits remain visible.
+\end{conceito}

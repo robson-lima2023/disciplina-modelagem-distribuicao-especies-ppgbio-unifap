@@ -1,0 +1,2 @@
+modelo,dominio_calibracao,feature_classes,regularization_multiplier,auc_treino,n_treino,n_presencas,n_background,n_variaveis,n_coeficientes_total,n_coeficientes_nao_zero
+MaxEnt,Bioma Amazônia,lqh,2,0.8432788993991874,868,81,787,12,22,22

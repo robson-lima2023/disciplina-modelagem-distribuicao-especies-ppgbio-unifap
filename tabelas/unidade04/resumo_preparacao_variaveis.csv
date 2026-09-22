@@ -1,0 +1,7 @@
+produto,n
+Camadas ambientais no raster da Unidade 3,12
+"Variáveis ambientais comuns ao raster, background e ocorrências",12
+Variáveis do raster ausentes no background,0
+Variáveis do raster ausentes nas ocorrências,0
+Pixels/background disponíveis após remoção de NA,10000
+Ocorrências com valores ambientais após remoção de NA,119

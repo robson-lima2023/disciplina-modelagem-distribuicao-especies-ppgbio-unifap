@@ -1,0 +1,4 @@
+camada,arquivo,origem,arquivo_origem
+adequabilidade_atual,dados/unidade17/processados/adequabilidade_atual_conservacao.tif,Unidade 11 - ensemble atual,resultados/unidade11/ensemble_media_simples_dinizia.tif
+incerteza_integrada,dados/unidade17/processados/incerteza_integrada_conservacao.tif,Unidade 16 - incerteza integrada,resultados/unidade16/incerteza_integrada_dinizia.tif
+areas_protegidas,dados/unidade17/processados/areas_protegidas_area_m.gpkg,sem_arquivo_local,NA

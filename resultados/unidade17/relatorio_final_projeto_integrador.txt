@@ -1,0 +1,17 @@
+RELATÓRIO FINAL - PROJETO INTEGRADOR DE SDM
+====================================================
+
+Melhor modelo segundo AUC: Random Forest
+AUC do melhor modelo: 0.996
+
+Produtos gerados:
+- Dados simulados de ocorrência e ambiente;
+- Modelos GLM, GAM, Random Forest e BRT;
+- Ensemble médio;
+- Mapa de incerteza entre algoritmos;
+- Projeções futuras simuladas;
+- Mapas de mudança de adequabilidade;
+- Tabelas de avaliação e síntese.
+
+Interpretação:
+O projeto integrador demonstra o fluxo completo de SDM em R, desde a preparação dos dados até produtos aplicados à conservação. Os resultados devem ser interpretados como exercício didático reprodutível, com foco na lógica científica e computacional do pipeline.

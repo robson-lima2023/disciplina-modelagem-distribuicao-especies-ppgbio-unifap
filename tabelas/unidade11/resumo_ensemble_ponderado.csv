@@ -1,0 +1,2 @@
+produto,criterio_ponderacao,modelos_incluidos,n_modelos,n_pixels,minimo,primeiro_quartil,mediana,media,terceiro_quartil,maximo,desvio_padrao
+Ensemble ponderado por desempenho,Peso proporcional a AUC - 0.5,"MaxEnt, GLM, BRT, GAM, RF",5,12053,0.0036682684388111325,0.04359207651690326,0.08692211999056403,0.12761732898976366,0.17783531642432251,0.7983419573896254,0.11850574048190995

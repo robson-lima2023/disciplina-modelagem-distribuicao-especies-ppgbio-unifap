@@ -1,0 +1,11 @@
+metrica_normalizada,metrica_original,direcao,peso
+AUC_n,AUC,maior_melhor,0.19999999999999998
+TSS_n,TSS,maior_melhor,0.1909090909090909
+Kappa_n,Kappa,maior_melhor,0.1636363636363636
+Acuracia_n,Acuracia,maior_melhor,0.07272727272727272
+Sensibilidade_n,Sensibilidade,maior_melhor,0.09090909090909091
+Especificidade_n,Especificidade,maior_melhor,0.09090909090909091
+Precisao_n,Precisao,maior_melhor,0.054545454545454536
+F1_n,F1,maior_melhor,0.054545454545454536
+Brier_n,Brier,menor_melhor,0.0818181818181818
+Boyce_n,Boyce,maior_melhor,0

@@ -1,0 +1,2 @@
+modelo,dominio_calibracao,AUC,limiar_TSS,TSS,sensibilidade,especificidade,acuracia,TP,TN,FP,FN,n_teste,n_presencas_teste,n_background_teste
+GLM,Bioma Amazônia,0.8395052001260637,0.13,0.5535770564134888,0.7631578947368421,0.7904191616766467,0.7876344086021505,29,264,70,9,372,38,334

@@ -1,0 +1,7 @@
+cenario,classe,n,proporcao
+SSP126,Estabilidade,12000,1
+SSP245,Estabilidade,12000,1
+SSP370,Estabilidade,11994,0.9995
+SSP370,Perda,6,5e-4
+SSP585,Estabilidade,11023,0.9185833333333333
+SSP585,Perda,977,0.08141666666666666

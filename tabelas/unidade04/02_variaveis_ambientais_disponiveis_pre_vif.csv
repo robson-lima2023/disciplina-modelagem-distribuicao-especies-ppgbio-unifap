@@ -1,0 +1,13 @@
+ordem,variavel
+1,bio3_isotermalidade
+2,bio4_sazonalidade_temperatura
+3,bio5_temp_max_mes_quente
+4,bio8_temp_media_trimestre_umido
+5,bio12_precipitacao_anual
+6,bio13_precipitacao_mes_umido
+7,bio14_precipitacao_mes_seco
+8,bio18_precipitacao_trimestre_quente
+9,bio19_precipitacao_trimestre_frio
+10,elevacao
+11,declividade
+12,orientacao

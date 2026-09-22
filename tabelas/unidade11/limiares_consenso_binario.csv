@@ -1,0 +1,6 @@
+modelo,limiar,origem_limiar
+GLM,0.13,limiar_TSS
+GAM,0.13,limiar_TSS
+RF,0.14,limiar_TSS
+BRT,0.08,limiar_TSS
+MaxEnt,0.52,limiar_TSS

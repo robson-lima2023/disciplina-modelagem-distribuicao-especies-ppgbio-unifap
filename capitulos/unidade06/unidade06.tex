@@ -1,0 +1,648 @@
+% ============================================================
+% UNIDADE 06 — MODELOS LINEARES GENERALIZADOS EM SDM
+% ============================================================
+
+\chapter{Modelos Lineares Generalizados em SDM: GLM}
+
+\begin{objetivos}
+	Ao final desta unidade, o estudante deverá ser capaz de:
+	
+	\begin{itemize}
+		\item compreender os fundamentos estatísticos e ecológicos dos Modelos Lineares Generalizados;
+		\item diferenciar regressão linear clássica e regressão logística;
+		\item interpretar a função logit, os odds e os log-odds em estudos de distribuição de espécies;
+		\item compreender como registros de presença, pseudo-ausências, background e variáveis ambientais são integrados em um GLM;
+		\item interpretar coeficientes lineares e quadráticos sob uma perspectiva ecológica;
+		\item avaliar o desempenho de modelos GLM por meio de AUC, TSS, sensibilidade, especificidade e limiares de adequabilidade;
+		\item interpretar mapas de adequabilidade ambiental produzidos por GLM;
+		\item aplicar os conceitos ao estudo de caso com \textit{Dinizia excelsa} Ducke no bioma Amazônia.
+	\end{itemize}
+\end{objetivos}
+
+\section{Introdução}
+
+Os Modelos Lineares Generalizados, conhecidos internacionalmente como \textit{Generalized Linear Models} ou GLMs, constituem uma das estruturas estatísticas mais importantes da ecologia quantitativa moderna. Sua formulação clássica foi consolidada por \citet{mccullagh1989generalized}, que demonstraram como diferentes tipos de variáveis-resposta poderiam ser analisados dentro de uma estrutura comum, ampliando a regressão linear tradicional para distribuições pertencentes à família exponencial, como normal, binomial, Poisson e gamma. Essa generalização teve enorme impacto nas ciências biológicas, pois muitos fenômenos ecológicos não produzem respostas contínuas e normalmente distribuídas, mas sim presenças e ausências, contagens, proporções, taxas e eventos raros.
+
+Na Modelagem de Distribuição de Espécies, os GLMs ocupam uma posição histórica e metodológica central. Antes da popularização de algoritmos de aprendizado de máquina, como Random Forest, Boosted Regression Trees e Maxent, a regressão logística já era amplamente utilizada para relacionar registros de ocorrência de espécies a gradientes ambientais \citep{guisan2000predictive,franklin2010mapping,guisan2017habitat}. Essa tradição permanece relevante porque os GLMs oferecem uma combinação rara entre simplicidade matemática, rigor estatístico e alta interpretabilidade ecológica. Em vez de apenas produzir boas predições, o GLM permite compreender quais variáveis ambientais aumentam ou reduzem a adequabilidade estimada para uma espécie, em qual direção esses efeitos ocorrem e se tais padrões são coerentes com a biologia do organismo estudado.
+
+Em termos ecológicos, um GLM aplicado à SDM busca responder a uma pergunta fundamental: quais combinações ambientais tornam determinado local mais ou menos adequado para a ocorrência de uma espécie? Essa pergunta conecta diretamente o modelo estatístico à teoria do nicho ecológico. As variáveis ambientais representam dimensões do nicho grinnelliano; os registros de presença indicam locais onde a espécie foi observada; os pontos de background ou pseudo-ausência descrevem o ambiente disponível para comparação; e o modelo ajustado estima a relação entre essas dimensões ambientais e a ocorrência observada \citep{guisan2000predictive,elith2009species,peterson2011ecological}.
+
+No Fluxograma Mestre adotado neste livro, os GLMs aparecem como o primeiro grande algoritmo de modelagem após a preparação dos dados de ocorrência, a definição da área acessível \textit{M}, a seleção de variáveis ambientais e a construção da base presença--background. Essa posição é metodologicamente estratégica. Antes de avançar para modelos mais flexíveis, como GAM, Random Forest, BRT e Maxent, é essencial compreender o GLM porque ele explicita com clareza a lógica estatística que está por trás da modelagem de distribuição: uma resposta biológica é relacionada a preditores ambientais por meio de uma função matemática que transforma o espaço ambiental em uma superfície espacial de adequabilidade.
+
+A principal força dos GLMs está em sua interpretabilidade. Diferentemente de muitos algoritmos de aprendizado de máquina, nos quais a relação entre entrada e saída pode se tornar menos transparente, o GLM permite examinar explicitamente o sinal, a magnitude e a incerteza dos efeitos estimados. Um coeficiente positivo indica aumento dos log-odds de ocorrência ao longo de determinado gradiente ambiental; um coeficiente negativo indica redução; e termos quadráticos permitem representar respostas não lineares, como curvas unimodais, frequentemente esperadas em ecologia de nicho \citep{austin2002spatial,guisan2002generalized,zuur2009mixed}.
+
+No estudo de caso desta unidade, o GLM será utilizado para modelar a adequabilidade ambiental de \textit{Dinizia excelsa} Ducke no bioma Amazônia. A espécie, uma árvore amazônica de grande porte, apresenta distribuição associada a determinados contextos climáticos, topográficos e biogeográficos. Os resultados produzidos pelos scripts refinados indicaram maiores valores de adequabilidade no Escudo das Guianas, especialmente no norte do Amapá, além de áreas adequadas no oeste amazônico. Esses padrões não devem ser interpretados apenas como manchas cartográficas, mas como expressão espacial das relações estimadas entre ocorrência da espécie e gradientes ambientais selecionados previamente por correlação, PCA, VIF e avaliação ecológica.
+
+Assim, esta unidade trata o GLM não apenas como uma rotina computacional em R, mas como uma ponte entre teoria ecológica, inferência estatística e representação espacial do nicho ambiental. O objetivo é que o leitor compreenda como uma equação relativamente simples pode ser utilizada para transformar dados de ocorrência e camadas ambientais em mapas interpretáveis de adequabilidade, preservando o vínculo entre ecologia, estatística e biogeografia.
+
+\section{Regressão linear versus regressão logística}
+
+A regressão linear clássica foi desenvolvida para modelar uma variável-resposta contínua em função de uma ou mais variáveis explicativas. Em sua forma mais simples, o modelo pode ser representado por:
+
+\begin{equation}
+	Y_i = \beta_0 + \beta_1X_i + \varepsilon_i
+\end{equation}
+
+\noindent em que $Y_i$ representa a resposta observada na unidade amostral $i$, $X_i$ representa uma variável explicativa, $\beta_0$ é o intercepto, $\beta_1$ é o coeficiente angular e $\varepsilon_i$ representa o erro aleatório. Esse tipo de modelo pressupõe que a resposta seja contínua, que os resíduos sejam aproximadamente normais, que a variância seja constante e que as predições possam assumir valores ao longo da escala real.
+
+Em ecologia, a regressão linear é adequada para variáveis como biomassa, altura de árvores, produtividade primária, riqueza de espécies ou estoque de carbono. No entanto, ela se torna inadequada quando a variável-resposta é binária, como ocorre em muitos estudos de distribuição de espécies. Nesse caso, a resposta assume apenas dois estados possíveis:
+
+\begin{equation}
+	Y_i =
+	\begin{cases}
+		1, & \text{se a espécie está presente} \\
+		0, & \text{se a espécie está ausente, ou representada por pseudo-ausência/background}
+	\end{cases}
+\end{equation}
+
+Aplicar regressão linear diretamente a dados binários gera problemas conceituais e estatísticos importantes. Primeiro, o modelo pode produzir valores preditos menores que zero ou maiores que um, o que não faz sentido quando a resposta é interpretada como probabilidade ou adequabilidade. Segundo, a variância de uma variável binária não é constante, pois depende da própria probabilidade de ocorrência. Terceiro, os resíduos não seguem distribuição normal, uma vez que a resposta é governada por uma distribuição Bernoulli ou binomial \citep{mccullagh1989generalized,hosmer2013applied,zuur2009mixed}.
+
+A regressão logística resolve esses problemas ao modelar não a probabilidade diretamente, mas uma transformação dessa probabilidade. Em vez de assumir que a relação entre ambiente e ocorrência é linear na escala de probabilidade, a regressão logística assume que a relação linear ocorre na escala dos log-odds:
+
+\begin{equation}
+	\text{logit}(p_i) =
+	\log\left(\frac{p_i}{1-p_i}\right)
+	=
+	\beta_0 + \beta_1X_{1i} + \beta_2X_{2i} + \cdots + \beta_kX_{ki}
+\end{equation}
+
+\noindent em que $p_i$ representa a probabilidade estimada de ocorrência, ou, no contexto presença--background, um índice de adequabilidade ambiental associado à chance relativa de presença. A transformação inversa permite retornar à escala entre zero e um:
+
+\begin{equation}
+	p_i =
+	\frac{e^{\eta_i}}{1 + e^{\eta_i}}
+\end{equation}
+
+\noindent sendo:
+
+\begin{equation}
+	\eta_i =
+	\beta_0 + \beta_1X_{1i} + \beta_2X_{2i} + \cdots + \beta_kX_{ki}
+\end{equation}
+
+Essa formulação garante que os valores preditos permaneçam sempre no intervalo entre zero e um. Em SDM, essa propriedade é essencial, pois o produto final geralmente é uma superfície espacial contínua de adequabilidade ambiental. Cada célula raster recebe uma estimativa derivada dos valores ambientais locais, permitindo transformar relações estatísticas ajustadas no espaço ambiental em mapas de distribuição potencial no espaço geográfico \citep{franklin2010mapping,guisan2017habitat}.
+
+No caso de \textit{Dinizia excelsa}, o GLM estimou a adequabilidade ambiental em cada célula do bioma Amazônia. Locais com combinações ambientais semelhantes às observadas nos pontos de presença receberam valores mais altos, enquanto locais ambientalmente distintos receberam valores mais baixos. Portanto, a regressão logística funcionou como um mecanismo de tradução entre três componentes fundamentais da SDM: os registros biológicos, os gradientes ambientais e a projeção espacial da adequabilidade.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\textwidth]{figuras/unidade06_regressao_linear_logistica.png}
+	\caption{Comparação conceitual entre regressão linear e regressão logística. A regressão linear é adequada para respostas contínuas e pode produzir valores fora do intervalo entre zero e um quando aplicada a dados binários. A regressão logística utiliza a função logit para modelar respostas binárias, garantindo predições compatíveis com probabilidades ou índices de adequabilidade ambiental.}
+	\label{fig:unidade06_regressao_linear_logistica}
+\end{figure}
+
+\section{Fundamentos matemáticos dos GLMs}
+
+Um Modelo Linear Generalizado é composto por três elementos fundamentais: o componente aleatório, o componente sistemático e a função de ligação. Essa estrutura permite modelar diferentes tipos de respostas ecológicas sem abandonar a lógica central da regressão, isto é, a relação entre uma variável-resposta e um conjunto de preditores \citep{mccullagh1989generalized,zuur2009mixed}.
+
+O componente aleatório define a distribuição probabilística da variável-resposta. Em estudos de SDM baseados em presença e pseudo-ausência ou presença e background, a resposta é geralmente tratada como binária. Nesse caso, assume-se que:
+
+\begin{equation}
+	Y_i \sim \text{Bernoulli}(p_i)
+\end{equation}
+
+\noindent ou, de forma equivalente, em agrupamentos binomiais:
+
+\begin{equation}
+	Y_i \sim \text{Binomial}(n_i, p_i)
+\end{equation}
+
+\noindent Isso significa que cada observação possui uma probabilidade $p_i$ de representar presença e uma probabilidade $1-p_i$ de representar ausência, pseudo-ausência ou background. Essa estrutura é adequada para dados de ocorrência porque reconhece que a resposta observada é discreta e probabilística, e não uma medida contínua sujeita a erro normal.
+
+O componente sistemático corresponde ao preditor linear, isto é, à combinação das variáveis ambientais com seus respectivos coeficientes:
+
+\begin{equation}
+	\eta_i =
+	\beta_0 +
+	\sum_{j=1}^{k}\beta_jX_{ji}
+\end{equation}
+
+\noindent em que $\eta_i$ representa o preditor linear da observação $i$, $\beta_0$ é o intercepto, $\beta_j$ são os coeficientes estimados e $X_{ji}$ representa o valor da variável ambiental $j$ na observação $i$. Em SDM, essas variáveis podem incluir precipitação anual, sazonalidade da temperatura, temperatura máxima do mês mais quente, declividade, elevação, orientação do relevo e outras dimensões ambientais relevantes para a distribuição da espécie.
+
+A função de ligação conecta o valor esperado da resposta ao preditor linear. No caso binomial, a ligação mais frequentemente utilizada é a função logit:
+
+\begin{equation}
+	g(p_i) =
+	\log\left(\frac{p_i}{1-p_i}\right)
+\end{equation}
+
+Assim, a estrutura completa do GLM binomial com ligação logit pode ser representada por:
+
+\begin{equation}
+	Y_i \sim \text{Bernoulli}(p_i)
+\end{equation}
+
+\begin{equation}
+	\log\left(\frac{p_i}{1-p_i}\right)
+	=
+	\beta_0 +
+	\sum_{j=1}^{k}\beta_jX_{ji}
+\end{equation}
+
+Essa equação é simples, mas extremamente poderosa. Ela afirma que a ocorrência de uma espécie pode ser modelada como uma função probabilística de gradientes ambientais. Para a Modelagem de Distribuição de Espécies, isso significa que cada célula de um raster ambiental pode receber uma estimativa de adequabilidade com base na combinação local de variáveis ambientais.
+
+No estudo de caso com \textit{Dinizia excelsa}, o modelo foi ajustado com termos lineares e quadráticos. A inclusão de termos quadráticos é particularmente importante em ecologia, pois muitas espécies não respondem aos gradientes ambientais de maneira indefinidamente crescente ou decrescente. Frequentemente, há faixas ótimas de temperatura, precipitação ou altitude, acima e abaixo das quais a adequabilidade diminui \citep{austin2002spatial,guisan2002generalized}. Essa expectativa é coerente com a teoria do nicho de Hutchinson, segundo a qual uma espécie ocupa uma região delimitada do espaço ambiental multidimensional.
+
+Um GLM com termo quadrático pode ser representado por:
+
+\begin{equation}
+	\text{logit}(p_i) =
+	\beta_0 + \beta_1X_i + \beta_2X_i^2
+\end{equation}
+
+Quando $\beta_1$ e $\beta_2$ possuem sinais opostos, a resposta resultante pode assumir forma unimodal, indicando a existência de um ótimo ambiental. Esse tipo de resposta é biologicamente plausível em SDM, pois muitas espécies apresentam maior desempenho ecológico em condições intermediárias de determinado gradiente, com redução da ocorrência em extremos ambientais.
+
+No contexto de \textit{Dinizia excelsa}, a presença de termos quadráticos permite representar padrões como aumento da adequabilidade até determinada faixa de precipitação anual, redução da adequabilidade em ambientes excessivamente secos ou quentes e respostas não lineares associadas à sazonalidade térmica. Portanto, a inclusão de termos quadráticos não deve ser vista apenas como uma decisão estatística, mas como uma forma de aproximar o modelo da lógica ecológica do nicho ambiental.
+
+\section{Função logit e interpretação biológica}
+
+A função logit é o elemento que permite transformar um problema ecológico binário em um modelo estatístico contínuo e interpretável. Para compreendê-la adequadamente, é necessário distinguir três conceitos: probabilidade, odds e log-odds.
+
+A probabilidade de ocorrência é representada por $p$ e varia entre zero e um. Quando $p = 0{,}80$, o modelo estima alta adequabilidade ambiental para a espécie sob determinado conjunto de condições. Quando $p = 0{,}10$, a adequabilidade estimada é baixa. Entretanto, probabilidades possuem limites naturais, o que dificulta modelá-las diretamente por uma combinação linear de variáveis ambientais.
+
+Os odds representam a razão entre a probabilidade de presença e a probabilidade de não presença:
+
+\begin{equation}
+	\text{odds} =
+	\frac{p}{1-p}
+\end{equation}
+
+Quando $p = 0{,}50$, os odds são iguais a um. Quando $p > 0{,}50$, os odds são maiores que um, indicando que a presença é mais provável que a não presença. Quando $p < 0{,}50$, os odds são menores que um, indicando que a não presença é mais provável.
+
+O logit é o logaritmo natural dos odds:
+
+\begin{equation}
+	\text{logit}(p) =
+	\log\left(\frac{p}{1-p}\right)
+\end{equation}
+
+Essa transformação converte uma probabilidade limitada entre zero e um em uma escala contínua que varia de $-\infty$ a $+\infty$. Com isso, torna-se possível relacionar a resposta binária a uma combinação linear de variáveis ambientais sem produzir predições incompatíveis com a escala probabilística.
+
+Biologicamente, um coeficiente positivo em um GLM indica que o aumento da variável ambiental está associado ao aumento dos log-odds de ocorrência, mantendo as demais variáveis constantes. Um coeficiente negativo indica redução dos log-odds. No entanto, em SDM, a interpretação não deve se limitar ao sinal estatístico do coeficiente. É necessário avaliar se a direção do efeito é coerente com a ecologia da espécie, com sua distribuição conhecida, com os mecanismos fisiológicos prováveis e com a estrutura ambiental da área acessível \textit{M} \citep{guisan2000predictive,elith2009species,peterson2011ecological}.
+
+Para \textit{Dinizia excelsa}, o efeito positivo da precipitação anual sugere associação com ambientes úmidos, compatível com sua ocorrência em florestas amazônicas. O efeito negativo da elevação indica maior adequabilidade em terras baixas, padrão coerente com a distribuição de muitas espécies arbóreas amazônicas associadas a paisagens de baixa altitude. Já os efeitos de variáveis como sazonalidade da temperatura, precipitação do mês seco e precipitação do trimestre quente indicam que não apenas o total anual de chuva importa, mas também sua distribuição temporal e sua interação com períodos mais quentes ou mais secos.
+
+Essa interpretação é fundamental porque modelos de distribuição não devem ser tratados como procedimentos puramente preditivos. Um mapa de adequabilidade ambiental é uma hipótese espacial sobre o nicho da espécie. Consequentemente, cada coeficiente estimado pelo GLM deve ser interpretado como parte dessa hipótese. Quando o modelo indica que a adequabilidade aumenta com a precipitação anual, diminui com elevação elevada ou responde de forma unimodal à sazonalidade térmica, ele está sugerindo mecanismos ecológicos que devem ser avaliados à luz do conhecimento biogeográfico, fisiológico e naturalístico da espécie.
+
+Portanto, a função logit não é apenas uma transformação matemática. Ela é o mecanismo que permite converter variações ambientais em mudanças graduais na adequabilidade estimada. Ao compreender essa lógica, o leitor passa a interpretar o GLM não como uma caixa-preta, mas como uma estrutura estatística transparente capaz de conectar dados de ocorrência, gradientes ambientais e teoria ecológica do nicho.
+
+% ============================================================
+% 6.5 GLM APLICADO À MODELAGEM DE DISTRIBUIÇÃO DE ESPÉCIES
+% ============================================================
+
+\section{GLM aplicado à Modelagem de Distribuição de Espécies}
+
+A aplicação de Modelos Lineares Generalizados à Modelagem de Distribuição de Espécies representa uma das primeiras tentativas bem-sucedidas de integrar teoria ecológica, estatística inferencial e análise espacial em um único arcabouço quantitativo \citep{guisan2000predictive,guisan2002generalized,franklin2010mapping}. Embora atualmente existam algoritmos mais flexíveis e frequentemente mais preditivos, os GLMs continuam sendo amplamente utilizados devido à sua robustez estatística, transparência interpretativa e forte conexão com hipóteses ecológicas explícitas.
+
+No contexto da SDM, o objetivo central do GLM é estimar como a probabilidade relativa de ocorrência de uma espécie varia ao longo de gradientes ambientais. O modelo utiliza registros biológicos observados e informações ambientais para identificar associações entre condições ambientais e ocorrência da espécie. A partir dessas associações, torna-se possível projetar o modelo para todo o espaço geográfico de interesse, produzindo superfícies contínuas de adequabilidade ambiental.
+
+No Fluxograma Mestre apresentado no início desta obra, o GLM ocupa uma posição estratégica dentro do processo de modelagem. Antes do ajuste do algoritmo, três componentes fundamentais precisam ter sido adequadamente construídos:
+
+\begin{enumerate}
+	\item definição da área acessível (\textit{M});
+	\item seleção das variáveis ambientais;
+	\item construção da base presença--background ou presença--pseudo-ausência.
+\end{enumerate}
+
+Essas etapas, desenvolvidas nas Unidades anteriores, possuem influência direta sobre o comportamento do modelo. Conforme discutido por \citet{soberon2007grinnellian}, a distribuição observada de uma espécie resulta da interação entre fatores abióticos, fatores bióticos e limitações de dispersão. Consequentemente, o algoritmo não pode corrigir problemas originados em etapas anteriores do fluxo analítico.
+
+No estudo de caso desta unidade, a modelagem foi realizada utilizando os registros limpos e rarefeitos de \textit{Dinizia excelsa}, combinados com pontos de background gerados dentro do bioma Amazônia. As variáveis ambientais utilizadas correspondem ao conjunto previamente selecionado por correlação, PCA, VIF e avaliação ecológica. Essa seleção reduziu problemas de multicolinearidade e garantiu que os preditores mantivessem interpretação biológica plausível.
+
+A base final utilizada no GLM consistiu em uma matriz de dados contendo uma variável-resposta binária (\texttt{presenca}) e um conjunto de variáveis ambientais representando dimensões climáticas e topográficas do nicho da espécie. Cada linha da matriz correspondeu a uma observação biológica (presença ou background) e cada coluna correspondeu a um preditor ambiental.
+
+Do ponto de vista ecológico, essa matriz representa uma amostra do espaço ambiental ocupado e disponível para a espécie. O GLM procura então identificar quais regiões desse espaço ambiental estão associadas a maior frequência de ocorrência. Em termos de teoria do nicho, o modelo busca reconstruir uma aproximação estatística do nicho climático realizado da espécie \citep{peterson2011ecological,elith2009species}.
+
+Uma vez ajustado, o modelo pode ser projetado sobre todas as células raster da área de estudo. Cada célula recebe um valor estimado de adequabilidade ambiental, permitindo transformar relações ambientais observadas localmente em padrões espaciais contínuos. Essa capacidade de extrapolação espacial constitui uma das razões pelas quais os GLMs se tornaram ferramentas fundamentais em estudos de conservação, biogeografia e mudanças climáticas.
+
+% ============================================================
+% 6.6 MÁXIMA VEROSSIMILHANÇA
+% ============================================================
+
+\section{Máxima Verossimilhança}
+
+A estimação dos parâmetros em um GLM não é realizada pelo método dos mínimos quadrados ordinários, como ocorre na regressão linear clássica. Em vez disso, utiliza-se o princípio da Máxima Verossimilhança (\textit{Maximum Likelihood Estimation -- MLE}), uma das abordagens mais importantes da inferência estatística moderna \citep{mccullagh1989generalized,casella2002statistical}.
+
+A lógica da máxima verossimilhança é simples e elegante. Considerando um conjunto de observações biológicas e um modelo estatístico proposto, procura-se identificar os valores dos parâmetros que tornam os dados observados os mais prováveis possíveis.
+
+Em um GLM binomial aplicado à SDM, cada observação possui uma probabilidade estimada de ocorrência:
+
+\begin{equation}
+	p_i
+\end{equation}
+
+Para registros de presença:
+
+\begin{equation}
+	Y_i = 1
+\end{equation}
+
+e para registros de background ou pseudo-ausência:
+
+\begin{equation}
+	Y_i = 0
+\end{equation}
+
+A função de verossimilhança pode ser escrita como:
+
+\begin{equation}
+	L(\beta)=
+	\prod_{i=1}^{n}
+	p_i^{Y_i}
+	(1-p_i)^{(1-Y_i)}
+\end{equation}
+
+Na prática, trabalha-se com o logaritmo da verossimilhança:
+
+\begin{equation}
+	\ell(\beta)=
+	\sum_{i=1}^{n}
+	\left[
+	Y_i\log(p_i)
+	+
+	(1-Y_i)\log(1-p_i)
+	\right]
+\end{equation}
+
+O objetivo do algoritmo é encontrar os coeficientes que maximizam essa função.
+
+Como não existe solução analítica direta para a maioria dos GLMs, a estimação é realizada por métodos numéricos iterativos, geralmente utilizando algoritmos como Newton-Raphson ou Iteratively Reweighted Least Squares (IRLS) \citep{mccullagh1989generalized}.
+
+O processo iterativo continua até que seja atingido um critério de convergência. Nesse ponto, considera-se que os coeficientes encontrados correspondem à combinação mais plausível de parâmetros para explicar os dados observados.
+
+Sob a perspectiva ecológica, a máxima verossimilhança pode ser interpretada como um processo de busca pelo nicho ambiental mais consistente com os registros observados. O algoritmo testa sucessivamente diferentes combinações de coeficientes até encontrar aquela que melhor separa ambientes ocupados e ambientes disponíveis.
+
+Essa abordagem possui uma vantagem importante para SDM: ela permite comparar modelos alternativos por critérios como:
+
+\begin{itemize}
+	\item Deviance;
+	\item AIC (Akaike Information Criterion);
+	\item BIC (Bayesian Information Criterion);
+	\item razão de verossimilhanças.
+\end{itemize}
+
+Essas métricas desempenham papel fundamental na seleção de modelos ecológicos e serão revisitadas ao longo desta obra.
+
+% ============================================================
+% 6.7 INTERPRETAÇÃO DOS COEFICIENTES
+% ============================================================
+
+\section{Interpretação ecológica dos coeficientes}
+
+Uma das maiores vantagens dos GLMs em relação a muitos algoritmos modernos de aprendizado de máquina é a possibilidade de interpretar diretamente os coeficientes estimados. Enquanto modelos como Random Forest ou BRT frequentemente requerem métricas indiretas de importância de variáveis, o GLM fornece estimativas explícitas dos efeitos ambientais sobre a adequabilidade da espécie.
+
+A Figura~\ref{fig:coeficientes_glm} apresenta os coeficientes estimados para o modelo de \textit{Dinizia excelsa}. Os valores estão padronizados na escala logit e incluem termos lineares e quadráticos.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{figuras/unidade06_coeficientes_glm.png}
+	\caption{Coeficientes estimados pelo GLM para \textit{Dinizia excelsa}.}
+	\label{fig:coeficientes_glm}
+\end{figure}
+
+Os maiores efeitos positivos foram observados para:
+
+\begin{itemize}
+	\item sazonalidade da temperatura (Bio4);
+	\item precipitação anual (Bio12);
+	\item declividade.
+\end{itemize}
+
+O efeito positivo da precipitação anual sugere que a espécie está associada a ambientes caracterizados por elevada disponibilidade hídrica ao longo do ano. Esse resultado é coerente com a distribuição conhecida da espécie em florestas ombrófilas amazônicas, onde a precipitação anual frequentemente supera 2.000 mm.
+
+A sazonalidade térmica apresentou o maior efeito positivo do modelo. Embora a Amazônia seja frequentemente considerada climaticamente estável, existem gradientes regionais de sazonalidade associados à continentalidade e à circulação atmosférica. O resultado sugere que \textit{Dinizia excelsa} não está associada às áreas climaticamente mais homogêneas da Amazônia, mas a regiões que apresentam certo grau de variabilidade térmica anual.
+
+A declividade também apresentou associação positiva. Esse resultado pode refletir mecanismos indiretos relacionados à drenagem dos solos, estabilidade hídrica e redução de condições excessivamente inundáveis. Em muitas regiões amazônicas, áreas ligeiramente mais inclinadas apresentam solos melhor drenados que extensas planícies sazonalmente alagáveis.
+
+Entre os efeitos negativos destacaram-se:
+
+\begin{itemize}
+	\item elevação;
+	\item precipitação do mês mais seco (Bio14);
+	\item precipitação do trimestre quente (Bio18).
+\end{itemize}
+
+O efeito negativo da elevação indica preferência por terras baixas amazônicas. Esse padrão é consistente com a distribuição observada da espécie, concentrada predominantemente em regiões de baixa altitude.
+
+O efeito negativo da precipitação do mês mais seco sugere que a espécie pode estar associada a regiões que apresentam uma estação seca relativamente definida. Esse resultado é particularmente interessante porque demonstra que a adequabilidade não depende apenas de elevada precipitação anual, mas também da distribuição sazonal dessa precipitação.
+
+Da mesma forma, o efeito negativo da precipitação do trimestre quente sugere que ambientes excessivamente úmidos durante os períodos mais quentes do ano podem não representar condições ideais para a espécie. Tal padrão pode refletir respostas fisiológicas associadas à dinâmica de crescimento, competição ou estrutura dos solos.
+
+Em conjunto, os coeficientes revelam que o nicho climático de \textit{Dinizia excelsa} é determinado por uma combinação complexa de disponibilidade hídrica, sazonalidade climática e características topográficas.
+
+% ============================================================
+% 6.8 CURVAS DE RESPOSTA PARCIAL
+% ============================================================
+
+\section{Curvas de resposta parcial}
+
+Embora os coeficientes forneçam informações importantes sobre a direção dos efeitos ambientais, eles não permitem visualizar completamente a forma funcional da resposta da espécie aos gradientes ambientais. Para isso, utilizam-se curvas de resposta parcial.
+
+As curvas apresentadas na Figura~\ref{fig:curvas_glm} mostram como a adequabilidade prevista varia ao longo do gradiente de cada variável ambiental, mantendo as demais constantes em seus valores médios.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{figuras/unidade06_curvas_resposta_glm.png}
+	\caption{Curvas de resposta parcial do GLM para \textit{Dinizia excelsa}.}
+	\label{fig:curvas_glm}
+\end{figure}
+
+\subsection*{Bio12 -- Precipitação anual}
+
+A adequabilidade aumenta continuamente com o aumento da precipitação anual, atingindo valores máximos acima de aproximadamente 2.800--3.000 mm anuais. Esse padrão confirma a forte associação da espécie com ambientes altamente úmidos da Amazônia.
+
+\subsection*{Bio13 -- Precipitação do mês mais úmido}
+
+A resposta apresenta baixa amplitude e comportamento relativamente estável. Isso sugere que extremos de precipitação durante o período mais chuvoso possuem influência limitada sobre a distribuição da espécie.
+
+\subsection*{Bio14 -- Precipitação do mês mais seco}
+
+Observa-se redução acentuada da adequabilidade com o aumento da precipitação no mês mais seco. Ecologicamente, isso indica que a espécie está associada a regiões que apresentam alguma sazonalidade hídrica, em vez de ambientes permanentemente úmidos.
+
+\subsection*{Bio18 -- Precipitação do trimestre quente}
+
+A resposta apresenta formato unimodal, com pico em valores intermediários. Isso sugere a existência de um ótimo hídrico durante o período mais quente do ano.
+
+\subsection*{Bio19 -- Precipitação do trimestre frio}
+
+A adequabilidade aumenta até valores intermediários e diminui gradualmente em níveis mais elevados, indicando novamente uma resposta típica de nicho ecológico.
+
+\subsection*{Bio3 -- Isotermalidade}
+
+A curva apresenta formato em ``U'', sugerindo maior adequabilidade em extremos do gradiente e menor adequabilidade em valores intermediários. Esse resultado evidencia relações climáticas complexas entre amplitude térmica diária e sazonal.
+
+\subsection*{Bio4 -- Sazonalidade da temperatura}
+
+A resposta apresenta um claro ótimo ambiental entre aproximadamente 75 e 90 unidades de sazonalidade. Esse padrão reforça a importância da variabilidade térmica observada anteriormente nos coeficientes do modelo.
+
+\subsection*{Bio5 -- Temperatura máxima do mês mais quente}
+
+A adequabilidade diminui à medida que aumentam as temperaturas máximas extremas. Esse resultado sugere que episódios de calor excessivo podem representar um fator limitante para a espécie.
+
+\subsection*{Bio8 -- Temperatura média do trimestre úmido}
+
+A curva apresenta pequena variação, indicando influência relativamente baixa sobre a distribuição atual.
+
+\subsection*{Declividade}
+
+A adequabilidade aumenta gradualmente com a declividade, reforçando a hipótese de associação com ambientes melhor drenados.
+
+\subsection*{Elevação}
+
+A adequabilidade diminui continuamente com o aumento da altitude. Esse é um dos padrões mais consistentes observados no modelo e concorda com a distribuição conhecida da espécie.
+
+\subsection*{Orientação}
+
+A orientação apresentou efeito relativamente fraco, sugerindo influência limitada sobre a distribuição em escala amazônica.
+
+Em conjunto, as curvas de resposta revelam que o nicho ambiental de \textit{Dinizia excelsa} é dominado principalmente por gradientes de precipitação, sazonalidade térmica e topografia. Mais importante ainda, demonstram que muitas respostas são claramente não lineares, justificando a inclusão de termos quadráticos no modelo e evidenciando a importância de representar adequadamente a estrutura ecológica do nicho da espécie.
+
+% ============================================================
+% 6.9 AVALIAÇÃO DO MODELO
+% ============================================================
+
+\section{Avaliação do modelo}
+
+A avaliação de um modelo de distribuição de espécies é uma etapa essencial para verificar se o algoritmo ajustado foi capaz de discriminar, de forma consistente, os ambientes associados às presenças daqueles representados pelo background ou pelas pseudo-ausências. Em SDM, a avaliação não deve ser entendida apenas como um procedimento numérico, mas como uma etapa de validação ecológica e estatística da hipótese espacial produzida pelo modelo \citep{fielding1997review,allouche2006assessing,franklin2010mapping,guisan2017habitat}.
+
+No caso do GLM ajustado para \textit{Dinizia excelsa}, a avaliação foi realizada por meio da curva ROC, da AUC, do TSS, da seleção de limiar ótimo e da comparação entre as distribuições das predições para presenças e background. Esses resultados estão sintetizados na Figura~\ref{fig:avaliacao_glm}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{figuras/unidade06_avaliacao_glm_patchwork.png}
+	\caption{Avaliação do GLM ajustado para \textit{Dinizia excelsa}. A figura apresenta a curva ROC, a seleção do limiar ótimo pelo TSS e a distribuição das predições para presenças e background.}
+	\label{fig:avaliacao_glm}
+\end{figure}
+
+A curva ROC (\textit{Receiver Operating Characteristic}) representa a relação entre sensibilidade e 1 - especificidade ao longo de todos os limiares possíveis de classificação. A sensibilidade mede a proporção de presenças corretamente identificadas pelo modelo, enquanto a especificidade mede a proporção de ausências, pseudo-ausências ou pontos de background corretamente classificados como não adequados. Em modelos de distribuição, essa curva permite avaliar se as presenças tendem a receber valores de adequabilidade superiores aos pontos de background \citep{fielding1997review,pearce2000evaluating}.
+
+O valor de AUC obtido para o GLM de \textit{Dinizia excelsa} foi de 0,84. Esse resultado indica boa capacidade discriminatória, pois valores próximos de 0,5 indicam desempenho semelhante ao acaso, enquanto valores próximos de 1 indicam alta capacidade de separação entre presenças e background. Portanto, o AUC de 0,84 sugere que, em grande parte das comparações pareadas entre um ponto de presença e um ponto de background, o modelo atribuiu maior adequabilidade ao local de presença.
+
+Apesar disso, o AUC deve ser interpretado com cautela. Em estudos presença--background, essa métrica não mede diretamente a probabilidade absoluta de ocorrência, mas sim a capacidade relativa do modelo de ordenar locais observados como mais adequados que locais disponíveis no espaço de calibração \citep{lobo2008auc,peterson2011ecological}. Além disso, o AUC pode ser influenciado pela extensão da área de estudo, pela distribuição espacial das ocorrências, pela escolha do background e pelo grau de separação ambiental entre presenças e pontos disponíveis.
+
+Por essa razão, a avaliação do GLM não foi baseada apenas no AUC. O modelo também foi avaliado pelo TSS (\textit{True Skill Statistic}), uma métrica dependente de limiar que combina sensibilidade e especificidade:
+
+\begin{equation}
+	TSS = Sensibilidade + Especificidade - 1
+\end{equation}
+
+O TSS varia de -1 a 1. Valores próximos de zero indicam desempenho semelhante ao acaso; valores positivos indicam capacidade discriminatória; e valores próximos de 1 indicam excelente desempenho. No modelo ajustado para \textit{Dinizia excelsa}, o melhor valor de TSS foi 0,554, obtido no limiar de adequabilidade igual a 0,13.
+
+Esse valor indica desempenho moderado a bom. Ecologicamente, significa que o modelo conseguiu separar de maneira razoável os ambientes ocupados dos ambientes disponíveis, mas ainda existe sobreposição ambiental entre presenças e background. Essa sobreposição é esperada em estudos de árvores amazônicas, pois muitas espécies ocorrem em gradientes ambientais amplos, possuem registros espacialmente agregados e estão sujeitas a limitações históricas, dispersivas e amostrais que nem sempre são capturadas pelas variáveis climáticas e topográficas utilizadas no modelo.
+
+O limiar ótimo de 0,13 possui interpretação importante. Em SDM, o limiar é utilizado para converter uma superfície contínua de adequabilidade em uma classificação binária, separando áreas consideradas adequadas e inadequadas. O fato de o limiar ótimo ser relativamente baixo indica que muitos pontos de presença de \textit{Dinizia excelsa} foram associados a valores de adequabilidade intermediários ou baixos na escala contínua. Isso pode ocorrer por diferentes razões: presença de ruído nos dados de ocorrência, heterogeneidade ambiental dentro das células raster, limitação das variáveis utilizadas, presença de fatores não modelados, ou ainda porque a escala de adequabilidade do GLM em dados presença--background não deve ser interpretada como probabilidade absoluta de ocorrência.
+
+A distribuição das predições reforça essa interpretação. Os pontos de presença apresentaram valores de adequabilidade claramente superiores aos pontos de background, indicando que o modelo capturou um sinal ecológico consistente. Entretanto, observa-se também alguma sobreposição entre os grupos. Essa sobreposição é informativa: ela indica que parte do background possui condições ambientais semelhantes às das presenças, podendo representar áreas potencialmente adequadas ainda não registradas, áreas historicamente inacessíveis, regiões com baixa amostragem ou locais onde fatores bióticos e históricos impedem a ocorrência da espécie.
+
+Do ponto de vista ecológico, esse resultado é particularmente relevante para \textit{Dinizia excelsa}. A espécie não deve ser interpretada como ocorrendo em toda área climaticamente adequada. A adequabilidade estimada pelo GLM representa apenas a dimensão ambiental modelada do nicho, enquanto a distribuição real depende também de dispersão, história biogeográfica, solos, dinâmica florestal, interações ecológicas, perturbações naturais e antrópicas. Assim, a avaliação do modelo deve ser compreendida como evidência de que o GLM capturou parte importante do gradiente ambiental associado à ocorrência da espécie, mas não como prova de que todas as áreas adequadas estejam efetivamente ocupadas.
+
+Em síntese, os resultados de avaliação indicam que o GLM apresentou bom desempenho discriminatório, com AUC = 0,84, desempenho moderado a bom pelo TSS = 0,554 e limiar ótimo de 0,13. Esses valores sustentam o uso do modelo para interpretação espacial da adequabilidade ambiental atual, desde que os resultados sejam analisados dentro das premissas ecológicas e limitações inerentes à modelagem presença--background.
+
+% ============================================================
+% 6.10 PROJEÇÃO ESPACIAL
+% ============================================================
+
+\section{Projeção espacial da adequabilidade ambiental}
+
+Após o ajuste e a avaliação do GLM, o modelo foi projetado para o bioma Amazônia utilizando as camadas ambientais previamente selecionadas. Essa etapa transforma a equação estatística ajustada no espaço ambiental em uma superfície geográfica contínua de adequabilidade. Cada célula raster recebe um valor entre zero e um, derivado da combinação local de variáveis ambientais e dos coeficientes estimados pelo modelo.
+
+A Figura~\ref{fig:adequabilidade_glm} apresenta o mapa de adequabilidade ambiental estimado pelo GLM para \textit{Dinizia excelsa}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{figuras/unidade06_adequabilidade_glm.png}
+	\caption{Adequabilidade ambiental de \textit{Dinizia excelsa} estimada por GLM no bioma Amazônia. Valores mais altos indicam maior similaridade ambiental com as condições associadas aos registros de presença utilizados na calibração do modelo.}
+	\label{fig:adequabilidade_glm}
+\end{figure}
+
+O padrão espacial estimado pelo GLM revela maior adequabilidade no Escudo das Guianas, especialmente no norte do Amapá. Essa região concentra uma parcela expressiva dos registros de presença e apresenta condições ambientais compatíveis com os principais efeitos estimados pelo modelo: elevada precipitação anual, baixa altitude relativa, algum grau de sazonalidade climática e condições topográficas associadas a melhor drenagem.
+
+A alta adequabilidade no norte do Amapá é ecologicamente plausível. Essa região integra o setor oriental do Escudo das Guianas, caracterizado por extensas florestas de terra firme, relevo suavemente ondulado a montanhoso em alguns setores, elevada cobertura florestal e gradientes ambientais distintos das planícies sedimentares mais extensas da Amazônia central. Para uma espécie arbórea de grande porte como \textit{Dinizia excelsa}, ambientes de terra firme bem drenados podem oferecer condições favoráveis para estabelecimento, crescimento e persistência populacional.
+
+O Escudo das Guianas possui importância biogeográfica singular na Amazônia. Trata-se de uma das formações geológicas mais antigas da América do Sul, com grande heterogeneidade ambiental, alta diversidade florística e forte endemismo regional. A concentração de alta adequabilidade nessa região sugere que o GLM capturou não apenas um sinal climático, mas também um componente biogeográfico associado às condições ambientais típicas desse setor amazônico. Embora o modelo não inclua explicitamente variáveis geológicas ou edáficas detalhadas, parte desses efeitos pode estar indiretamente representada por variáveis topográficas e climáticas.
+
+Além do Amapá, o mapa indica áreas de adequabilidade intermediária a alta em porções do oeste amazônico. Esse padrão pode refletir a presença de ambientes úmidos, de baixa altitude e com regimes climáticos compatíveis com as exigências ambientais estimadas para a espécie. Entretanto, a adequabilidade no oeste aparece mais fragmentada e menos contínua que no Escudo das Guianas. Essa fragmentação pode indicar que, embora existam combinações ambientais favoráveis, elas estão distribuídas em mosaicos ambientais mais heterogêneos ou menos semelhantes ao núcleo ambiental representado pelas ocorrências do norte amazônico.
+
+A presença de áreas adequadas no oeste amazônico deve ser interpretada com cautela. Em termos de SDM, esses locais podem representar áreas potencialmente adequadas, mas não necessariamente ocupadas. A ocorrência real da espécie dependerá de processos históricos de dispersão, conectividade florestal, barreiras biogeográficas, disponibilidade de micro-habitats, solos adequados e dinâmica populacional. Assim, o mapa deve ser lido como uma hipótese de adequabilidade ambiental, não como um inventário de ocorrência.
+
+Por outro lado, grandes porções da Amazônia apresentaram baixa adequabilidade. Esse padrão indica que, segundo o GLM, muitas regiões do bioma não compartilham as combinações ambientais mais fortemente associadas às presenças de \textit{Dinizia excelsa}. Áreas de baixa adequabilidade podem estar relacionadas a altitudes mais elevadas, regimes de precipitação menos favoráveis, temperaturas máximas mais limitantes, sazonalidade hídrica distinta ou combinações topográficas pouco semelhantes às regiões de ocorrência conhecida.
+
+É importante destacar que valores baixos de adequabilidade não significam necessariamente impossibilidade absoluta de ocorrência. Eles indicam apenas que, dentro do conjunto de variáveis utilizadas e do espaço ambiental calibrado, essas áreas são menos semelhantes aos ambientes onde a espécie foi registrada. Em SDM, a ausência de adequabilidade elevada pode resultar tanto de limitações ecológicas reais quanto de limitações dos dados e do modelo.
+
+O mapa também evidencia que a adequabilidade ambiental não acompanha de forma simples a extensão total da floresta amazônica. Embora a Amazônia seja frequentemente tratada como um grande bloco florestal contínuo, a distribuição das espécies arbóreas é fortemente estruturada por gradientes ambientais, históricos e biogeográficos. A projeção do GLM mostra que \textit{Dinizia excelsa} não responde apenas à presença de floresta tropical úmida, mas a uma combinação mais específica de condições climáticas e topográficas.
+
+Esse resultado é coerente com a ideia de que a distribuição de árvores amazônicas é frequentemente regionalizada. Espécies podem apresentar núcleos de maior adequabilidade associados a províncias biogeográficas específicas, mesmo quando o bioma como um todo parece ambientalmente contínuo em escala continental. Portanto, a projeção espacial do GLM ajuda a revelar a estrutura ambiental subjacente à distribuição potencial da espécie.
+
+Do ponto de vista aplicado, o mapa produzido pelo GLM pode orientar novas coletas de campo, priorização de áreas para inventários florísticos, identificação de regiões ambientalmente favoráveis e comparação com modelos mais flexíveis desenvolvidos nas próximas unidades. No entanto, sua interpretação deve considerar as limitações próprias do algoritmo. O GLM tende a produzir respostas mais suaves e generalizadas, podendo subestimar relações ecológicas complexas, interações entre variáveis e descontinuidades ambientais abruptas.
+
+Em síntese, a projeção espacial indica que \textit{Dinizia excelsa} apresenta maior adequabilidade ambiental no Escudo das Guianas, com destaque para o norte do Amapá, além de áreas favoráveis no oeste amazônico. Esse padrão resulta da combinação entre elevada precipitação anual, baixa elevação, sazonalidade térmica e condições topográficas compatíveis com ambientes de terra firme bem drenados. A interpretação ecológica do mapa reforça a importância de compreender a adequabilidade ambiental como uma hipótese espacial sobre o nicho da espécie, e não como uma representação direta e definitiva de sua distribuição real.
+
+% ============================================================
+% 6.11 ESTUDO DE CASO INTEGRADOR
+% ============================================================
+
+\section{Estudo de Caso Integrador: Modelando a distribuição potencial de \textit{Dinizia excelsa} com GLM}
+
+Ao longo das seis primeiras unidades desta obra, foram apresentados os componentes fundamentais necessários para a construção de um modelo de distribuição de espécies robusto, ecologicamente interpretável e estatisticamente consistente. O estudo de caso envolvendo \textit{Dinizia excelsa} Ducke permitiu integrar teoria ecológica, preparação de dados, seleção de variáveis ambientais, definição da área acessível e modelagem estatística em um fluxo analítico único. Nesta seção, sintetizamos esse processo de forma integrada, demonstrando como cada etapa contribuiu para a obtenção do mapa final de adequabilidade ambiental.
+
+O processo iniciou-se com a compreensão do nicho ecológico da espécie, discutido na Unidade 01. Conforme proposto por \citet{hutchinson1957concluding}, a distribuição geográfica observada de uma espécie representa apenas uma manifestação espacial de seu nicho ecológico multidimensional. Em SDM, assume-se que parte desse nicho pode ser inferida a partir das condições ambientais associadas aos registros de ocorrência. Essa premissa constitui a base conceitual da modelagem de distribuição de espécies \citep{peterson2011ecological,elith2009species}.
+
+Na Unidade 02 foram obtidos e preparados os registros de ocorrência da espécie. Os dados passaram por procedimentos de limpeza taxonômica, validação geográfica, remoção de duplicatas e rarefação espacial. Essas etapas reduziram problemas relacionados à autocorrelação espacial, erros de georreferenciamento e viés de amostragem, fatores reconhecidos como importantes fontes de incerteza em SDM \citep{kramer2003spatial,boria2014spatial}.
+
+Posteriormente, na Unidade 03, foi delimitada a área acessível (\textit{M}), conceito formalizado dentro do framework BAM por \citet{soberon2007grinnellian}. A definição adequada de \textit{M} é fundamental porque estabelece o conjunto de ambientes que estiveram potencialmente disponíveis à espécie ao longo de sua história biogeográfica. Uma delimitação excessivamente ampla pode introduzir ambientes ambientalmente irrelevantes, enquanto uma delimitação excessivamente restrita pode limitar artificialmente o nicho estimado.
+
+Na Unidade 04 foram compiladas e avaliadas as variáveis ambientais potencialmente relevantes para explicar a distribuição da espécie. O conjunto inicial foi submetido a análises de correlação, PCA, VIF e avaliação ecológica, resultando em um subconjunto final composto por variáveis climaticamente informativas e estatisticamente independentes. Essa etapa é particularmente importante porque a multicolinearidade pode gerar coeficientes instáveis e interpretações ecológicas equivocadas \citep{dormann2013collinearity}.
+
+A Unidade 05 foi dedicada à construção do conjunto presença--background, etapa essencial para modelos binomiais aplicados à SDM. Os pontos de background foram gerados dentro da área acessível da espécie, permitindo caracterizar o ambiente disponível para comparação com os registros de presença. Conforme discutido por \citet{barbetmassin2012selecting}, a forma como pseudo-ausências ou background são selecionados influencia diretamente o comportamento dos algoritmos e a interpretação ecológica dos resultados.
+
+Finalmente, na presente unidade, os dados preparados foram utilizados para ajustar um Modelo Linear Generalizado com ligação logit. O modelo estimou a relação entre ocorrência e ambiente por máxima verossimilhança, produzindo coeficientes interpretáveis, curvas de resposta ambiental e uma superfície contínua de adequabilidade ambiental.
+
+Os resultados indicaram desempenho satisfatório do modelo, com AUC igual a 0,84 e TSS igual a 0,554. A projeção espacial revelou maior adequabilidade no Escudo das Guianas, particularmente no norte do Amapá, além de áreas ambientalmente favoráveis no oeste amazônico. A interpretação conjunta dos coeficientes e curvas de resposta indicou que a distribuição potencial de \textit{Dinizia excelsa} está fortemente associada à elevada precipitação anual, à sazonalidade térmica e a ambientes de baixa altitude e boa drenagem.
+
+Esse estudo de caso demonstra que um mapa de adequabilidade não é produto exclusivo de um algoritmo. Pelo contrário, ele representa o resultado acumulado de uma sequência de decisões ecológicas, estatísticas e geográficas tomadas ao longo de todo o processo de modelagem. Conforme enfatizam \citet{franklin2010mapping} e \citet{guisan2017habitat}, a qualidade de um modelo de distribuição depende tanto da preparação dos dados quanto do algoritmo utilizado.
+
+% ============================================================
+% 6.12 VANTAGENS E LIMITAÇÕES DOS GLMS
+% ============================================================
+
+\section{Vantagens e limitações dos Modelos Lineares Generalizados}
+
+Apesar de terem sido desenvolvidos há várias décadas, os GLMs continuam ocupando posição central na modelagem ecológica. Sua permanência não decorre apenas de tradição metodológica, mas da combinação entre rigor estatístico, transparência interpretativa e relativa simplicidade computacional \citep{mccullagh1989generalized,guisan2002generalized}.
+
+Uma das maiores vantagens dos GLMs é sua interpretabilidade. Os coeficientes estimados possuem significado ecológico direto, permitindo avaliar a direção e a magnitude dos efeitos ambientais. Essa característica facilita a formulação e o teste de hipóteses ecológicas, tornando os GLMs particularmente úteis em estudos voltados à compreensão dos mecanismos ambientais associados à distribuição das espécies.
+
+Outra vantagem importante é a robustez estatística. A estrutura probabilística explícita dos GLMs permite quantificar incertezas, testar hipóteses e comparar modelos por critérios de informação, como AIC e BIC. Além disso, a estimativa por máxima verossimilhança possui sólida fundamentação teórica e ampla aceitação em inferência estatística \citep{burnham2002model}.
+
+Entretanto, os GLMs apresentam limitações conhecidas. A principal delas é a dificuldade em representar relações ecológicas altamente complexas. Embora termos quadráticos permitam capturar respostas unimodais simples, padrões mais complexos frequentemente exigem funções mais flexíveis. Essa limitação motivou o desenvolvimento dos Modelos Aditivos Generalizados (GAMs), que serão abordados na próxima unidade \citep{hastie1990generalized,wood2017generalized}.
+
+Outra limitação refere-se à representação de interações complexas entre variáveis ambientais. Em sistemas ecológicos reais, múltiplos fatores frequentemente interagem de forma não linear, gerando respostas difíceis de representar por estruturas paramétricas simples.
+
+\begin{table}[H]
+	\centering
+	\caption{Principais vantagens e limitações dos GLMs aplicados à Modelagem de Distribuição de Espécies.}
+	\begin{tabular}{p{5cm} p{8cm}}
+		\hline
+		Aspecto & Avaliação \\
+		\hline
+		Interpretabilidade & Muito alta \\
+		Transparência ecológica & Muito alta \\
+		Fundamentação estatística & Muito alta \\
+		Complexidade computacional & Baixa \\
+		Capacidade preditiva & Moderada a alta \\
+		Representação de relações lineares & Excelente \\
+		Representação de respostas unimodais & Boa \\
+		Representação de relações complexas & Limitada \\
+		Interações ambientais complexas & Limitada \\
+		Risco de sobreajuste & Relativamente baixo \\
+		Extrapolação ambiental & Geralmente estável \\
+		Aplicação em conservação & Muito alta \\
+		\hline
+	\end{tabular}
+	\label{tab:glm_vantagens}
+\end{table}
+
+Em síntese, os GLMs representam uma excelente escolha quando o objetivo é compreender os mecanismos ambientais associados à distribuição das espécies. Quando a prioridade passa a ser representar relações ambientais mais complexas, modelos mais flexíveis podem oferecer vantagens adicionais.
+
+% ============================================================
+% 6.13 FLUXOGRAMA DO GLM
+% ============================================================
+
+\section{Fluxograma do processo de modelagem com GLM}
+
+A Figura~\ref{fig:fluxograma_glm} resume o fluxo completo utilizado para construir o modelo de distribuição de \textit{Dinizia excelsa}. Esse fluxo integra todas as etapas discutidas desde o início da obra e evidencia que o algoritmo constitui apenas uma das etapas do processo de modelagem.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figuras/unidade06_fluxograma_glm.png}
+	\caption{Fluxograma geral do processo de modelagem utilizando GLM.}
+	\label{fig:fluxograma_glm}
+\end{figure}
+
+Fluxo resumido:
+
+\begin{center}
+	Ocorrências
+	$\rightarrow$
+	Pseudo-ausências / Background
+	$\rightarrow$
+	Variáveis Ambientais
+	$\rightarrow$
+	GLM
+	$\rightarrow$
+	Avaliação
+	$\rightarrow$
+	Projeção Espacial
+	$\rightarrow$
+	Mapa de Adequabilidade
+\end{center}
+
+Esse fluxo reforça um princípio fundamental da SDM moderna: o desempenho final do modelo depende da qualidade de todas as etapas anteriores ao algoritmo \citep{araujo2019standards,zurell2020standard}.
+
+% ============================================================
+% 6.14 BOAS PRÁTICAS
+% ============================================================
+
+\section{Boas práticas para utilização de GLMs em SDM}
+
+A aplicação adequada de GLMs exige atenção a diversos aspectos metodológicos. Muitos problemas observados na literatura não decorrem do algoritmo em si, mas de falhas na preparação dos dados, na seleção de variáveis ou na interpretação dos resultados.
+
+\begin{table}[H]
+	\centering
+	\caption{Boas práticas para aplicação de GLMs em Modelagem de Distribuição de Espécies.}
+	\begin{tabular}{p{4cm} p{5cm} p{6cm}}
+		\hline
+		Situação & Problema & Recomendação \\
+		\hline
+		Muitas variáveis correlacionadas & Coeficientes instáveis & Aplicar correlação e VIF \\
+		Background inadequado & Viés ambiental & Delimitar corretamente a área M \\
+		Avaliação baseada apenas em AUC & Interpretação incompleta & Utilizar AUC, TSS e outras métricas \\
+		Interpretação exclusivamente estatística & Conclusões frágeis & Interpretar coeficientes ecologicamente \\
+		Relações muito complexas & Subajuste do modelo & Considerar GAM ou métodos mais flexíveis \\
+		Extrapolação não avaliada & Predições irreais & Avaliar MESS e MOP \\
+		Ausência de validação independente & Otimismo excessivo & Utilizar validação cruzada \\
+		\hline
+	\end{tabular}
+	\label{tab:boas_praticas_glm}
+\end{table}
+
+Seguir essas recomendações aumenta a robustez ecológica dos modelos e reduz o risco de inferências equivocadas.
+
+% ============================================================
+% 6.15 SÍNTESE CONCEITUAL
+% ============================================================
+
+\section{Síntese conceitual}
+
+A Tabela~\ref{tab:sintese_glm} resume os principais conceitos apresentados nesta unidade.
+
+\begin{table}[H]
+	\centering
+	\caption{Síntese conceitual da Unidade 06.}
+	\begin{tabular}{p{4cm} p{10cm}}
+		\hline
+		Conceito & Mensagem principal \\
+		\hline
+		GLM & Relaciona ocorrência e ambiente por meio de uma estrutura probabilística. \\
+		Regressão logística & Adequada para respostas binárias. \\
+		Logit & Conecta probabilidades ao preditor linear. \\
+		Máxima verossimilhança & Método utilizado para estimar os coeficientes. \\
+		Coeficientes & Representam direção e intensidade dos efeitos ambientais. \\
+		Curvas de resposta & Revelam a forma funcional do nicho ambiental. \\
+		AUC & Mede capacidade discriminatória. \\
+		TSS & Avalia equilíbrio entre sensibilidade e especificidade. \\
+		Limiar & Permite converter adequabilidade contínua em classes binárias. \\
+		Adequabilidade ambiental & Representa similaridade ambiental, não ocorrência garantida. \\
+		Mapa de adequabilidade & Hipótese espacial sobre a distribuição potencial da espécie. \\
+		\hline
+	\end{tabular}
+	\label{tab:sintese_glm}
+\end{table}
+
+A principal mensagem desta unidade é que os GLMs constituem uma ferramenta poderosa para transformar relações entre ambiente e ocorrência em superfícies espaciais interpretáveis. Mais do que produzir mapas, os GLMs permitem compreender os mecanismos ambientais associados à distribuição das espécies, servindo como ponte entre teoria ecológica, inferência estatística e análise espacial. Essa combinação de transparência e rigor explica por que os GLMs permanecem como uma das ferramentas fundamentais da Modelagem de Distribuição de Espécies.
+
+\bigskip
+
+\textbf{Preparando a próxima unidade.}
+
+Embora os GLMs permitam representar relações lineares e respostas unimodais simples, muitas espécies apresentam respostas ambientais mais complexas. Para lidar com essa realidade, a próxima unidade introduzirá os Modelos Aditivos Generalizados (GAMs), que substituem funções paramétricas rígidas por suavizadores flexíveis capazes de representar padrões ecológicos não lineares de forma mais realista.
+
+

@@ -1,0 +1,13 @@
+ordem,variavel,variavel_legivel
+1,bio3_isotermalidade,BIO3 - Isotermalidade
+2,bio4_sazonalidade_temperatura,BIO4 - Sazonalidade da temperatura
+3,bio5_temp_max_mes_quente,BIO5 - Temperatura máxima do mês mais quente
+4,bio8_temp_media_trimestre_umido,BIO8 - Temperatura média do trimestre mais úmido
+5,bio12_precipitacao_anual,BIO12 - Precipitação anual
+6,bio13_precipitacao_mes_umido,BIO13 - Precipitação do mês mais úmido
+7,bio14_precipitacao_mes_seco,BIO14 - Precipitação do mês mais seco
+8,bio18_precipitacao_trimestre_quente,BIO18 - Precipitação do trimestre mais quente
+9,bio19_precipitacao_trimestre_frio,BIO19 - Precipitação do trimestre mais frio
+10,elevacao,Elevação
+11,declividade,Declividade
+12,orientacao,Orientação
